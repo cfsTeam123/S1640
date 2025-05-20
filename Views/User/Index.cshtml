@@ -1,0 +1,143 @@
+﻿@using S1640.Models;
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    S1640Entities conn = new S1640Entities();
+    var AllList = conn.UserMasters.Where(x => x.DeleteStatus == "N").OrderBy(x => x.UserId).ToList();
+}
+<div id="loading"></div>
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Users</h2>
+        <div class="row">
+            <div class="col-md-11 pt-2 text-center" width="100%">
+                <a href="~/User/AddEdit" class="btn btn-primary" onclick="load()" autofocus><i class="fas fa-plus-square"></i> Add New</a>
+            </div>
+            <div class="right-wrapper text-right" style="margin-left:4%;">
+                <ol class="breadcrumbs">
+                    <li>
+                        <a href="~/Home/Index" title="Home">
+                            <i class="fas fa-home"></i>
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </header>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <section class="card">
+                <div class="card-body">
+                    <div id="SDisplay" style="margin-top:65px"></div>
+                    <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                        <thead>
+                            <tr style=" background-color: dimgrey; color:white" class="text-center">
+                                <th width="5%">SlNo</th>
+                                <th width="30%">User Name</th>
+                                <th width="25%">Login ID</th>
+                                <th width="20%">Type</th>
+                                <th width="10%">Status</th>
+                                <th width="10%">Action</th>
+                                <th hidden>MTransNo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int rowNo = 0; }
+                            @foreach (var item in AllList)
+                            {
+                                if (@item.LockStatus == "N")
+                                {
+                                    <tr style="background-color:orange">
+                                        <td class="text-right">@(rowNo += 1)</td>
+                                        <td class="text-center">@item.UserName</td>
+                                        <td class="text-center">@item.UserId</td>
+                                        <td class="text-center">@item.UserType</td>
+                                        @if (@item.LockStatus == "Y")
+                                        {
+                                            <td class="text-center">Active</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center">In active</td>
+                                        }
+                                        <td class="text-center">
+                                            <button type="button" title="Edit" class="btn btn-info btn-xs RecEdit"><i class="fas fa-pencil-alt"></i></button>
+                                            <a title="Delete" class="btn btn-danger btn-xs" onclick="alert('Deletion is locked');" href="#"><i class="fas fa-trash-alt"></i></a>
+                                        </td>
+                                        <td hidden>@item.MTransNo</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                <tr>
+                                    <td class="text-right">@(rowNo += 1)</td>
+                                    <td class="text-center">@item.UserName</td>
+                                    <td class="text-center">@item.UserId</td>
+                                    <td class="text-center">@item.UserType</td>
+                                    @if (@item.LockStatus == "Y")
+                                    {
+                                        <td class="text-center">Active</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center">In active</td>
+                                    }
+                                    <td class="text-center">
+                                        <button type="button" title="Edit" class="btn btn-info btn-xs RecEdit"><i class="fas fa-pencil-alt"></i></button>
+                                        <a title="Delete" class="btn btn-danger btn-xs" onclick="alert('Deletion is locked');" href="#"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                    <td hidden>@item.MTransNo</td>
+                                </tr>
+                                    }
+                                }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        if (screen.width < 600) {
+            $('#SDisplay').hide();
+        }
+        else {
+            $('#SDisplay').show();
+        }
+        $(document).ready(function () {
+            show('loading', false);
+        });
+        function show(id, value) {
+            document.getElementById(id).style.display = value ? 'block' : 'none';
+        }
+        function load() {
+            show('loading', true);
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#datatable-tabletools").on('click', '.RecEdit', function () {
+                var currentRow = $(this).closest("tr");
+                var MTransNo = currentRow.find("td:eq(6)").html();
+                $.post('/SetSession/SetVariable',
+                    { key: "MTransNo", value: MTransNo }, function (data) {
+                        window.location.href = "/User/AddEdit";
+                    });
+            });
+        });
+    </script>
+    <script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Scripts/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Scripts/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Scripts/js/theme.init.js"></script>
+
+    <!-- Examples -->
+    <script src="~/Scripts/js/examples/examples.datatables.tabletools.js"></script>
+</section>

@@ -1,0 +1,158 @@
+﻿@model S1640.Models.BinMasterValidation
+@using S1640.Models;
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string mUserType = Convert.ToString(Session["UserType"]);
+    S1640Entities conn = new S1640Entities();
+   var AllList = conn.BinMasters.Where(s => s.MTransNo == Model.MTransNo) .ToList();
+
+}
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="../Jquery/jquery.multiselect.js"></script>
+<script src="../Jquery/prettify.js"></script>
+
+@Html.HiddenFor(model => model.MTransNo)
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Barcode Generation</h2>
+        <div class="right-wrapper text-right" style="margin-right: 2%;">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="~/Home/Index" title="Home">
+                        <i class="fas fa-home" style="color:white;"></i>
+                    </a>
+                </li>
+            </ol>
+        </div>
+    </header>
+    <div class="card">
+        <div class="card-body">
+            <section class="card">
+                <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+                    @Html.AntiForgeryToken()
+                    <div id="SDisplay" style="margin-top: 100px;"></div>
+
+                    <!-- Barcode Section -->
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label text-lg-right pt-1">Barcode ID</label>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @maxlength = "500" ,@readonly="true" ,id= "Barcode1" })
+                            <input type="hidden" id="HiddenBarcode" name="Barcode" />
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" name="generate" id="generate" class="btn btn-primary btn-lg w-100">Generate</button>
+                        </div>
+                    </div>
+
+                    <!-- Barcode Display & Print Section -->
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label text-lg-right pt-2">Barcode</label>
+                        <div class="col-lg-5 d-flex justify-content-between align-items-center">
+                            <div id="barcode-display-container">
+                                <svg id="barcode"></svg>  <!-- This will be replaced with the barcode -->
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" id="PrintBarcode">Print</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Dropdown Section -->
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label text-lg-right pt-2"><span class="required">*</span>Status:</label>
+                        <div class="col-lg-3">
+                            @Html.TextBoxFor(model => model.MTransNo, new { @type = "hidden", @class = "form-control" })
+                            @Html.DropDownListFor(model => model.Status, null, "", new { @class = "form-control populate" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { style = "color: red" })
+                        </div>
+                    </div>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="form-group row">
+                        <div class="col-md-12 text-center">
+                            @Html.HiddenFor(model => model.MTransNo)
+                            <button type="submit" name="MainSubmit" value="MainSubmit" id="MainSubmit" class="btn btn-success btn-lg">Submit</button>
+                            <a href="~/Home/Index" class="btn btn-danger btn-lg">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+                @Html.Partial("Index")
+            </section>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+
+<script>
+    // Variable to keep track of the barcode number
+    let barcodeCount = 5001; // Start from SR5001
+
+    // Function to generate barcode
+    // Function to generate barcode by calling the server-side API
+    document.getElementById("generate").addEventListener("click", function () {
+        // Make an AJAX call to the server to get the new barcode
+        $.ajax({
+            type: "POST",
+            url: "/BinMaster/GenerateBarcode", // Update with your controller and action
+            success: function (response) {
+                if (response.success) {
+                    $('#MTransNo').val(response.MTransNo);
+                    // Display the generated barcode in the input field
+                    document.getElementById("Barcode1").value = response.barcode;
+
+                    // Generate the barcode using JsBarcode
+                    JsBarcode("#barcode", response.barcode, {
+                        format: "CODE128",
+                        lineColor: "#0e0e0e",
+                        width: 3,
+                        height: 40,
+                        displayValue: true,
+                        fontSize: 18,
+                    });
+                } else {
+                    alert("Error generating barcode: " + response.error);
+                }
+            },
+            error: function () {
+                alert("An error occurred while generating the barcode.");
+            }
+        });
+    });
+
+    // Function to print the barcode
+    document.getElementById("PrintBarcode").addEventListener("click", function () {
+        var barcode = document.getElementById("Barcode1").value;
+
+        var printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Barcode1 Print</title></head><body>');
+        printWindow.document.write('<h3>Barcode1: ' + barcode + '</h3>');
+        printWindow.document.write('<svg>' + document.getElementById('barcode').outerHTML + '</svg>');
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    });
+
+    $('#MainSubmit').click(function () {
+        // Get the value of the hidden MTransNo field
+        var MTransNo = $('#MTransNo').val();  // Use the ID of the hidden field
+        // Get the value of the Status field (make sure the ID of the Status field is correct)
+        let Status = $('#Status').val();
+        var BarCode = $('#Barcode1').val();
+        //alert(BarCode);
+        $.ajax({
+            type: "POST",
+            data: { MTransNo: MTransNo, Status: Status, BarCode:BarCode},
+            url: "/BinMaster/AddEdit",
+            success: function (result) {
+                console.log(result);
+            }
+        });
+    });
+</script>
+
+

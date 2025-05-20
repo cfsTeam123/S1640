@@ -1,0 +1,690 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="S1640.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BinMaster">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BarCode" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompCode" Type="varchar" MaxLength="10" />
+          <Property Name="CompName" Type="varchar" MaxLength="100" />
+          <Property Name="Natureofwork" Type="varchar" MaxLength="250" />
+          <Property Name="Address1" Type="varchar" MaxLength="100" />
+          <Property Name="Address2" Type="varchar" MaxLength="100" />
+          <Property Name="Address3" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="40" />
+          <Property Name="StateCode" Type="int" />
+          <Property Name="PhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="GeneralEmail" Type="varchar" MaxLength="50" />
+          <Property Name="SalesEmail" Type="varchar" MaxLength="50" />
+          <Property Name="PurchaseEmail" Type="varchar" MaxLength="50" />
+          <Property Name="Website" Type="varchar" MaxLength="50" />
+          <Property Name="GSTIN" Type="varchar" MaxLength="15" />
+          <Property Name="PAN" Type="varchar" MaxLength="10" />
+          <Property Name="CIN" Type="varchar" MaxLength="30" />
+          <Property Name="BankName" Type="varchar" MaxLength="100" />
+          <Property Name="BranchName" Type="varchar" MaxLength="50" />
+          <Property Name="IFSCCode" Type="varchar" MaxLength="20" />
+          <Property Name="AccountNo" Type="varchar" MaxLength="20" />
+          <Property Name="MICRCode" Type="varchar" MaxLength="20" />
+          <Property Name="FromYear" Type="date" />
+          <Property Name="ToYear" Type="date" />
+          <Property Name="LockCounter" Type="tinyint" />
+          <Property Name="LockStatus" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="smallint" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="smallint" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="DeleteStatus" Type="char" MaxLength="1" />
+          <Property Name="TimeDefiance" Type="numeric" Precision="12" Scale="2" />
+          <Property Name="IECNO" Type="varchar" MaxLength="50" />
+          <Property Name="PinCode" Type="int" />
+          <Property Name="Country" Type="varchar" MaxLength="30" />
+          <Property Name="BDTPhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="DesignPhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="PlanningPhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="PurchasePhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="QualityPhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="StorePhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="ProductionPhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="AccountPhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="HRPhoneNo" Type="varchar" MaxLength="21" />
+          <Property Name="SalesEmail1" Type="varchar" MaxLength="50" />
+          <Property Name="SalesEmail2" Type="varchar" MaxLength="50" />
+          <Property Name="SalesEmail3" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EMSMsg">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Messages" Type="varchar" MaxLength="1000" />
+          <Property Name="Sender" Type="int" />
+          <Property Name="Receiver" Type="int" />
+          <Property Name="MsgStatus" Type="char" MaxLength="10" />
+          <Property Name="SendOn" Type="datetime" />
+          <Property Name="AckStatus" Type="varchar" MaxLength="20" />
+          <Property Name="AckDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InawardTable">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocDate" Type="datetime" />
+          <Property Name="DocDate2" Type="datetime" />
+          <Property Name="BarCode" Type="varchar" MaxLength="50" />
+          <Property Name="BinCondition" Type="varchar" MaxLength="50" />
+          <Property Name="BinWash" Type="varchar" MaxLength="50" />
+          <Property Name="BinFillStatus" Type="varchar" MaxLength="50" />
+          <Property Name="Remarks1" Type="varchar" MaxLength="500" />
+          <Property Name="Remarks2" Type="varchar" MaxLength="250" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="DocNo" Type="int" />
+        </EntityType>
+        <EntityType Name="LiveStockData">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InwardNo" Type="int" />
+          <Property Name="DocDate" Type="datetime" />
+          <Property Name="BinCode" Type="varchar" MaxLength="50" />
+          <Property Name="Remarks" Type="varchar" MaxLength="500" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Createdby" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="BinStatus" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Menulist">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Department" Type="varchar" MaxLength="30" />
+          <Property Name="DSLNo" Type="int" />
+          <Property Name="ModuleType" Type="varchar" MaxLength="30" />
+          <Property Name="MSLNo" Type="int" />
+          <Property Name="ModuleName" Type="varchar" MaxLength="50" />
+          <Property Name="ModulePage" Type="varchar" MaxLength="50" />
+          <Property Name="ModuleLink" Type="varchar" MaxLength="50" />
+          <Property Name="IconName" Type="varchar" MaxLength="50" />
+          <Property Name="cardColor" Type="varchar" MaxLength="50" />
+          <Property Name="AdminAmount" Type="numeric" Precision="16" Scale="2" />
+          <Property Name="HODAmount" Type="numeric" Precision="16" Scale="2" />
+          <Property Name="OPAmount" Type="numeric" Precision="16" Scale="2" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocDate" Type="datetime" />
+          <Property Name="BarCode" Type="varchar" MaxLength="50" />
+          <Property Name="BinCondition" Type="varchar" MaxLength="50" />
+          <Property Name="BinWash" Type="varchar" MaxLength="50" />
+          <Property Name="BinFillStatus" Type="varchar" MaxLength="50" />
+          <Property Name="Remarks1" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="DocNo" Type="int" />
+        </EntityType>
+        <EntityType Name="UserAuthorization">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserNo" Type="int" Nullable="false" />
+          <Property Name="ModuleNo" Type="int" Nullable="false" />
+          <Property Name="AuthType" Type="char" MaxLength="1" />
+          <Property Name="Dept" Type="varchar" MaxLength="50" />
+          <Property Name="BranchNo" Type="int" />
+        </EntityType>
+        <EntityType Name="UserLogData">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientIp" Type="varchar" MaxLength="100" />
+          <Property Name="LatLong" Type="varchar" MaxLength="100" />
+          <Property Name="Location" Type="varchar" MaxLength="500" />
+          <Property Name="DeleteStatus" Type="char" MaxLength="1" />
+          <Property Name="UserType" Type="varchar" MaxLength="15" />
+          <Property Name="CreatedBy" Type="smallint" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserMaster">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PW" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserType" Type="varchar" MaxLength="15" />
+          <Property Name="LockCounter" Type="tinyint" />
+          <Property Name="LockStatus" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="smallint" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="smallint" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="DeleteStatus" Type="char" MaxLength="1" />
+          <Property Name="SubscID" Type="smallint" />
+          <Property Name="loginDate" Type="date" />
+          <Property Name="EmailId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="SP_UserMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="InOut" />
+          <Parameter Name="MTransNo" Type="int" Mode="In" />
+          <Parameter Name="MCount" Type="int" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Address" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+          <Parameter Name="PW" Type="varchar" Mode="In" />
+          <Parameter Name="UserType" Type="varchar" Mode="In" />
+          <Parameter Name="ContactNo" Type="varchar" Mode="In" />
+          <Parameter Name="EmailId" Type="varchar" Mode="In" />
+          <Parameter Name="PWExpiry" Type="tinyint" Mode="In" />
+          <Parameter Name="BadLogins" Type="tinyint" Mode="In" />
+          <Parameter Name="LockStatus" Type="char" Mode="In" />
+          <Parameter Name="CreatedBy" Type="int" Mode="In" />
+          <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+          <Parameter Name="SubscID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="char" Mode="In" />
+        </Function>
+        <EntityContainer Name="S1640StoreContainer">
+          <EntitySet Name="BinMaster" EntityType="Self.BinMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMSMsg" EntityType="Self.EMSMsg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InawardTable" EntityType="Self.InawardTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LiveStockData" EntityType="Self.LiveStockData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menulist" EntityType="Self.Menulist" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAuthorization" EntityType="Self.UserAuthorization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLogData" EntityType="Self.UserLogData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserMaster" EntityType="Self.UserMaster" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="S1640" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="S1640Entities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="SP_UserMaster">
+            <Parameter Name="ID" Mode="InOut" Type="Int32" />
+            <Parameter Name="MTransNo" Mode="In" Type="Int32" />
+            <Parameter Name="MCount" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="PW" Mode="In" Type="String" />
+            <Parameter Name="UserType" Mode="In" Type="String" />
+            <Parameter Name="ContactNo" Mode="In" Type="String" />
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+            <Parameter Name="PWExpiry" Mode="In" Type="Byte" />
+            <Parameter Name="BadLogins" Mode="In" Type="Byte" />
+            <Parameter Name="LockStatus" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+            <Parameter Name="SubscID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
+          <EntitySet Name="Companies" EntityType="S1640.Company" />
+          <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
+          <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
+          <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
+          <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
+          <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
+          <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
+          <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
+          <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
+          </EntityContainer>
+        <EntityType Name="BinMaster">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BarCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CompName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Natureofwork" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="StateCode" Type="Int32" />
+          <Property Name="PhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="GeneralEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SalesEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GSTIN" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="PAN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CIN" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BankName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IFSCCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MICRCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FromYear" Type="DateTime" Precision="0" />
+          <Property Name="ToYear" Type="DateTime" Precision="0" />
+          <Property Name="LockCounter" Type="Byte" />
+          <Property Name="LockStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int16" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int16" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeleteStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TimeDefiance" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="IECNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PinCode" Type="Int32" />
+          <Property Name="Country" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BDTPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="DesignPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="PlanningPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="PurchasePhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="QualityPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="StorePhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="ProductionPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="AccountPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="HRPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+          <Property Name="SalesEmail1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SalesEmail2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SalesEmail3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EMSMsg">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Messages" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Sender" Type="Int32" />
+          <Property Name="Receiver" Type="Int32" />
+          <Property Name="MsgStatus" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="SendOn" Type="DateTime" Precision="3" />
+          <Property Name="AckStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AckDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="InawardTable">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocDate" Type="DateTime" Precision="3" />
+          <Property Name="DocDate2" Type="DateTime" Precision="3" />
+          <Property Name="BarCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BinWash" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BinFillStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="DocNo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="LiveStockData">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InwardNo" Type="Int32" />
+          <Property Name="DocDate" Type="DateTime" Precision="3" />
+          <Property Name="BinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Createdby" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BinStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Menulist">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Department" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DSLNo" Type="Int32" />
+          <Property Name="ModuleType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MSLNo" Type="Int32" />
+          <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModulePage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModuleLink" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IconName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cardColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AdminAmount" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="HODAmount" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="OPAmount" Type="Decimal" Precision="16" Scale="2" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocDate" Type="DateTime" Precision="3" />
+          <Property Name="BarCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BinWash" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BinFillStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="DocNo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserAuthorization">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserNo" Type="Int32" Nullable="false" />
+          <Property Name="ModuleNo" Type="Int32" Nullable="false" />
+          <Property Name="AuthType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Dept" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchNo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserLogData">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientIp" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LatLong" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DeleteStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int16" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserMaster">
+          <Key>
+            <PropertyRef Name="MTransNo" />
+          </Key>
+          <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PW" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LockCounter" Type="Byte" />
+          <Property Name="LockStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int16" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int16" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeleteStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SubscID" Type="Int16" />
+          <Property Name="loginDate" Type="DateTime" Precision="0" />
+          <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="S1640StoreContainer" CdmEntityContainer="S1640Entities">
+          <FunctionImportMapping FunctionImportName="SP_UserMaster" FunctionName="S1640.Store.SP_UserMaster" />
+          <EntitySetMapping Name="BinMasters">
+            <EntityTypeMapping TypeName="S1640.BinMaster">
+              <MappingFragment StoreEntitySet="BinMaster">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="S1640.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="SalesEmail3" ColumnName="SalesEmail3" />
+                <ScalarProperty Name="SalesEmail2" ColumnName="SalesEmail2" />
+                <ScalarProperty Name="SalesEmail1" ColumnName="SalesEmail1" />
+                <ScalarProperty Name="HRPhoneNo" ColumnName="HRPhoneNo" />
+                <ScalarProperty Name="AccountPhoneNo" ColumnName="AccountPhoneNo" />
+                <ScalarProperty Name="ProductionPhoneNo" ColumnName="ProductionPhoneNo" />
+                <ScalarProperty Name="StorePhoneNo" ColumnName="StorePhoneNo" />
+                <ScalarProperty Name="QualityPhoneNo" ColumnName="QualityPhoneNo" />
+                <ScalarProperty Name="PurchasePhoneNo" ColumnName="PurchasePhoneNo" />
+                <ScalarProperty Name="PlanningPhoneNo" ColumnName="PlanningPhoneNo" />
+                <ScalarProperty Name="DesignPhoneNo" ColumnName="DesignPhoneNo" />
+                <ScalarProperty Name="BDTPhoneNo" ColumnName="BDTPhoneNo" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="IECNO" ColumnName="IECNO" />
+                <ScalarProperty Name="TimeDefiance" ColumnName="TimeDefiance" />
+                <ScalarProperty Name="DeleteStatus" ColumnName="DeleteStatus" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LockStatus" ColumnName="LockStatus" />
+                <ScalarProperty Name="LockCounter" ColumnName="LockCounter" />
+                <ScalarProperty Name="ToYear" ColumnName="ToYear" />
+                <ScalarProperty Name="FromYear" ColumnName="FromYear" />
+                <ScalarProperty Name="MICRCode" ColumnName="MICRCode" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="IFSCCode" ColumnName="IFSCCode" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="CIN" ColumnName="CIN" />
+                <ScalarProperty Name="PAN" ColumnName="PAN" />
+                <ScalarProperty Name="GSTIN" ColumnName="GSTIN" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="PurchaseEmail" ColumnName="PurchaseEmail" />
+                <ScalarProperty Name="SalesEmail" ColumnName="SalesEmail" />
+                <ScalarProperty Name="GeneralEmail" ColumnName="GeneralEmail" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="StateCode" ColumnName="StateCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Natureofwork" ColumnName="Natureofwork" />
+                <ScalarProperty Name="CompName" ColumnName="CompName" />
+                <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMSMsgs">
+            <EntityTypeMapping TypeName="S1640.EMSMsg">
+              <MappingFragment StoreEntitySet="EMSMsg">
+                <ScalarProperty Name="AckDate" ColumnName="AckDate" />
+                <ScalarProperty Name="AckStatus" ColumnName="AckStatus" />
+                <ScalarProperty Name="SendOn" ColumnName="SendOn" />
+                <ScalarProperty Name="MsgStatus" ColumnName="MsgStatus" />
+                <ScalarProperty Name="Receiver" ColumnName="Receiver" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="Messages" ColumnName="Messages" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InawardTables">
+            <EntityTypeMapping TypeName="S1640.InawardTable">
+              <MappingFragment StoreEntitySet="InawardTable">
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks2" ColumnName="Remarks2" />
+                <ScalarProperty Name="Remarks1" ColumnName="Remarks1" />
+                <ScalarProperty Name="BinFillStatus" ColumnName="BinFillStatus" />
+                <ScalarProperty Name="BinWash" ColumnName="BinWash" />
+                <ScalarProperty Name="BinCondition" ColumnName="BinCondition" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="DocDate2" ColumnName="DocDate2" />
+                <ScalarProperty Name="DocDate" ColumnName="DocDate" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LiveStockDatas">
+            <EntityTypeMapping TypeName="S1640.LiveStockData">
+              <MappingFragment StoreEntitySet="LiveStockData">
+                <ScalarProperty Name="BinStatus" ColumnName="BinStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Createdby" ColumnName="Createdby" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="BinCode" ColumnName="BinCode" />
+                <ScalarProperty Name="DocDate" ColumnName="DocDate" />
+                <ScalarProperty Name="InwardNo" ColumnName="InwardNo" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menulists">
+            <EntityTypeMapping TypeName="S1640.Menulist">
+              <MappingFragment StoreEntitySet="Menulist">
+                <ScalarProperty Name="OPAmount" ColumnName="OPAmount" />
+                <ScalarProperty Name="HODAmount" ColumnName="HODAmount" />
+                <ScalarProperty Name="AdminAmount" ColumnName="AdminAmount" />
+                <ScalarProperty Name="cardColor" ColumnName="cardColor" />
+                <ScalarProperty Name="IconName" ColumnName="IconName" />
+                <ScalarProperty Name="ModuleLink" ColumnName="ModuleLink" />
+                <ScalarProperty Name="ModulePage" ColumnName="ModulePage" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="MSLNo" ColumnName="MSLNo" />
+                <ScalarProperty Name="ModuleType" ColumnName="ModuleType" />
+                <ScalarProperty Name="DSLNo" ColumnName="DSLNo" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="S1640.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks1" ColumnName="Remarks1" />
+                <ScalarProperty Name="BinFillStatus" ColumnName="BinFillStatus" />
+                <ScalarProperty Name="BinWash" ColumnName="BinWash" />
+                <ScalarProperty Name="BinCondition" ColumnName="BinCondition" />
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="DocDate" ColumnName="DocDate" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAuthorizations">
+            <EntityTypeMapping TypeName="S1640.UserAuthorization">
+              <MappingFragment StoreEntitySet="UserAuthorization">
+                <ScalarProperty Name="BranchNo" ColumnName="BranchNo" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="AuthType" ColumnName="AuthType" />
+                <ScalarProperty Name="ModuleNo" ColumnName="ModuleNo" />
+                <ScalarProperty Name="UserNo" ColumnName="UserNo" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogDatas">
+            <EntityTypeMapping TypeName="S1640.UserLogData">
+              <MappingFragment StoreEntitySet="UserLogData">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="DeleteStatus" ColumnName="DeleteStatus" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="LatLong" ColumnName="LatLong" />
+                <ScalarProperty Name="ClientIp" ColumnName="ClientIp" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMasters">
+            <EntityTypeMapping TypeName="S1640.UserMaster">
+              <MappingFragment StoreEntitySet="UserMaster">
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="loginDate" ColumnName="loginDate" />
+                <ScalarProperty Name="SubscID" ColumnName="SubscID" />
+                <ScalarProperty Name="DeleteStatus" ColumnName="DeleteStatus" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LockStatus" ColumnName="LockStatus" />
+                <ScalarProperty Name="LockCounter" ColumnName="LockCounter" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="PW" ColumnName="PW" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

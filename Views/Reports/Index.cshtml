@@ -1,0 +1,248 @@
+﻿@using S1640.Models;
+@model S1640.Models.ReportListValidation
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    S1640Entities conn = new S1640Entities();
+    var ModuleName = conn.Menulists.Where(x => x.ModuleLink == "Reports").FirstOrDefault();}
+}
+<div id="loading"></div>
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>@ModuleName.ModuleName</h2>
+        <div class="right-wrapper text-right" style="margin-right: 2%;">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="~/Home/Index" title="Home">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+            </ol>
+        </div>
+    </header>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <div id="SDisplay" style="margin-top:65px"></div>
+            <form id="formPO" action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+
+                @Html.HiddenFor(model => model.ReportName)
+                <section class="card">
+                    <div class="row">
+                        <div class="card-body col-lg-4">
+                            <div>
+                                <hr style="margin:1px;" />
+                                <p class="text-sm-center font-weight-extra-bold h5" style="font-style: normal;color:blue">REPORT LIST</p>
+                                <hr style="margin:1px;" />
+                            </div>
+                            <div style="height:400px; border-collapse: separate; border-spacing: 15px; padding: 20px; margin-top:15px;" class="card-body scrollable visible-slider colored-slider" data-plugin-scrollable>
+                                <div class="scrollable-content">
+                                    <table class="table table-bordered table-striped mb-0" id="myTable" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-sm-center font-weight-extra-bold h5" style="font-style: italic;" hidden>Report List</th>
+                                                <th class="text-sm-center h5" hidden>Preview</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class=" h6" data-title="Report Name" style="padding: 15px 10px;">
+                                                    <input type="radio" style="transform: scale(1);" name="1" value="2">&emsp; Bin Details Report
+                                                </td>
+                                                <td hidden>BinDetails</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
+                                                    <input type="radio" style="transform: scale(1);" name="1" value="3">&emsp; Inward Report Details
+                                                </td>
+                                                <td hidden>InawardReport</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
+                                                    <input type="radio" style="transform: scale(1);" name="1" value="4">&emsp; Outward Report Details
+                                                </td>
+                                                <td hidden>OutwardReport</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
+                                                    <input type="radio" style="transform: scale(1);" name="1" value="5">&emsp; Live Stock Details
+                                                </td>
+                                                <td hidden>LiveStock</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body col-lg-8" style="margin-left:5px; margin-right:-5px">
+                            <div>
+                                <hr style="margin:1px;" />
+                                <p class="text-sm-center font-weight-extra-bold h5" style="font-style: normal; color: blue">SELECTION CRITERIA</p>
+                                <hr style="margin:1px;" />
+                            </div>
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes1">
+                                <label class="col-lg-3 control-label text-lg-right h6"> Barcode </label>
+                                <div class="col-lg-9">
+                                    @Html.DropDownListFor(model => model.BarCode, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes2">
+                                <label class="col-lg-3 control-label text-lg-right h6"> BinCondition </label>
+                                <div class="col-lg-9">
+                                    @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes3">
+                                <label class="col-lg-3 control-label text-lg-right h6"> BinWash </label>
+                                <div class="col-lg-9">
+                                    @Html.DropDownListFor(model => model.BinWash, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes4">
+                                <label class="col-lg-3 control-label text-lg-right h6"> BinFillStatus </label>
+                                <div class="col-lg-9">
+                                    @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 control-label text-lg-right h6" id="textboxes7"> Date From  </label>
+                                <div class="col-lg-4" id="textboxes7">
+                                    @Html.TextBoxFor(model => model.FromDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                </div>
+                                <label class="col-lg-1 control-label text-lg-right h6" id="textboxes8"> To </label>
+                                <div class="col-lg-4" id="textboxes8">
+                                    @Html.TextBoxFor(model => model.ToDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="form-group row">
+                                <div class="col-md-12 col-md-offset-2">
+                                    <div class="text-center">
+                                        <button type="submit" name="List" id="List" class="text-sm-center col-lg-3 btn btn-success btn-lg h6"><i class="fas fa-list"></i> List View</button>
+                                        <button type="submit" name="Print" id="Print" class="text-sm-center col-lg-3 btn btn-warning btn-lg h6"><i class="fas fa-print"></i> Print</button>
+                                        <a href="~/Home/Index" name="Close" id="Close" class="text-sm-center col-lg-3 btn btn-danger btn-lg h6"><i class="fas fa-door-open"></i> Close</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    if (screen.width < 600) {
+        $('#SDisplay').hide();
+    }
+    else {
+        $('#SDisplay').show();
+    }
+    $(document).ready(function () {
+        $("#loading").hide();
+        $(function ()
+        {
+            $('input[name="1"]').on('click', function () {
+                if ($(this).val() == '1' || $(this).val() == '2') {
+                    $('#textboxes1').show();
+                    $('#textboxes2').hide();
+                    $('#textboxes3').hide();
+                    $('#textboxes4').hide();
+                    $('#textboxes5').hide();
+                    $('#textboxes6').hide();
+                    $('#textboxes7').show();
+                    $('#textboxes8').show();
+
+                    // $('#textboxes2').hide();
+                }
+                else if ($(this).val() == '3') {
+              
+                    $('#textboxes1').show();
+                    $('#textboxes2').hide();
+                    $('#textboxes3').hide();
+                    $('#textboxes4').hide();
+                    $('#textboxes5').hide();
+                    $('#textboxes6').hide();
+                    $('#textboxes7').show();
+                    $('#textboxes8').show();
+                }
+                else if ($(this).val() == '4') {
+                    $('#textboxes1').show();
+                    $('#textboxes2').hide();
+                    $('#textboxes3').hide();
+                    $('#textboxes4').hide();
+                    $('#textboxes5').hide();
+                    $('#textboxes6').hide();
+                    $('#textboxes7').show();
+                    $('#textboxes8').show();
+                }
+                else if ($(this).val() == '5') { 
+                    $('#textboxes').show();
+                $('#textboxes1').show();
+                $('#textboxes2').show();
+                $('#textboxes3').show();
+                $('#textboxes4').show();
+                $('#textboxes5').show();
+                $('#textboxes6').show();
+            }
+                
+            });
+        });
+        $('#Print').click(function () {
+            var myTable = document.getElementById('myTable');
+
+            // Get values of BinDetailsPrint and InawardReportPrint
+            var BinDetailsPrint = $('#BinDetailsPrint').val();
+            
+            var InawardReportPrint = $('#InawardReportPrint').val();
+           
+            var OutwardReportPrint = $('#OutwardReportPrint').val();
+            
+            var LiveStockPrint = $('#LiveStockPrint').val();
+            // This works as expected now.
+
+            // Loop through each row in the table
+            for (var i = 1; i < myTable.rows.length; i++) {
+                var inputs = myTable.rows.item(i).getElementsByTagName("input");
+                var col1 = myTable.rows.item(i).cells.item(1).innerHTML;  // Get content from the second column
+
+                if (inputs[0].checked) {
+                    $('#ReportName').val(col1 + "Print");  // Setting the value of the ReportName field
+                }
+            }
+
+            // Ensure col1 has a value before proceeding
+            if (col1 === "") {
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $('#List').click(function () {
+            var myTable = document.getElementById('myTable');
+            for (i = 1; i < myTable.rows.length; i++) {
+                var inputs = myTable.rows.item(i).getElementsByTagName("input");
+                var col1 = myTable.rows.item(i).cells.item(1).innerHTML;
+                //  alert(col1);
+                if (inputs[0].checked) {
+                    $('#ReportName').val(col1 + "List");
+                }
+            }
+            if (col1 == "") {
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+    });
+</script>
+@Html.Partial("_jsfooter");

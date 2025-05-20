@@ -1,0 +1,77 @@
+﻿@model S1640.Models.BinMasterValidation
+@using S1640.Models;
+@{
+    S1640Entities conn = new S1640Entities();
+    var AllList = conn.BinMasters.OrderBy(x => x.MTransNo).ToList();
+}
+<table class="table table-bordered table-striped mb-0" id="MyTable" width="100%">
+    <thead>
+        <tr align="center">
+            <th width="10%">Sl No</th>
+            <th width="25%">BarCode</th>
+            <th width="20%">Status</th>
+            <th width="15%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int rowNo = 0; }
+        @foreach (var item in AllList)
+        {
+            var data = conn.BinMasters.Where(s => s.MTransNo == item.MTransNo).OrderBy(s => s.MTransNo).FirstOrDefault();
+            <tr>
+                <td align="center">@(rowNo += 1)</td>
+                <td align="center">@data.BarCode</td>
+                <td align="center" style="display:none;">@data.MTransNo</td>
+                @if (@item.Status == "Y")
+                {
+                    <td align="center">Active</td>
+                }
+                else
+                {
+                    <td align="center">Inactive</td>
+                }
+              
+            <td align="center">
+            @*<a href="javascript:void(0);" class="btn btn-danger DtlDelete btn-xs" data-toggle="tooltip" title="Delete" data-MTransNo="@item.MTransNo">
+                <i class="far fa-trash-alt"></i>*@
+                <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary DtlDelete btn-xs" data-toggle="tooltip" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    // When the delete button is clicked
+  $(".DtlDelete").click(function (e) {
+    e.preventDefault(); // Prevent the default link action
+
+    // Get MTransNo from the hidden <td> (which is in the same row as the button)
+    var MTransNo = $(this).closest('tr').find('td:eq(2)').text(); // Assuming MTransNo is in the 3rd <td>
+    var confirmation = confirm("Do you really want to edit this item?");
+    if (confirmation) {
+        // If the user confirms, perform the deletion by redirecting to the delete URL
+        window.location.href = '@Url.Action("DtlDelete", "BinMaster")?MTransNo=' + MTransNo;
+       
+    }
+  });
+
+
+</script>
+<script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Theme Base, Components and Settings -->
+<script src="~/Scripts/js/theme.js"></script>
+
+<!-- Theme Custom -->
+<script src="~/Scripts/js/custom.js"></script>
+
+<!-- Theme Initialization Files -->
+<script src="~/Scripts/js/theme.init.js"></script>
+
+<!-- Examples -->
+<script src="~/Scripts/js/examples/examples.datatables.tabletools.js"></script>
+<script src="~/Scripts/js/examples/examples.datatables.ajax.js"></script>

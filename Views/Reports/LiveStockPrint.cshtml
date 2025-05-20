@@ -1,0 +1,309 @@
+﻿@using S1640.Models;
+@model S1640.Models.ReportListValidation
+@{
+    Layout = null;
+
+    S1640Entities conn = new S1640Entities();
+    var CoumpanyList = (from CO in conn.Companies
+                        where CO.DeleteStatus == "N"
+                        select new
+                        {
+                            CompName = CO.CompName,
+                            Address1 = CO.Address1,
+                            Address2 = CO.Address2,
+                            Address3 = CO.Address3,
+                            GSTIN = CO.GSTIN,
+                            Email = CO.SalesEmail,
+                            Phone = CO.PhoneNo,
+                            CIN = CO.CIN,
+                            WebSite = CO.Website,
+                        }).FirstOrDefault();
+
+    var AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                      
+                   }).OrderBy(x => x.MTransNo).ToList();
+    if (Model.BarCode != null)
+    {
+        AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BarCode == Model.BarCode && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+    else if (Model.BinCondition == "Good")
+    {
+        AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinCondition == "Good" && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = CM.MTransNo,
+                       BarCode = CM.BarCode,
+                       BinCondition = CM.BinCondition,
+                       BinFillStatus = CM.BinFillStatus,
+                       BinWash = CM.BinWash,
+                       Remarks = CM.Remarks1,
+                       Status = CM.Status,
+                       
+                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+    else if (Model.BinCondition == "Broken")
+    {
+        AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinCondition == "Broken" && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                      
+                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+    else if (Model.BinFillStatus == "Fill")
+    {
+        AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinFillStatus == "Fill" && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                       
+                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+    else if (Model.BinFillStatus == "Empty")
+    {
+        AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinFillStatus == "Empty" && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                      
+                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+    else if (Model.BinWash == "Wash")
+    {
+        AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinWash == "Wash" && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                       
+
+                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+    else if (Model.BinWash == "UnWash")
+    {
+        AllList = (from OM in conn.Transactions
+                   join CM in conn.InawardTables
+                   on OM.BarCode equals CM.BarCode
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinWash == "UnWash" && OM.Status == "LOADED"
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                      
+
+                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+    else
+    {
+        //AllList = (from OM in conn.Transactions
+        //           join CM in conn.InawardTables
+        //           on OM.BarCode equals CM.BarCode
+        //           where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate
+        //           select new
+        //           {
+        //               MTransNo = OM.MTransNo,
+        //               BarCode = OM.BarCode,
+        //               BinCondition = OM.BinCondition,
+        //               BinFillStatus = OM.BinFillStatus,
+        //               BinWash = OM.BinWash,
+        //               Remarks = OM.Remarks1,
+        //               Status = OM.Status,
+        //               DocNo = OM.DocNo,
+        //               CreatedOn = OM.CreatedOn,
+        //               CreatedBy = OM.CreatedBy
+        //           }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    }
+}
+<html>
+<head>
+    <title> Transaction Report(Date Range @string.Format("{0:dd-MM-yyyy}", Model.FromDate)  to  @string.Format("{0:dd-MM-yyyy}", Model.ToDate)) </title>
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="~/Content/vendor/bootstrap/css/bootstrap.css" />
+
+    <!-- Invoice Print Style -->
+    <link rel="stylesheet" href="~/Content/css/invoice-print.css" />
+    <style>
+        h6, h4, p {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .fixed {
+            position: fixed;
+            width: 100%;
+            bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-right fixed-top" id="divPrint">
+        <a id="Print" href="#" onclick="printpage()" class="btn btn-success btn-sm">Print</a>
+        <a id="Back" href="Index" class="btn btn-success btn-sm">Back</a>
+    </div>
+
+    <table class="report-container" style="width:100%; border: 1px solid gray;">
+        <thead class="report-header">
+            <tr>
+                <th class="report-header-cell">
+                    <div class="header-info">
+                        <div id="div_print" class="invoice">
+                            <header class="clearfix">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="35%" class="text-left"> <img src="~/Content/img/projects/SawariyaLogo.png" alt="login" style="padding-left: 8px;height:100px;width:150px" />
+                                        <td width="50%" class="text-left" style="border-right: 1px solid;"><h5 class="font-weight-extra-bold h4"><b>Live Stock Report</b></h5></td>
+
+                                    </tr>
+                                </table>
+                            </header>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="report-content">
+            <tr>
+                <td class="report-content-cell">
+                    <div class="main">
+                        <div class="row">
+                            <div class="col-lg-12 ">
+                                <div>
+                                    <table style="width: 100%;" border="1">
+                                        <thead>
+                                            <tr class="text-dark" style="text-align: center;">
+                                                <th width="4%">SL.No.</th>
+                                                <th width="8%">BarCode</th>
+                                                <th width="9%">BinCondition</th>
+                                                <th width="7%">BinFillStatus</th>
+                                                <th width="5%">BinWash</th>
+                                                <th width="5%">Remarks</th>
+                                                <th width="5%">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ int rowNo = 0; }
+                                            @foreach (var item in AllList)
+                                            {
+                                                <tr>
+                                                    <td class="text-sm-right"><h6 style="margin-right:5px;">@(rowNo += 1)</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BarCode</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinCondition</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinFillStatus</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.BinWash</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Remarks</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Status</h6></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function printpage() {
+            //var printContents = document.getElementById(divName).innerHTML;
+            //var originalContents = document.body.innerHTML;
+            var printButton = document.getElementById("Back");
+            var printButton1 = document.getElementById("Print");
+            var printButton2 = document.getElementById("divPrint");
+            //document.getElementById('header').style.display = 'none';
+            //document.getElementById('footer').style.display = 'none';
+            //document.body.innerHTML = printContents;
+            printButton.style.visibility = 'hidden';
+            printButton1.style.visibility = 'hidden';
+            printButton2.style.visibility = 'hidden';
+            window.print()
+            printButton.style.visibility = 'visible';
+            printButton1.style.visibility = 'visible';
+            printButton2.style.visibility = 'visible';
+            //document.body.innerHTML = originalContents;
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).on('click', '#backLink', function () {
+            history.go(-1);
+        });
+    </script>
+    <script type="text/javascript">
+
+    </script>
+
+</body>
+</html>

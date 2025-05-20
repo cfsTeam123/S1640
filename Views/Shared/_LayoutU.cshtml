@@ -1,0 +1,254 @@
+﻿@RenderSection("scripts", required: false)
+@using S1640.Models;
+@{
+    S1640Entities conn = new S1640Entities();
+    int UserNo = Convert.ToInt32(Session["UserId"]);
+    int mSubscID = Convert.ToByte(Session["SubscID"]);
+    string UserType = Convert.ToString(Session["UserType"]);
+    string CompName = "";
+    string mEmail = "";
+    DateTime TodayDate = DateTime.Now;
+    var user = conn.UserMasters.Where(x => x.MTransNo == UserNo).FirstOrDefault();
+    if (user != null)
+    {
+        Session["UserId"] = user.MTransNo;
+        Session["UserType"] = user.UserType;
+        var Comp = conn.Companies.FirstOrDefault();
+        if (Comp != null)
+        {
+            Session["CompNo"] = Comp.MTransNo;
+            Session["SubscID"] = Comp.MTransNo;
+            Session["CompName"] = Comp.CompName;
+            Session["CStateCode"] = Comp.StateCode;
+            Session["CompCode"] = Comp.CompCode;
+            Session["CYear"] = 2324;
+            CompName = Comp.CompName;
+            mEmail = Comp.GeneralEmail;
+        }
+    }
+    else
+    {
+        Response.Redirect("~/Home/Login");
+    }
+    int SubscID = Convert.ToByte(Session["SubscID"]);
+    var User = conn.UserMasters.Where(x => x.MTransNo == UserNo).FirstOrDefault();
+    var AdminMenuList = (from M in conn.Menulists
+                         where M.DSLNo>0
+                         select new
+                         {
+                             DSLNo = M.DSLNo,
+                             Department = M.Department
+                         }).Distinct().OrderBy(x => x.DSLNo).ToList();
+    if (User.UserType != "ADMIN")
+    {
+        AdminMenuList = (from UA in conn.UserAuthorizations
+                         join M in conn.Menulists
+                         on UA.ModuleNo equals M.MTransNo
+                         where UA.UserNo == UserNo && UA.BranchNo== mSubscID && UA.AuthType!="N" && M.DSLNo>0
+                         select new
+                         {
+                             DSLNo = M.DSLNo,
+                             Department = M.Department
+                         }).Distinct().OrderBy(x => x.DSLNo).ToList();
+
+
+    }
+}
+<!DOCTYPE html>
+<html class="fixed sidebar-left-collapsed">
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="~/Content/img/C_icon.png">
+    <title>PPC</title>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <meta name="keywords" content="CREINTORS" />
+    <meta name="description" content="Creintors Automation Solutions Pvt. Ltd.">
+    <meta name="author" content="Creintors">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    @Html.Partial("_jsHeader")
+
+    <style>
+        #loading {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(192, 192, 192, 0.2);
+            background-image: url("../Content/img/Loader.gif");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+            .autocomplete-items div {
+                padding: 3px;
+                cursor: pointer;
+                background-color: #fff;
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+                /*when hovering an item:*/
+                .autocomplete-items div:hover {
+                    background-color: #e9e9e9;
+                }
+
+        /*when navigating through the items using the arrow keys:*/
+        .autocomplete-active {
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .notification {
+            background-color: rgba(192, 192, 192, 0.82);
+            color: white;
+            text-decoration: none;
+            padding: 6px 8px;
+            position: relative;
+            display: inline-block;
+            border-radius: 70%;
+        }
+
+            .notification:hover {
+                background: blue;
+            }
+
+            .notification .badge {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                padding: 5px 5px;
+                border-radius: 70%;
+                background-color: red;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+    @*<header class="header header-nav-menu header-nav-top-line">
+        <div class="row" style="width:100%; margin:0px; padding:0px;">
+            <div class="col-lg-1" style="margin:0px; padding:0px;">
+                <a href="~/Home/Index" class="logo text-center">
+                    <font size="6"><b>VOO</b></font><br />                    
+                </a>                
+            </div>
+            <div class="row col-lg-8" style="margin:0px; padding:0px;">
+                
+            </div>
+            <div class="col-lg-3 header-right text-right fixedHeader-locked" style="margin:-1px; padding:0px">
+                <div id="userbox" class="userbox">
+                    <a href="#" data-toggle="dropdown">
+                        <figure class="profile-picture">
+                            <img src="~/Content/img/C_icon.png" alt="Creintors Teknosol Private Limited" class="rounded-circle" style="width:28px;" data-lock-picture="img/!logged-user.jpg" />                            
+                        </figure>
+                        
+                        <div class="profile-info" data-lock-name="@CompName" data-lock-email="@mEmail" data-lock-picture="~/Content/img/C_icon.png">
+                            <span class="name">@CompName</span>
+                            <span class="role">@User.UserId</span>
+                        </div>
+                        <i class="fa custom-caret"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul class="list-unstyled mb-2">
+                            <li class="divider"></li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="/Company/Index"><i class="fas fa-user"></i> My Profile</a>
+                            </li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="/Home/ChangePassword"><i class="fas fa-user-lock"></i> Change Password</a>
+                            </li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fas fa-lock"></i> Lock Screen</a>
+                            </li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="/Home/LogOut"><i class="fas fa-power-off"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <h6 id="time" style="margin-right:15px;"> Session ends in 30:00</h6>
+            </div>
+            <div style="margin-top:-5px; margin-right:10px;" class="d-md-none toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+                <i class="fas fa-bars" aria-label="Toggle sidebar"></i>
+            </div>
+        </div>
+    </header>*@
+    <!-- end: header -->
+    <!-- start: sidebar -->    
+    @*<script>
+        var modNms;
+        var modLks;
+        window.addEventListener("load", function (evt) {
+            var fift = 60 * 30,
+                display = document.querySelector('#time');
+            startTimer(fift, display);
+        });
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = "Session ends in " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                    window.location.href = "/Home/LogOut";
+                }
+            }, 1000);
+        }
+    </script>*@
+    <!-- end: sidebar -->
+    <!-- Vendor -->
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+    <script src="~/Content/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="~/Content/vendor/popper/umd/popper.min.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/vendor/common/common.js"></script>
+    <script src="~/Content/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="~/Content/vendor/magnific-popup/jquery.magnific-popup.js"></script>
+    <script src="~/Content/vendor/jquery-placeholder/jquery-placeholder.js"></script>
+
+    <!-- Specific Page Vendor -->
+    <script src="~/Content/vendor/jquery-appear/jquery-appear.js"></script>
+    <script src="~/Content/vendor/owl.carousel/owl.carousel.js"></script>
+    <script src="~/Content/vendor/isotope/isotope.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Scripts/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Scripts/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Scripts/js/theme.init.js"></script>
+    <script src="~/Scripts/js/examples/examples.advanced.form.js"></script>
+    @RenderBody()
+</body>
+</html>

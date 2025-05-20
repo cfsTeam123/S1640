@@ -1,0 +1,132 @@
+﻿@model S1640.Models.UserMaster
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="CREINTORS" />
+    <meta name="description" content="Creintors Automation Solutions Pvt. Ltd." />
+    <meta name="author" content="Creintors">
+    <title>Login - Creintors</title>
+    <link rel="icon" href="~/Content/img/C_icon.png" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap and CSS Files -->
+    <link rel="stylesheet" href="~/Content/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/css/theme.css" />
+    <link rel="stylesheet" href="~/Content/css/custom.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/vendor/font-awesome/css/fontawesome-all.min.css" />
+
+    <!-- Animation -->
+    <link rel="stylesheet" href="~/Content/vendor/animate/animate.css">
+
+    <!-- Modernizr -->
+    <script src="~/Content/vendor/modernizr/modernizr.js"></script>
+
+    <style>
+        body {
+            background-image: url('/Content/img/image_4.jpeg');
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #3b3b3b;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+            .input-group input {
+                border-radius: 5px;
+                font-size: 16px;
+                padding: 15px;
+            }
+
+            .input-group i {
+                color: #007bff;
+            }
+
+        .btn-login {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+            .btn-login:hover {
+                background-color: #0056b3;
+            }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-title">
+            <i class="fas fa-user-circle"></i> Login
+        </div>
+
+        <form method="post" action="/Home/LoginCheck">
+            <div class="input-group">
+                <input type="text" name="UserId" class="form-control" placeholder="Login ID" required autofocus />
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="PW" class="form-control" placeholder="Password" required />
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            </div>
+
+            @* Display Error Message *@
+            <span id="inErr" class="error-message">@ViewBag.wrongLogin</span>
+
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-login">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- JS Libraries -->
+    <script src="~/Content/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/vendor/font-awesome/js/fontawesome-all.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/Content/js/custom.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+﻿@using S1640.Models;
+@using System.Data.Entity;
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    S1640Entities conn = new S1640Entities();
+    int UserNo = Convert.ToInt32(Session["Userid"]);
+    var user = conn.UserMasters.Where(x => x.MTransNo == UserNo).FirstOrDefault();
+    int sub = Convert.ToInt32(Session["SubscID"]);
+    string UserType = Convert.ToString(Session["UserType"]);
+
+    var today = DateTime.Today;
+    int offset = today.DayOfWeek - DayOfWeek.Monday;
+
+    var prior = today.AddDays(-offset).Date;
+    var post = prior.AddDays(5);
+
+    //var NListPrior = conn.Notifications.Where(x => x.DeleteStatus == "N" && x.DueDate < today && x.Department == user.Department && x.AlertStatus == "Not Completed").OrderBy(x => x.DueDate).ThenBy(x => x.Department).ToList();
+    //var NListToday = conn.Notifications.Where(x => x.DeleteStatus == "N" && x.DueDate == today && x.Department == user.Department && x.AlertStatus == "Not Completed" && x.AlertType == "Daily").OrderBy(x => x.DueDate).ThenBy(x => x.Department).ToList();
+    //var NListPost = conn.Notifications.Where(x => x.DeleteStatus == "N" && x.DueDate > today && x.DueDate <= post && x.Department == user.Department && x.AlertStatus == "Not Completed").OrderBy(x => x.DueDate).ThenBy(x => x.Department).ToList();
+
+
+    //if (user.UserType == "ADMIN")
+    //{
+    //    NListPrior = conn.Notifications.Where(x => x.DeleteStatus == "N" && x.DueDate < today && x.AlertStatus == "Not Completed").OrderBy(x => x.DueDate).ThenBy(x => x.Department).ToList();
+    //    NListToday = conn.Notifications.Where(x => x.DeleteStatus == "N" && x.DueDate == today && x.AlertStatus == "Not Completed").OrderBy(x => x.DueDate).ThenBy(x => x.Department).ToList();
+    //    NListPost = conn.Notifications.Where(x => x.DeleteStatus == "N" && x.DueDate > today && x.DueDate <= post && x.AlertStatus == "Not Completed").OrderBy(x => x.DueDate).ThenBy(x => x.Department).ToList();
+    //}
+    //int count = NListPrior.Count() + NListToday.Count() + NListPost.Count();
+}
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Dashboard</h2>
+        <div class="col-md-12 pt-2 text-right">
+            <button type="button" id="Gload" name="Gload" value="Gload" class="btn btn-primary btn-sm"><i class="fas fa-sync-alt"></i></button>
+            <ul class="notifications" style="padding-right:2%;">
+                <li>
+                    @*@{
+                        if (count > 0)
+                        {
+                            if (today.DayOfWeek == DayOfWeek.Friday || today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Sunday)
+                            {
+                                <a href="#" class="sidebar-right-toggle notification-icon blink scaled" data-open="sidebar-right" title="Notifications">
+                                    <i class="fas fa-calendar "></i>
+                                    <span class="badge">@count</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#" class="sidebar-right-toggle notification-icon" data-open="sidebar-right" title="Notifications">
+                                    <i class="fas fa-calendar "></i>
+                                    <span class="badge">@count</span>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <a href="#" class="sidebar-right-toggle notification-icon" data-open="sidebar-right" title="Notifications">
+                                <i class="fas fa-calendar "></i>
+                                <span class="badge">@count</span>
+                            </a>
+                        }
+
+                    }*@
+
+                </li>
+            </ul>
+        </div>
+    </header>
+        <div class="form-group row">
+            <div class="col-lg-12">
+                <div id="SDisplay" class="text-center pt-2" style="margin-top : 75px;">
+                    <img  src="https://t3.ftcdn.net/jpg/05/68/59/02/240_F_568590279_xK4gKYHJXZvXaKoex5kmMG8gl6chgxqz.jpg" style="width:100%;">
+                   
+                </div>
+               
+            </div>
+        </div>
+</section>
+    
+    <script>
+        if (screen.width < 600) {
+            $('#SDisplay').hide();
+            $('#SDisplay1').show();
+            var foobarElement = document.getElementById('mybody');
+            foobarElement.style.backgroundImage = '';
+            foobarElement.style.background = '';
+            foobarElement.style.backgroundUrl = '';
+        }
+        else {
+            $('#SDisplay').show();
+            $('#SDisplay1').hide();
+        }
+    </script>
+
+<script>
+    $('#Gload').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/SaveGraph",
+            success: function (result) {
+                Sender = result;
+                window.location.href = "/Home/Index";
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    });
+</script>
+
+    <script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Specific Page Vendor -->
+    <script src="~/Content/vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="~/Content/vendor/jqueryui-touch-punch/jqueryui-touch-punch.js"></script>
+    <script src="~/Content/vendor/jquery-appear/jquery-appear.js"></script>
+    <script src="~/Content/vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.js"></script>
+    <script src="~/Content/vendor/flot/jquery.flot.js"></script>
+    <script src="~/Content/vendor/flot.tooltip/flot.tooltip.js"></script>
+    <script src="~/Content/vendor/flot/jquery.flot.pie.js"></script>
+    <script src="~/Content/vendor/flot/jquery.flot.categories.js"></script>
+    <script src="~/Content/vendor/flot/jquery.flot.resize.js"></script>
+    <script src="~/Content/vendor/jquery-sparkline/jquery-sparkline.js"></script>
+    <script src="~/Content/vendor/raphael/raphael.js"></script>
+    <script src="~/Content/vendor/morris/morris.js"></script>
+    <script src="~/Content/vendor/owl.carousel/owl.carousel.js"></script>
+    <script src="~/Content/vendor/chartist/chartist.js"></script>
+    <script src="~/Content/vendor/select2/js/select2.js"></script>
+
+    <script src="~/Content/vendor/liquid-meter/liquid.meter.js"></script>
+    <script src="~/Content/vendor/snap.svg/snap.svg.js"></script>
+
+    <script src="~/Scripts/js/modernizr/2.8.3/modernizr.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Scripts/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Scripts/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Scripts/js/theme.init.js"></script>
+    <!-- Examples -->
+    <script src="~/Scripts/js/examples/examples.widgets.js"></script>
+    <script src="~/Scripts/js/examples/examples.charts.js"></script>
+
+    <script src="~/Scripts/js/examples/examples.datatables.tabletools.js"></script>
+    <script src="~/Scripts/js/examples/examples.modals.js"></script>

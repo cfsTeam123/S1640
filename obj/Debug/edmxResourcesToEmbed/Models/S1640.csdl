@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="S1640" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="S1640Entities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="SP_UserMaster">
+      <Parameter Name="ID" Mode="InOut" Type="Int32" />
+      <Parameter Name="MTransNo" Mode="In" Type="Int32" />
+      <Parameter Name="MCount" Mode="In" Type="Int32" />
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="PW" Mode="In" Type="String" />
+      <Parameter Name="UserType" Mode="In" Type="String" />
+      <Parameter Name="ContactNo" Mode="In" Type="String" />
+      <Parameter Name="EmailId" Mode="In" Type="String" />
+      <Parameter Name="PWExpiry" Mode="In" Type="Byte" />
+      <Parameter Name="BadLogins" Mode="In" Type="Byte" />
+      <Parameter Name="LockStatus" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="SubscID" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
+    <EntitySet Name="Companies" EntityType="S1640.Company" />
+    <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
+    <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
+    <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
+    <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
+    <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
+    <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
+    <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
+    <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
+  </EntityContainer>
+  <EntityType Name="BinMaster">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BarCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <Property Name="ModifiedBy" Type="Int32" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="CompName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Natureofwork" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Address3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="StateCode" Type="Int32" />
+    <Property Name="PhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="GeneralEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SalesEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PurchaseEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GSTIN" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="PAN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="CIN" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="BankName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IFSCCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="AccountNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="MICRCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="FromYear" Type="DateTime" Precision="0" />
+    <Property Name="ToYear" Type="DateTime" Precision="0" />
+    <Property Name="LockCounter" Type="Byte" />
+    <Property Name="LockStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int16" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="Int16" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <Property Name="DeleteStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="TimeDefiance" Type="Decimal" Precision="12" Scale="2" />
+    <Property Name="IECNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PinCode" Type="Int32" />
+    <Property Name="Country" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="BDTPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="DesignPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="PlanningPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="PurchasePhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="QualityPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="StorePhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="ProductionPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="AccountPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="HRPhoneNo" Type="String" MaxLength="21" FixedLength="false" Unicode="false" />
+    <Property Name="SalesEmail1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SalesEmail2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SalesEmail3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="EMSMsg">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Messages" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Sender" Type="Int32" />
+    <Property Name="Receiver" Type="Int32" />
+    <Property Name="MsgStatus" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="SendOn" Type="DateTime" Precision="3" />
+    <Property Name="AckStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="AckDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="InawardTable">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocDate" Type="DateTime" Precision="3" />
+    <Property Name="DocDate2" Type="DateTime" Precision="3" />
+    <Property Name="BarCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinWash" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinFillStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ModifiedBy" Type="Int32" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <Property Name="DocNo" Type="Int32" />
+  </EntityType>
+  <EntityType Name="LiveStockData">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InwardNo" Type="Int32" />
+    <Property Name="DocDate" Type="DateTime" Precision="3" />
+    <Property Name="BinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Createdby" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Menulist">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Department" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="DSLNo" Type="Int32" />
+    <Property Name="ModuleType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="MSLNo" Type="Int32" />
+    <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ModulePage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ModuleLink" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IconName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cardColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AdminAmount" Type="Decimal" Precision="16" Scale="2" />
+    <Property Name="HODAmount" Type="Decimal" Precision="16" Scale="2" />
+    <Property Name="OPAmount" Type="Decimal" Precision="16" Scale="2" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocDate" Type="DateTime" Precision="3" />
+    <Property Name="BarCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinWash" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinFillStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ModifiedBy" Type="Int32" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <Property Name="DocNo" Type="Int32" />
+  </EntityType>
+  <EntityType Name="UserAuthorization">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserNo" Type="Int32" Nullable="false" />
+    <Property Name="ModuleNo" Type="Int32" Nullable="false" />
+    <Property Name="AuthType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Dept" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BranchNo" Type="Int32" />
+  </EntityType>
+  <EntityType Name="UserLogData">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientIp" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LatLong" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="DeleteStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UserType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int16" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="UserMaster">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="PW" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="UserType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="LockCounter" Type="Byte" />
+    <Property Name="LockStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int16" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="Int16" />
+    <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <Property Name="DeleteStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="SubscID" Type="Int16" />
+    <Property Name="loginDate" Type="DateTime" Precision="0" />
+    <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

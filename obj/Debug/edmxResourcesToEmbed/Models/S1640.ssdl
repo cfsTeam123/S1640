@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="S1640.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BinMaster">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BarCode" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="char" MaxLength="1" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="ModifiedBy" Type="int" />
+    <Property Name="ModifiedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompCode" Type="varchar" MaxLength="10" />
+    <Property Name="CompName" Type="varchar" MaxLength="100" />
+    <Property Name="Natureofwork" Type="varchar" MaxLength="250" />
+    <Property Name="Address1" Type="varchar" MaxLength="100" />
+    <Property Name="Address2" Type="varchar" MaxLength="100" />
+    <Property Name="Address3" Type="varchar" MaxLength="100" />
+    <Property Name="State" Type="varchar" MaxLength="40" />
+    <Property Name="StateCode" Type="int" />
+    <Property Name="PhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="GeneralEmail" Type="varchar" MaxLength="50" />
+    <Property Name="SalesEmail" Type="varchar" MaxLength="50" />
+    <Property Name="PurchaseEmail" Type="varchar" MaxLength="50" />
+    <Property Name="Website" Type="varchar" MaxLength="50" />
+    <Property Name="GSTIN" Type="varchar" MaxLength="15" />
+    <Property Name="PAN" Type="varchar" MaxLength="10" />
+    <Property Name="CIN" Type="varchar" MaxLength="30" />
+    <Property Name="BankName" Type="varchar" MaxLength="100" />
+    <Property Name="BranchName" Type="varchar" MaxLength="50" />
+    <Property Name="IFSCCode" Type="varchar" MaxLength="20" />
+    <Property Name="AccountNo" Type="varchar" MaxLength="20" />
+    <Property Name="MICRCode" Type="varchar" MaxLength="20" />
+    <Property Name="FromYear" Type="date" />
+    <Property Name="ToYear" Type="date" />
+    <Property Name="LockCounter" Type="tinyint" />
+    <Property Name="LockStatus" Type="char" MaxLength="1" />
+    <Property Name="CreatedBy" Type="smallint" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="ModifiedBy" Type="smallint" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="DeleteStatus" Type="char" MaxLength="1" />
+    <Property Name="TimeDefiance" Type="numeric" Precision="12" Scale="2" />
+    <Property Name="IECNO" Type="varchar" MaxLength="50" />
+    <Property Name="PinCode" Type="int" />
+    <Property Name="Country" Type="varchar" MaxLength="30" />
+    <Property Name="BDTPhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="DesignPhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="PlanningPhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="PurchasePhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="QualityPhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="StorePhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="ProductionPhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="AccountPhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="HRPhoneNo" Type="varchar" MaxLength="21" />
+    <Property Name="SalesEmail1" Type="varchar" MaxLength="50" />
+    <Property Name="SalesEmail2" Type="varchar" MaxLength="50" />
+    <Property Name="SalesEmail3" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="EMSMsg">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Messages" Type="varchar" MaxLength="1000" />
+    <Property Name="Sender" Type="int" />
+    <Property Name="Receiver" Type="int" />
+    <Property Name="MsgStatus" Type="char" MaxLength="10" />
+    <Property Name="SendOn" Type="datetime" />
+    <Property Name="AckStatus" Type="varchar" MaxLength="20" />
+    <Property Name="AckDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="InawardTable">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocDate" Type="datetime" />
+    <Property Name="DocDate2" Type="datetime" />
+    <Property Name="BarCode" Type="varchar" MaxLength="50" />
+    <Property Name="BinCondition" Type="varchar" MaxLength="50" />
+    <Property Name="BinWash" Type="varchar" MaxLength="50" />
+    <Property Name="BinFillStatus" Type="varchar" MaxLength="50" />
+    <Property Name="Remarks1" Type="varchar" MaxLength="500" />
+    <Property Name="Remarks2" Type="varchar" MaxLength="250" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="ModifiedBy" Type="int" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="DocNo" Type="int" />
+  </EntityType>
+  <EntityType Name="LiveStockData">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InwardNo" Type="int" />
+    <Property Name="DocDate" Type="datetime" />
+    <Property Name="BinCode" Type="varchar" MaxLength="50" />
+    <Property Name="Remarks" Type="varchar" MaxLength="500" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Createdby" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="BinStatus" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Menulist">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Department" Type="varchar" MaxLength="30" />
+    <Property Name="DSLNo" Type="int" />
+    <Property Name="ModuleType" Type="varchar" MaxLength="30" />
+    <Property Name="MSLNo" Type="int" />
+    <Property Name="ModuleName" Type="varchar" MaxLength="50" />
+    <Property Name="ModulePage" Type="varchar" MaxLength="50" />
+    <Property Name="ModuleLink" Type="varchar" MaxLength="50" />
+    <Property Name="IconName" Type="varchar" MaxLength="50" />
+    <Property Name="cardColor" Type="varchar" MaxLength="50" />
+    <Property Name="AdminAmount" Type="numeric" Precision="16" Scale="2" />
+    <Property Name="HODAmount" Type="numeric" Precision="16" Scale="2" />
+    <Property Name="OPAmount" Type="numeric" Precision="16" Scale="2" />
+  </EntityType>
+  <EntityType Name="Transactions">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocDate" Type="datetime" />
+    <Property Name="BarCode" Type="varchar" MaxLength="50" />
+    <Property Name="BinCondition" Type="varchar" MaxLength="50" />
+    <Property Name="BinWash" Type="varchar" MaxLength="50" />
+    <Property Name="BinFillStatus" Type="varchar" MaxLength="50" />
+    <Property Name="Remarks1" Type="varchar" MaxLength="500" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="ModifiedBy" Type="int" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="DocNo" Type="int" />
+  </EntityType>
+  <EntityType Name="UserAuthorization">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserNo" Type="int" Nullable="false" />
+    <Property Name="ModuleNo" Type="int" Nullable="false" />
+    <Property Name="AuthType" Type="char" MaxLength="1" />
+    <Property Name="Dept" Type="varchar" MaxLength="50" />
+    <Property Name="BranchNo" Type="int" />
+  </EntityType>
+  <EntityType Name="UserLogData">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClientIp" Type="varchar" MaxLength="100" />
+    <Property Name="LatLong" Type="varchar" MaxLength="100" />
+    <Property Name="Location" Type="varchar" MaxLength="500" />
+    <Property Name="DeleteStatus" Type="char" MaxLength="1" />
+    <Property Name="UserType" Type="varchar" MaxLength="15" />
+    <Property Name="CreatedBy" Type="smallint" />
+    <Property Name="CreatedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="UserMaster">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="UserId" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="PW" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="UserType" Type="varchar" MaxLength="15" />
+    <Property Name="LockCounter" Type="tinyint" />
+    <Property Name="LockStatus" Type="char" MaxLength="1" />
+    <Property Name="CreatedBy" Type="smallint" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="ModifiedBy" Type="smallint" />
+    <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="DeleteStatus" Type="char" MaxLength="1" />
+    <Property Name="SubscID" Type="smallint" />
+    <Property Name="loginDate" Type="date" />
+    <Property Name="EmailId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Function Name="SP_UserMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="InOut" />
+    <Parameter Name="MTransNo" Type="int" Mode="In" />
+    <Parameter Name="MCount" Type="int" Mode="In" />
+    <Parameter Name="UserName" Type="varchar" Mode="In" />
+    <Parameter Name="Address" Type="varchar" Mode="In" />
+    <Parameter Name="UserId" Type="varchar" Mode="In" />
+    <Parameter Name="PW" Type="varchar" Mode="In" />
+    <Parameter Name="UserType" Type="varchar" Mode="In" />
+    <Parameter Name="ContactNo" Type="varchar" Mode="In" />
+    <Parameter Name="EmailId" Type="varchar" Mode="In" />
+    <Parameter Name="PWExpiry" Type="tinyint" Mode="In" />
+    <Parameter Name="BadLogins" Type="tinyint" Mode="In" />
+    <Parameter Name="LockStatus" Type="char" Mode="In" />
+    <Parameter Name="CreatedBy" Type="int" Mode="In" />
+    <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+    <Parameter Name="SubscID" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="char" Mode="In" />
+  </Function>
+  <EntityContainer Name="S1640StoreContainer">
+    <EntitySet Name="BinMaster" EntityType="Self.BinMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EMSMsg" EntityType="Self.EMSMsg" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InawardTable" EntityType="Self.InawardTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LiveStockData" EntityType="Self.LiveStockData" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menulist" EntityType="Self.Menulist" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserAuthorization" EntityType="Self.UserAuthorization" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserLogData" EntityType="Self.UserLogData" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserMaster" EntityType="Self.UserMaster" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

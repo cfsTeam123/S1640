@@ -1,0 +1,316 @@
+﻿@using S1640.Models;
+@model CFS.Models.ReportList
+@{
+    ViewBag.Title = "MsgAlerts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    S1640Entities conn = new S1640Entities();
+    int UserNo = Convert.ToByte(Session["Userid"]);
+
+    var UserLisr = (from B in conn.UserMasters
+                    where B.MTransNo != UserNo
+                    select new
+                    {
+                        MTransNo = B.MTransNo,
+                        MsgCount = (from M in conn.EMSMsgs where M.Sender == B.MTransNo && M.Receiver == UserNo && M.MsgStatus == "UNRead" select M.MTransNo).Count(),
+                        UserId = B.UserId
+                    }).OrderByDescending(x => x.MsgCount).ThenBy(x => x.UserId).ToList();
+
+    var AllList = (from B in conn.EMSMsgs
+                   where B.AckStatus == "N" && B.MsgStatus.Trim() == "UNRead" && ((B.Sender == UserNo) || (B.Receiver == UserNo) )
+                   select new
+                   {
+                       MTransNo = B.MTransNo,
+                       Messages = B.Messages,
+                       Receiver=B.Receiver,
+                       Sender=B.Sender,
+                       SendOn = B.SendOn
+                   }).OrderByDescending(x => x.MTransNo).ToList();
+}
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Alert Messages</h2>
+        <div class="col-md-12 pt-2 text-right">
+            <a href="Index" class="btn btn-warning btn-sm"><i class="fas fa-arrow-alt-circle-left"></i>&nbsp;Back</a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div class="form-group row" style="margin-top: 75px;">
+        @*<div class="col-lg-3">
+            <div id="UserList" class="card-body">
+                <div class="text-center">
+                    <h5><b><u>Messages/ Alerts</u></b></h5>
+                </div>
+                <div style="height: 430px;" class="card-body scrollable visible-slider colored-slider" data-plugin-scrollable>
+                    <div class="scrollable-content">
+                        <table>
+                            <tbody>
+                                @foreach (var item in UserLisr)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (item.MsgCount > 0)
+                                            {
+                                                <div class="form-group" style=" margin-top:10px;">
+                                                    <div class="row">
+                                                        <a href="MsgAlerts?Sender=@item.MTransNo" class="notification" style=" margin-left:15px;">
+                                                            <i class="fas fa-envelope"></i>
+                                                            <span class="badge">@item.MsgCount</span>
+                                                        </a>
+                                                        <a href="MsgAlerts?Sender=@item.MTransNo" class="pt-2" style="margin-left:10px;"> @item.UserId</a><br />
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-group" style=" margin-top:10px;">
+                                                    <div class="row">
+                                                        <a href="MsgAlerts?Sender=@item.MTransNo" class="notification" style=" margin-left:15px;">
+                                                            <i class="fas fa-envelope-open"></i>
+                                                            <span class="badge"></span>
+                                                        </a>
+                                                        <a href="MsgAlerts?Sender=@item.MTransNo" class="pt-2" style="margin-left:10px;"> @item.UserId</a><br />
+                                                    </div>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="col-lg-1">
+            &nbsp;
+       </div>
+            <div class="col-lg-10">
+                @*<section class="simple-compose-box mb-3">
+                    <form class="form-horizontal form-bordered" method="get" action="/">
+                        @Html.HiddenFor(model => model.OANo)
+                        <textarea id="message-text" name="message-text" data-plugin-textarea-autosize placeholder="What's on your mind?" rows="2"></textarea>
+                    </form>
+                    <div class="compose-box-footer">
+                        <ul class="compose-toolbar">
+                            <li>
+                                <a href="#"><i class="fas fa-camera"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fas fa-map-marker-alt"></i></a>
+                            </li>
+                        </ul>
+                        <ul class="compose-btn">
+                            <li>
+                                @if (Model.OANo > 0)
+                                {
+                                    <button type="button" id="Post" name="Post" value="Post" class="btn btn-primary btn-sm">Post</button>
+                                }
+                                else
+                                {
+                                    <button type="button" id="Post" name="Post" value="Post" disabled class="btn btn-primary btn-sm">Post</button>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </section>*@
+                <div style="height: 500px;" class="card-body scrollable visible-slider colored-slider" data-plugin-scrollable>
+                    <div class="scrollable-content">
+                        <div class="timeline timeline-simple changelog">
+                            <div class="tm-body">
+                               
+                                <ol class="tm-items">
+                                    <center><b>Acknowledgement : -  “I have received the Notification and I confirm that I have read and take decision based on situation”.</b></center>
+                                    @if (AllList != null)
+                                    {
+                                        foreach (var item in AllList)
+                                        {
+
+                                            if (item.Receiver == UserNo/* && item.Sender == Model.OANo*/)
+                                            {
+                                                var userName = (from B in conn.UserMasters
+                                                                where B.MTransNo == item.Sender
+                                                                select new
+                                                                {
+                                                                    UserId = B.UserId
+                                                                }).FirstOrDefault();
+                                                <li>
+                                                    <div class="tm-box" id="NotifyDiv">
+                                                        <div class="form-group row">
+                                                            <div class="col-lg-8">
+                                                                <h5>@userName.UserId</h5>
+                                                                <span class="release-date">@item.SendOn</span>
+                                                                <ul class="list-unstyled">
+                                                                    <li>@item.Messages</li>
+                                                                </ul>
+
+                                                            </div>
+                                                            <div class="col-lg-2">
+
+                                                                <label class="col-lg-1 control-label text-lg-right pt-2" style="margin-left: 0px; padding-left: 0px; margin-right: 0px; padding-right: 0px;"><span class="required">*</span>Acknowledge <input id="Remember" name="Remember" type="checkbox" class="form-control p-2 Check" @*value="@Model.Remember"*@ /></label>
+                                                            </div>
+                                                            <div class="col-lg-2" style="margin-top:40px">
+                                                                <button type="button" name="Add" value="Add" onclick="GetSave(@item.MTransNo)" id="GetSave" class="col-lg-10 btn btn-primary btn-lg">Save</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <div class="tm-box" id="NotifyDiv2">
+                                                        <div class="form-group row">
+                                                            <div class="col-lg-8">
+                                                                <span class="release-date">@item.SendOn</span>
+                                                                <ul class="list-unstyled">
+                                                                    <li>@item.Messages</li>
+                                                                </ul>
+
+                                                            </div>
+                                                            <div class="col-lg-2">
+
+                                                                <label class="col-lg-1 control-label text-lg-right pt-2" style="margin-left: 0px; padding-left: 0px; margin-right: 0px; padding-right: 0px;"><span class="required">*</span>Acknowledge <input id="Remember2" name="Remember2" type="checkbox" class="form-control p-2 Check2" @*value="@Model.Remember"*@ /></label>
+                                                            </div>
+                                                            <div class="col-lg-2" style="margin-top:40px">
+                                                                <button type="button" name="Add" value="Add" onclick="GetSave2(@item.MTransNo)" id="GetSave" class="col-lg-10 btn btn-primary btn-lg">Save</button>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    }
+
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end: page -->
+</section>
+<script >
+    $('#Post').click(function () {
+        var Messages = $('#message-text').val();
+        var Receiver = $('#OANo').val();
+        $.ajax({
+            type: "POST",
+            url: "/Home/SaveMsgDtl",
+            data:
+            {
+                Messages: Messages,
+                Receiver: Receiver
+            },
+            success: function (result)
+            {
+                Sender = result;
+                window.location.href = "/Home/MsgAlerts?Sender=" + Sender;
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    });
+
+    function GetSave(MtraNo) {
+        var divElement = document.getElementById('NotifyDiv');
+
+        // Get the checkbox element within the div
+        var checkboxElement = divElement.querySelector('input[type="checkbox"]');
+
+        // Read the value of the checkbox
+        var checkboxValue = checkboxElement.checked;
+
+        // Print the value to the console
+        console.log(checkboxValue);
+
+
+        if (checkboxValue == true) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/SaveMsgData",
+                data:
+                {
+                    MtraNo: MtraNo,
+                },
+                success: function (result) {
+                    Sender = result;
+                    window.location.href = "/Home/MsgAlerts?Sender=" + Sender;
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        } else {
+            alert("Please Select Acknowledgement Checkbox!!");
+        }
+       
+
+    }
+
+    function GetSave2(MtraNo) {
+        var divElement = document.getElementById('NotifyDiv2');
+
+        // Get the checkbox element within the div
+        var checkboxElement = divElement.querySelector('input[type="checkbox"]');
+
+        // Read the value of the checkbox
+        var checkboxValue = checkboxElement.checked;
+
+        // Print the value to the console
+        console.log(checkboxValue);
+
+
+        if (checkboxValue == true) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/SaveMsgData",
+                data:
+                {
+                    MtraNo: MtraNo,
+                },
+                success: function (result) {
+                    Sender = result;
+                    window.location.href = "/Home/MsgAlerts?Sender=" + Sender;
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        } else {
+            alert("Please Select Acknowledgement Checkbox!!");
+        }
+
+
+    }
+
+</script>
+    <!-- Vendor -->
+<script src="~/Content/vendor/jquery-ui/jquery-ui.js"></script>
+<script src="~/Content/vendor/jqueryui-touch-punch/jqueryui-touch-punch.js"></script>
+<script src="~/Content/vendor/select2/js/select2.js"></script>
+<script src="~/Content/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+<script src="~/Content/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="~/Content/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<script src="~/Content/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script src="~/Content/vendor/bootstrap-timepicker/bootstrap-timepicker.js"></script>
+<script src="~/Content/vendor/fuelux/js/spinner.js"></script>
+<script src="~/Content/vendor/dropzone/dropzone.js"></script>
+<script src="~/Content/vendor/bootstrap-markdown/js/markdown.js"></script>
+<script src="~/Content/vendor/bootstrap-markdown/js/to-markdown.js"></script>
+<script src="~/Content/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
+<script src="~/Content/vendor/codemirror/lib/codemirror.js"></script>
+<script src="~/Content/vendor/codemirror/addon/selection/active-line.js"></script>
+<script src="~/Content/vendor/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="~/Content/vendor/codemirror/mode/javascript/javascript.js"></script>
+<script src="~/Content/vendor/codemirror/mode/xml/xml.js"></script>
+<script src="~/Content/vendor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="~/Content/vendor/codemirror/mode/css/css.js"></script>
+<script src="~/Content/vendor/summernote/summernote-bs4.js"></script>
+<script src="~/Content/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+<script src="~/Content/vendor/ios7-switch/ios7-switch.js"></script>

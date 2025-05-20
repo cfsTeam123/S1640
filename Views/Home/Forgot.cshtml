@@ -1,0 +1,426 @@
+﻿@model S1640.Models.UserMaster
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    @*<link rel="shortcut icon" href="~/Content/img/C_icon.png">*@
+    <meta name="viewport" content="width=device-width" />
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <meta name="keywords" content="CREINTORS" />
+    <meta name="description" content="Creintors Automation Solutions Pvt. Ltd.">
+    <meta name="author" content="Creintors">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="~/Content/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/vendor/animate/animate.css">
+    <link rel="stylesheet" href="~/Content/vendor/font-awesome/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="~/Content/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="~/Content/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css" />
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="~/Content/css/theme.css" />
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="~/Content/css/skins/default.css" />
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="~/Content/css/custom.css">
+    <!-- Head Libs -->
+    <script src="~/Content/vendor/modernizr/modernizr.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins',sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(62deg, #2E31C8, #F4A211);
+        }
+
+        .box {
+            position: relative;
+            width: 380px;
+            height: 420px;
+            background: #1c1c1c;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+            .box::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 380px;
+                height: 420px;
+                background: linear-gradient(#45f3ff, #9110e5);
+                /*background: linear-gradient(0deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%), linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%), linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);*/
+                /*background: linear-gradient(0deg,0, 0,#45f3ff,#45f3ff,#45f3ff);*/
+                z-index: 1;
+                animation: animate 6s linear infinite;
+                transform-origin: bottom right;
+            }
+
+            .box::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 380px;
+                height: 420px;
+                background: linear-gradient(#45f3ff, #9110e5);
+                /*background: linear-gradient(0deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%), linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%), linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);*/
+                /*background: linear-gradient(0deg,0, 0,#45f3ff,#45f3ff,#45f3ff);*/
+                z-index: 1;
+                animation: animate 6s linear infinite;
+                transform-origin: bottom right;
+                animation-delay: -3s;
+            }
+
+        @@keyframes animate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .box form {
+            position: absolute;
+            inset: 4px;
+            padding: 50px 40px;
+            background: #222;
+            border-radius: 8px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .box form h2 {
+                color: #fff;
+                font-weight: 500;
+                text-align: center;
+                letter-spacing: 0.1em;
+            }
+
+            .box form .inputBox {
+                position: relative;
+                width: 300px;
+                margin-top: 35px;
+            }
+
+                .box form .inputBox input {
+                    position: relative;
+                    width: 100%;
+                    padding: 20px 10px 10px;
+                    /*background: tra*/
+                    border: none;
+                    opacity: 0.1;
+                    outline: none;
+                    box-shadow: none;
+                    color: #23242a;
+                    font-size: 1em;
+                    letter-spacing: 0.05em;
+                    transition: 0.5s;
+                    z-index: 10;
+                }
+
+                .box form .inputBox span {
+                    position: absolute;
+                    left: 0;
+                    padding: 20px 0px 10px;
+                    pointer-events: none;
+                    color: #8f8f8f;
+                    font-size: 1em;
+                    letter-spacing: 0.05em;
+                    transition: 0.5s;
+                }
+
+                .box form .inputBox input:valid ~ span,
+                .box form .inputBox input:focus ~ span {
+                    color: #fff;
+                    font-size: 0.75em;
+                    transform: translateY(-34px);
+                }
+
+                .box form .inputBox i {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 2px;
+                    background: #fff;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    transition: 0.5s;
+                    pointer-events: none;
+                }
+
+                .box form .inputBox input:valid ~ i,
+                .box form .inputBox input:focus ~ i {
+                    height: 44px;
+                }
+
+            .box form .links {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                .box form .links a {
+                    margin: 10px 0;
+                    font-size: 0.75em;
+                    color: #8f8f8f;
+                    text-decoration: none;
+                }
+
+                    .box form .links a:hover,
+                    .box form .links a:nth-child(2) {
+                        color: #fff;
+                    }
+
+            .box form input[type="submit"] {
+                border: none;
+                outline: none;
+                padding: 9px 25px;
+                background: #fff;
+                cursor: pointer;
+                font-size: 0.9em;
+                border-radius: 4px;
+                font-weight: 600;
+                width: 100px;
+                margin-top: 10px;
+            }
+
+                .box form input[type="submit"]:active {
+                    opacity: 0.8;
+                }
+    </style>
+</head>
+<body>
+    <section class="content-header">
+        <div class="text-center">
+            <h3></h3>
+        </div>
+    </section>
+    <section class="body-sign">
+        <div class="center-sign">
+            <a href="/" class="logo float-left">
+              @* <img src="~/Content/img/Positron_logo2.png" alt="login/">*@
+                @*<img src="~/Content/img/C_logo.png" alt="login" />*@
+            </a>
+            <div class="panel card-sign">
+                <div class="box">
+                  
+                    <form id="myForm" method="post">
+                        <input hidden type="text" id="cheak" name="g_code" class="form-control form-control-lg" readonly="readonly" />
+                        <input hidden type="text" id="user" name="g_code" class="form-control form-control-lg" readonly="readonly" />
+
+                        <h2 class="title text-uppercase font-weight-bold m-0"><i class="fas fa-user mr-1"></i>Login</h2>
+                        <div class="form-group mb-3">
+                            <label style="color: white; font-family: 'Poppins',sans-serif">Mail ID</label>
+                            <div class="input-group">
+                                @*@Html.TextBoxFor(model => model.EmailId, new { @Type = "email", @class = "form-control form-control-lg", @autofocus = "True", @required = "true" })*@
+                                @Html.TextBoxFor(model => model.EmailId, new { @type = "email", IsReadOnly = "True", @class = "form-control", maxlength = "50", @autofocus = "True" })
+                                <span class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-sm-4 text-Ceneter">
+                                    <button type="button" id="code" name="code" class="btn btn-primary mt-2">Genarate Code</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <div class="clearfix">
+                                <label class="float-left" style="color: white; font-family: 'Poppins',sans-serif">Enter Code</label>
+                                @*<a href="pages-recover-password.html" class="float-right">Lost Password?</a>*@
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="g_code" name="g_code" class="form-control form-control-lg" required="true" readonly="readonly" />
+
+                                @* @Html.TextBoxFor(model => model.Code, new { @type = "password", @class = "form-control form-control-lg", @required = "true", @readonly = "readonly" })*@
+                                <span class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-4 text-right">
+                                <button id="Change_pass" name="refreshl" class="btn btn-primary mt-2">Change Passsword</button>
+                            </div>
+                            <div class="col-sm-4 text-right">
+                            </div>
+                                <div class="col-sm-4 text-right">
+                                    <a href="~/Home/Login" style="color: white; font-family: 'Poppins',sans-serif"> Login</a>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+
+        function show(id, value) {
+            document.getElementById(id).style.display = value ? 'block' : 'none';
+        }
+        $(document).ready(function () {
+            $("#loading").hide();
+        });
+        function load() {
+            $("#loading").show();
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Change_pass").on('click', function () {
+                // Get the dynamic value from the HTML element
+                var dynamicValue = $('#user').val();
+              
+
+                // Set the dynamic value in the form action
+                $('#myForm').attr('action', '/Home/PasswordReset?userno=' + dynamicValue);
+
+                // Submit the form using JavaScript
+                $('#myForm').submit();
+            });
+        });
+    </script>
+
+
+    <script>
+
+        $('#Change_pass').click(function () {
+            flag = 0;
+           @* alert("Enter valid  Posibility..!");*@
+              if ($('#g_code').val() == $('#cheak').val() || $('#cheak').val() == "" || $('#cheak').val() == null ) {
+                alert("Enter Valid Code..!");
+                  $('#g_code').focus();
+                return false;
+               }
+              else{
+                  var EmailId = $("#EmailId").val();
+                  var userno = $("#user").val();
+                
+                 @* window.location.href = "/Home/Newpass?userno=" + userno;*@
+               }
+
+
+        });
+
+        $('#code').click(function () {
+            flag = 0;
+           @* alert("Enter valid  Posibility..!");*@
+            if ($('#EmailId').val() == null || $('#EmailId').val() == "") {
+                alert("Enter Valid Mail..!");
+                $('#EmailId').focus();
+                return false;
+            }
+            else {
+                var EmailId = $("#EmailId").val()
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        EmailId: EmailId,
+
+                    },
+                    url: "/Home/GenerateCode",
+                    success: function (result) {
+
+                        if (result.random_number == 0) {
+                            alert("Email Id Not Found");
+                        }
+                        else {
+                            $('#cheak').val(result.random_number);
+                            $('#user').val(result.userno);
+                            $('#EmailId').prop('readonly', true);
+                            $('#g_code').prop('readonly', false);
+                        }
+
+
+                }
+                });
+            }
+
+
+        });
+
+
+        function CName() {
+            document.getElementById("CompName").value = document.getElementById("CompCode").value;
+        }
+        function CCode() {
+            document.getElementById("CompCode").value = document.getElementById("CompName").value;
+        }
+    </script>
+
+    <!--<script type="text/javascript">
+        var sel1 = document.querySelector('#sel1');
+        var sel2 = document.querySelector('#sel2');-->
+    @*  var options2 = sel2.querySelectorAll('option');*@
+    <!--function giveSelection(selValue) {
+            sel2.innerHTML = '';
+            for (var i = 0; i < options2.length; i++) {
+                if (options2[i].dataset.option === selValue) {
+                    sel2.appendChild(options2[i]);
+                }
+            }
+        }
+        giveSelection(sel1.value);
+    </script>-->
+    <!-- end: page -->
+    <!-- Vendor -->
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+    <script src="~/Content/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="~/Content/vendor/popper/umd/popper.min.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/Content/vendor/common/common.js"></script>
+    <script src="~/Content/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="~/Content/vendor/magnific-popup/jquery.magnific-popup.js"></script>
+    <script src="~/Content/vendor/jquery-placeholder/jquery-placeholder.js"></script>
+    <script src="~/Content/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+    <script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Scripts/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Scripts/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Scripts/js/theme.init.js"></script>
+
+    <!-- Examples -->
+    <script src="~/Scripts/js/examples/examples.advanced.form.js"></script>
+</body>
+</html>
+
+
+<!-- Design And Developed By Rohit 15-02-2025-->

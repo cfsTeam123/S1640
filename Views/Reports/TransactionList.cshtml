@@ -1,0 +1,310 @@
+﻿@using S1373.Models;
+@model S1373.Models.ReportListValidation
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    S1373Entities conn = new S1373Entities();
+    var CoumpanyList = (from CO in conn.Companies
+                        where CO.DeleteStatus == "N"
+                        select new
+                        {
+                            CompName = CO.CompName,
+                            Address1 = CO.Address1,
+                            Address2 = CO.Address2,
+                            Address3 = CO.Address3,
+                            GSTIN = CO.GSTIN,
+                            Email = CO.SalesEmail,
+                            Phone = CO.PhoneNo,
+                            CIN = CO.CIN,
+                            WebSite = CO.Website,
+                        }).FirstOrDefault();
+
+    var AllList = (from OM in conn.TransactionTables
+                   join CM in conn.CustomerMasters
+                   on OM.Customer equals CM.MTransNo
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       CustNo = OM.Customer,
+                       CustomerName = CM.CustomerName,
+                       ItemNo = OM.ItemNo,
+                       Item = OM.Item,
+                       //Unit = conn.ItemMasters.Where(x => x.MTransNo == OM.ItemNo).Select(x => x.Unit),
+                       Qty = OM.Qty,
+                       Location = OM.Location,
+                       Pallete = OM.ScanPalleteNo,
+                       UserName = (conn.UserMasters.Where(x => x.MTransNo == OM.AdminId).Select(x => x.EmployeeName).FirstOrDefault()),
+                       CreatedOn = OM.CreatedOn,
+                       NetWeight = OM.NetWeight,
+                       GrossWeight = OM.GrossWeight,
+                       ItemStatus = OM.ItemStatus,
+                       Operation = OM.Operation,
+                       WareHouse = OM.WareHouse,
+                   }).OrderBy(x => x.MTransNo).ToList();
+    if (Model.WareHouse != null)
+    {
+        AllList = (from OM in conn.TransactionTables
+                   join CM in conn.CustomerMasters
+                   on OM.Customer equals CM.MTransNo
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.WareHouse == Model.WareHouse
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       CustNo = OM.Customer,
+                       CustomerName = CM.CustomerName,
+                       ItemNo = OM.ItemNo,
+                       Item = OM.Item,
+                       //Unit = conn.ItemMasters.Where(x => x.MTransNo == OM.ItemNo).Select(x => x.Unit),
+                       Qty = OM.Qty,
+                       Location = OM.Location,
+                       Pallete = OM.ScanPalleteNo,
+                       UserName = (conn.UserMasters.Where(x => x.MTransNo == OM.AdminId).Select(x => x.EmployeeName).FirstOrDefault()),
+                       CreatedOn = OM.CreatedOn,
+                       NetWeight = OM.NetWeight,
+                       GrossWeight = OM.GrossWeight,
+                       ItemStatus = OM.ItemStatus,
+                       Operation = OM.Operation,
+                       WareHouse = OM.WareHouse,
+                   }).OrderBy(x => x.MTransNo).ToList();
+    }
+
+    // Fetching data based on Vendor and Item
+    if (Model.PartNo != null && Model.VendorNo != null && Model.ItemStatus == "ALL")
+    {
+        AllList = (from OM in conn.TransactionTables
+                   join CM in conn.CustomerMasters
+                   on OM.Customer equals CM.MTransNo
+                   where OM.ItemNo == Model.PartNo && OM.Customer == Model.VendorNo
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       CustNo = OM.Customer,
+                       CustomerName = CM.CustomerName,
+                       ItemNo = OM.ItemNo,
+                       Item = OM.Item,
+                       //Unit = conn.ItemMasters.Where(x => x.MTransNo == OM.ItemNo).Select(x => x.Unit),
+                       Qty = OM.Qty,
+                       Location = OM.Location,
+                       Pallete = OM.ScanPalleteNo,
+                       UserName = (conn.UserMasters.Where(x => x.MTransNo == OM.AdminId).Select(x => x.EmployeeName).FirstOrDefault()),
+                       CreatedOn = OM.CreatedOn,
+                       NetWeight = OM.NetWeight,
+                       GrossWeight = OM.GrossWeight,
+                       ItemStatus = OM.ItemStatus,
+                       Operation = OM.Operation,
+                       WareHouse = OM.WareHouse,
+                   }).OrderBy(x => x.MTransNo).ToList();
+
+
+    }
+
+    if (Model.ItemStatus != "ALL" && Model.PartNo != null && Model.VendorNo != null)
+    {
+        AllList = (from OM in conn.TransactionTables
+                   join CM in conn.CustomerMasters
+                   on OM.Customer equals CM.MTransNo
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.ItemStatus == Model.ItemStatus
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       CustNo = OM.Customer,
+                       CustomerName = CM.CustomerName,
+                       ItemNo = OM.ItemNo,
+                       Item = OM.Item,
+                       //Unit = conn.ItemMasters.Where(x => x.MTransNo == OM.ItemNo).Select(x => x.Unit),
+                       Qty = OM.Qty,
+                       Location = OM.Location,
+                       Pallete = OM.ScanPalleteNo,
+                       UserName = (conn.UserMasters.Where(x => x.MTransNo == OM.AdminId).Select(x => x.EmployeeName).FirstOrDefault()),
+                       CreatedOn = OM.CreatedOn,
+                       NetWeight = OM.NetWeight,
+                       GrossWeight = OM.GrossWeight,
+                       ItemStatus = OM.ItemStatus,
+                       Operation = OM.Operation,
+                       WareHouse = OM.WareHouse,
+                   }).OrderBy(x => x.MTransNo).ToList();
+    }
+
+    if (Model.VendorNo != null)
+    {
+        AllList = (from OM in conn.TransactionTables
+                   join CM in conn.CustomerMasters
+                   on OM.Customer equals CM.MTransNo
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.Customer == Model.VendorNo
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       CustNo = OM.Customer,
+                       CustomerName = CM.CustomerName,
+                       ItemNo = OM.ItemNo,
+                       Item = OM.Item,
+                       //Unit = conn.ItemMasters.Where(x => x.MTransNo == OM.ItemNo).Select(x => x.Unit),
+                       Qty = OM.Qty,
+                       Location = OM.Location,
+                       Pallete = OM.ScanPalleteNo,
+                       UserName = (conn.UserMasters.Where(x => x.MTransNo == OM.AdminId).Select(x => x.EmployeeName).FirstOrDefault()),
+                       CreatedOn = OM.CreatedOn,
+                       NetWeight = OM.NetWeight,
+                       GrossWeight = OM.GrossWeight,
+                       ItemStatus = OM.ItemStatus,
+                       Operation = OM.Operation,
+                       WareHouse = OM.WareHouse,
+                   }).OrderBy(x => x.MTransNo).ToList();
+    }
+    if (Model.PartNo != null)
+    {
+        AllList = (from OM in conn.TransactionTables
+                   join CM in conn.CustomerMasters
+                   on OM.Customer equals CM.MTransNo
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.ItemNo == Model.PartNo
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       CustNo = OM.Customer,
+                       CustomerName = CM.CustomerName,
+                       ItemNo = OM.ItemNo,
+                       Item = OM.Item,
+                       //Unit = conn.ItemMasters.Where(x => x.MTransNo == OM.ItemNo).Select(x => x.Unit),
+                       Qty = OM.Qty,
+                       Location = OM.Location,
+                       Pallete = OM.ScanPalleteNo,
+                       UserName = (conn.UserMasters.Where(x => x.MTransNo == OM.AdminId).Select(x => x.EmployeeName).FirstOrDefault()),
+                       CreatedOn = OM.CreatedOn,
+                       NetWeight = OM.NetWeight,
+                       GrossWeight = OM.GrossWeight,
+                       ItemStatus = OM.ItemStatus,
+                       Operation = OM.Operation,
+                       WareHouse = OM.WareHouse,
+                   }).OrderBy(x => x.MTransNo).ToList();
+    }
+
+    if (Model.ItemStatus != "ALL")
+    {
+        AllList = (from OM in conn.TransactionTables
+                   join CM in conn.CustomerMasters
+                   on OM.Customer equals CM.MTransNo
+                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.ItemStatus == Model.ItemStatus
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       CustNo = OM.Customer,
+                       CustomerName = CM.CustomerName,
+                       ItemNo = OM.ItemNo,
+                       Item = OM.Item,
+                       //Unit = conn.ItemMasters.Where(x => x.MTransNo == OM.ItemNo).Select(x => x.Unit),
+                       Qty = OM.Qty,
+                       Location = OM.Location,
+                       Pallete = OM.ScanPalleteNo,
+                       UserName = (conn.UserMasters.Where(x => x.MTransNo == OM.AdminId).Select(x => x.EmployeeName).FirstOrDefault()),
+                       CreatedOn = OM.CreatedOn,
+                       NetWeight = OM.NetWeight,
+                       GrossWeight = OM.GrossWeight,
+                       ItemStatus = OM.ItemStatus,
+                       Operation = OM.Operation,
+                       WareHouse = OM.WareHouse,
+                   }).OrderBy(x => x.MTransNo).ToList();
+    }
+
+
+
+
+}
+<title> Transaction Report(Date Range @string.Format("{0:dd-MM-yyyy}", Model.FromDate)  to  @string.Format("{0:dd-MM-yyyy}", Model.ToDate)) </title>
+<style>
+    h6, h4, h5, p {
+        margin: 0px;
+        padding: 0px;
+    }
+</style>
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>TRANSACTION REPORT</h2>
+        <div class="pt-1 text-right">
+            <a href="Index" class="btn btn-success btn-lg ">Back </a>
+        </div>
+    </header>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <section class="card">
+                <div class="card-body" style="margin-top: 60px;">
+                    <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                        <thead>
+                            <tr class="text-dark" style="text-align: center;">
+                                <th width="4%">S.No.</th>
+                                <th width="8%">Date</th>
+                                <th width="9%">Customer Name</th>
+                                <th width="7%">SKU Name</th>
+                                @*<th width="5%">Unit</th>*@
+                                <th width="5%">Qty.</th>
+                                <th width="5%">Net Weight</th>
+                                <th width="5%">Gross Weight.</th>
+                                <th width="6%">WareHouse</th>
+                                <th width="6%">Location</th>
+                                <th width="5%">Pallet No</th>
+                                <th width="5%">Status </th>
+                                <th width="5%">Operation </th>
+                                <th width="6%">User Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int rowNo = 0; }
+                            @foreach (var item in AllList)
+                            {
+
+                                <tr>
+                                    <td class="text-sm-right"><h6 style="margin-right:5px;">@(rowNo += 1)</h6></td>
+                                    <td class="text-sm-center"><h6>@string.Format("{0:dd-MM-yyyy}", @item.CreatedOn)</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@item.CustomerName</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;"> @item.Item</h6></td>
+                                    @*<td class="text-sm-left"><h6 style="margin-left:5px;"> @item.Unit</h6></td>*@
+                                    <td class="text-sm-right"><h6 style="margin-right:5px;">@item.Qty</h6></td>
+                                    <td class="text-sm-right"><h6 style="margin-right:5px;">@string.Format("{0:F2}", item.NetWeight)</h6></td>
+                                    <td class="text-sm-right"><h6 style="margin-right:5px;">@string.Format("{0:F2}", item.GrossWeight)</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@item.WareHouse</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@item.Location</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@item.Pallete</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@item.ItemStatus</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@item.Operation</h6></td>
+                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@item.UserName</h6></td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).on('click', '#backLink', function () {
+            history.go(-1);
+        });
+    </script>
+    <script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/vendor/datatables/extras/TableTools/Buttons-1.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/vendor/datatables/extras/TableTools/Buttons-1.4.2/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Content/vendor/datatables/extras/TableTools/Buttons-1.4.2/js/buttons.html5.min.js"></script>
+    <script src="~/Content/vendor/datatables/extras/TableTools/Buttons-1.4.2/js/buttons.print.min.js"></script>
+    <script src="~/Content/vendor/datatables/extras/TableTools/JSZip-2.5.0/jszip.min.js"></script>
+    <script src="~/Content/vendor/datatables/extras/TableTools/pdfmake-0.1.32/pdfmake.min.js"></script>
+    <script src="~/Content/vendor/datatables/extras/TableTools/pdfmake-0.1.32/vfs_fonts.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Scripts/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Scripts/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Scripts/js/theme.init.js"></script>
+
+    <!-- Examples -->
+    <script src="~/Scripts/js/examples/examples.datatables.default.js"></script>
+    <script src="~/Scripts/js/examples/examples.datatables.row.with.details.js"></script>
+    <script src="~/Scripts/js/examples/examples.datatables.tabletools.js"></script>
+
+</section>
+

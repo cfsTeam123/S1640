@@ -1,0 +1,276 @@
+﻿@using S1640.Models;
+@model S1640.Models.UserAuthorizationValidation
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    S1640Entities conn = new S1640Entities();
+    var ModuleLis = (from ML in conn.Menulists
+                     where ML.Department == Model.Dept
+                     select new
+                     {
+                         ModuleNo = ML.MTransNo,
+                         MSLNo = ML.MSLNo,
+                         ModuleType= ML.ModuleType,
+                         ModuleName = ML.ModuleName + " - " + ML.ModuleType,
+                         Department=ML.Department,
+                     }).OrderBy(x => x.ModuleType).ThenBy(x => x.MSLNo).ToList();
+    var User = (from B in conn.UserMasters
+                where B.DeleteStatus == "N" && B.MTransNo == Model.UserNo
+                select new
+                {
+                    UserName = B.UserName
+                }).FirstOrDefault();
+}
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<div id="loading"></div>
+<section role="main" class="content-body">
+    <form id="formGRN" action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+        @Html.AntiForgeryToken()
+        <header class="page-header">
+            <h2>User Authorizations</h2>
+            <div class="right-wrapper text-right" style="margin-right: 2%;">
+                <ol class="breadcrumbs">
+                    <li>
+                        <a href="Index">
+                            <i class="fas fa-list">   <span>&nbsp; Index</span></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Index" title="Home">
+                            <i class="fas fa-home"></i>
+                        </a>
+                    </li>
+
+                </ol>
+            </div>
+        </header>
+        <!-- start: page -->
+        <div class="row">
+            <div class="col">
+                <section class="card">
+                    <div class="card-body">
+                        <div id="SDisplay" style="margin-top:65px"></div>
+                        <div class="form-group row">
+                            <label class="col-lg-1 control-label text-lg-right pt-2" style="margin-left: 0px; padding-left: 0px; margin-right: 0px; padding-right: 0px;"> User Name </label>
+                            <div class="col-lg-2">
+                                <input type="hidden" class="form-control" id="UserNo1" value="@Model.UserNo" readonly />
+                                @if (User != null)
+                                {
+                                    @Html.HiddenFor(model => model.UserNo)
+                                    <input class="form-control" value="@User.UserName" readonly />
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.UserNo, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                    @Html.ValidationMessageFor(model => model.UserNo, "", new { style = "color: red" })
+                                }
+                            </div>
+                            @*<label class="col-lg-1 control-label text-lg-right pt-2" style="margin-left: 0px; padding-left: 0px; margin-right: 0px; padding-right: 0px;"> Department  </label>
+                            <div class="col-lg-2">
+                                @Html.DropDownListFor(model => model.Dept, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                @Html.ValidationMessageFor(model => model.Dept, "", new { style = "color: red" })
+                            </div>*@
+                            <label class="col-lg-2 control-label text-lg-right pt-2" style="margin-left: 0px; padding-left: 0px; margin-right: 0px; padding-right: 0px;"> Copy Data User Name </label>
+                            <div class="col-lg-2">                               
+                                @Html.DropDownListFor(model => model.CUserNo, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                @Html.ValidationMessageFor(model => model.CUserNo, "", new { style = "color: red" })
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="text-right">
+                                    <button type="submit" id="Add" name="Add" value="Add" class="col-lg-12 btn btn-primary">Module List</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div style="overflow-x:auto;" class="form-group row">
+                            <table class="table table-no-more table-bordered table-striped mb-0 table-responsive-sm" cellspacing="0" cellpadding="0" id="myTable">
+                                <thead>
+                                    <tr style=" background-color: dimgrey; color:white" class="text-center">
+                                        <th hidden width="5%">SNo</th>
+                                        <th width="40%">Module Name</th>
+                                        <th width="40%">Authorization Type</th>
+                                        <th width="15%">Select</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableCont">
+                                    @{ int rowNo = 0; }
+                                    @foreach (var item in ModuleLis)
+                                    {
+                                        var adoUserAuth = (from UA in conn.UserAuthorizations
+                                                           where UA.Dept == item.Department && UA.ModuleNo == item.ModuleNo && UA.UserNo == Model.UserNo && UA.BranchNo == Model.BranchNo
+                                                           select new
+                                                           {
+                                                               MTransNo = UA.MTransNo,
+                                                               AuthType = UA.AuthType,
+                                                           }).FirstOrDefault();
+                                        if (adoUserAuth != null)
+                                        {
+                                            <tr>
+                                                <td hidden class="text-center">@(rowNo += 1)</td>
+                                                <td class="text-left">@item.ModuleName</td>
+                                                <td class="text-left">
+                                                    <select class="form-control populate" style="background: transparent" id="AuthType">
+                                                        @if (adoUserAuth.AuthType == "F")
+                                                        {
+                                                            <option value="N">No Authorization</option>
+                                                            <option value="R">Read Only</option>
+                                                            <option selected value="F">Full Authorization</option>
+                                                        }
+                                                        else if (adoUserAuth.AuthType == "R")
+                                                        {
+                                                            <option value="N">No Authorization</option>
+                                                            <option selected value="R">Read Only</option>
+                                                            <option value="F">Full Authorization</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option selected value="N">No Authorization</option>
+                                                            <option value="R">Read Only</option>
+                                                            <option value="F">Full Authorization</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td class="text-center"></td>
+                                                <td hidden>@item.ModuleNo</td>
+                                                <td hidden>@adoUserAuth.MTransNo</td>
+                                                <td hidden>1</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td hidden class="text-center">@(rowNo += 1)</td>
+                                                <td class="text-left">@item.ModuleName</td>
+                                                <td class="text-left">
+                                                    <select class="form-control populate" style="background: transparent" id="AuthType">
+                                                        <option value="N">No Authorization</option>
+                                                        <option value="R">Read Only</option>
+                                                        <option selected value="F">Full Authorization</option>
+                                                    </select>
+                                                </td>
+                                                <td class="text-center"><button type="button" name="MSelect" id="MSelect" class="btn btn-primary MSelect btn-xs">Select</button></td>
+                                                <td hidden>@item.ModuleNo</td>
+                                                <td hidden>0</td>
+                                                <td hidden>0</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <hr />
+                        </div>
+                        <div class="col-sm-12  text-center" style=" margin-top :-10px;">
+                            <button type="button" id="TaxCal" name="TaxCal" value="TaxCal" class="btn btn-success btn-lg">Submit</button>
+                            <a href="Index" class="btn btn-danger btn-lg">Cancel</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </form>
+    <!-- end: page -->
+</section>
+<script>
+    $(document).ready(function () {
+        $("#loading").hide();
+        $("input:text").focus(function () { $(this).select(); });
+        $("#myTable").on('click', '.MSelect', function () {
+            var currentRow = $(this).closest("tr");
+            currentRow.find("td:eq(6)").text("1");
+            currentRow.find("td:eq(2) select").val("F");
+            currentRow.children('td,th').css('background-color', '#00ff90');
+        });
+        $('#TaxCal').click(function () {
+            $("#loading").show();
+            var GRNtransNo = 0;
+            var DtlData = "";
+            var Status = "";
+            var myTable = document.getElementById('myTable');
+            if ($("#UserNo1").val() > 0) {
+                Status = "Update"
+            }
+            else {
+                Status = ""
+            }
+            if ($('#UserNo1').val() == 0) {
+                alert("Select The User");
+                $('#UserNo1').focus();
+                $("#loading").hide();
+                exit
+            }
+            else if ($('#BranchNo').val() == 0) {
+                alert("Select The Branch");
+                $('#BranchNo').focus();
+                $("#loading").hide();
+                exit
+            }
+            else if ($('#Dept').val() == "") {
+                alert("Select The Department");
+                $('#Department').focus();
+                $("#loading").hide();
+                exit
+            }
+            else {
+                var JUserNo = $('#UserNo1').val();
+                var JDept = $('#Dept').val();
+                for (i = 1; i < myTable.rows.length; i++) {
+                    var inputs = myTable.rows.item(i).getElementsByTagName("select");
+                    var col1 = myTable.rows.item(i).cells.item(4).innerHTML; //ModuleNo
+                    var col2 = inputs[0].value; //AuthType
+                    var col3 = myTable.rows.item(i).cells.item(5).innerHTML; //MTransNo
+                    var col4 = myTable.rows.item(i).cells.item(6).innerHTML; //Status
+                    if (col1 == "" || col1 == null) {
+                        col1 = 0;
+                    }
+                    if (col3 == "" || col3 == null) {
+                        col3 = 0;
+                    }
+                    if (col4 == "" || col4 == null) {
+                        col4 = 0;
+                    }
+                    DtlData = DtlData + "~" + col1 + "^" + col2 + "^" + col3 + "^" + col4;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/UserAuth/SaveDtl",
+                    data:
+                    {
+                        UserNo: JUserNo,
+                        Dept: JDept,
+                        DtlString: DtlData,
+                        Status: Status
+                    },
+                    success: function (result) {
+                        GRNtransNo = result;
+                        $("#loading").hide();
+                        $("#formGRN :input").prop("disabled", false);
+                        window.location.href = "/UserAuth/AddEdit";
+                    },
+                    error: function (xhr, status, error) {
+                        $("#formGRN :input").prop("disabled", false);
+                        $("#loading").hide();
+                        alert(error);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>   
+    $('body').on('keydown', 'input, select', function (e) {
+        if (e.key === "Enter") {
+            var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+            focusable = form.find('input,a,select,button,textarea').filter(':visible');
+            next = focusable.eq(focusable.index(this) + 1);
+            if (next.length) {
+                next.focus();
+            } else {
+                form.submit();
+            }
+            return false;
+        }
+    });
+</script>
+@*@Html.Partial("_jsfooter")*@

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9ccbed7d1ea34e249c28ad77ecb05cbe" Name="Diagram1">
+        <EntityTypeShape EntityType="S1640.BinMaster" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="S1640.Company" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="S1640.EMSMsg" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="S1640.InawardTable" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="S1640.LiveStockData" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="S1640.Menulist" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="S1640.Transaction" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="S1640.UserAuthorization" Width="1.5" PointX="8.75" PointY="5.75" />
+        <EntityTypeShape EntityType="S1640.UserLogData" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="S1640.UserMaster" Width="1.5" PointX="4.75" PointY="9.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

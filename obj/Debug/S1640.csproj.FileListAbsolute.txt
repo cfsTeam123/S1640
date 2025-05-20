@@ -1,0 +1,166 @@
+E:\S1640\S1640\bin\S1640.dll.config
+E:\S1640\S1640\bin\S1640.dll
+E:\S1640\S1640\bin\S1640.pdb
+E:\S1640\S1640\bin\roslyn\csc.exe
+E:\S1640\S1640\bin\roslyn\csc.exe.config
+E:\S1640\S1640\bin\roslyn\csc.rsp
+E:\S1640\S1640\bin\roslyn\csi.exe
+E:\S1640\S1640\bin\roslyn\csi.exe.config
+E:\S1640\S1640\bin\roslyn\csi.rsp
+E:\S1640\S1640\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\S1640\S1640\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\S1640\S1640\bin\roslyn\Microsoft.Managed.Core.targets
+E:\S1640\S1640\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\S1640\S1640\bin\roslyn\Microsoft.Win32.Primitives.dll
+E:\S1640\S1640\bin\roslyn\System.AppContext.dll
+E:\S1640\S1640\bin\roslyn\System.Collections.Immutable.dll
+E:\S1640\S1640\bin\roslyn\System.Console.dll
+E:\S1640\S1640\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+E:\S1640\S1640\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\S1640\S1640\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\S1640\S1640\bin\roslyn\System.Globalization.Calendars.dll
+E:\S1640\S1640\bin\roslyn\System.IO.Compression.dll
+E:\S1640\S1640\bin\roslyn\System.IO.Compression.ZipFile.dll
+E:\S1640\S1640\bin\roslyn\System.IO.FileSystem.dll
+E:\S1640\S1640\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\S1640\S1640\bin\roslyn\System.Net.Http.dll
+E:\S1640\S1640\bin\roslyn\System.Net.Sockets.dll
+E:\S1640\S1640\bin\roslyn\System.Reflection.Metadata.dll
+E:\S1640\S1640\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+E:\S1640\S1640\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\S1640\S1640\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\S1640\S1640\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\S1640\S1640\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\S1640\S1640\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\S1640\S1640\bin\roslyn\System.Threading.Tasks.Extensions.dll
+E:\S1640\S1640\bin\roslyn\System.ValueTuple.dll
+E:\S1640\S1640\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\S1640\S1640\bin\roslyn\System.Xml.XmlDocument.dll
+E:\S1640\S1640\bin\roslyn\System.Xml.XPath.dll
+E:\S1640\S1640\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\S1640\S1640\bin\roslyn\vbc.exe
+E:\S1640\S1640\bin\roslyn\vbc.exe.config
+E:\S1640\S1640\bin\roslyn\vbc.rsp
+E:\S1640\S1640\bin\roslyn\VBCSCompiler.exe
+E:\S1640\S1640\bin\roslyn\VBCSCompiler.exe.config
+E:\S1640\S1640\bin\Antlr3.Runtime.dll
+E:\S1640\S1640\bin\EntityFramework.dll
+E:\S1640\S1640\bin\EntityFramework.SqlServer.dll
+E:\S1640\S1640\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\S1640\S1640\bin\Microsoft.Web.Infrastructure.dll
+E:\S1640\S1640\bin\Newtonsoft.Json.dll
+E:\S1640\S1640\bin\System.Web.Helpers.dll
+E:\S1640\S1640\bin\System.Web.Mvc.dll
+E:\S1640\S1640\bin\System.Web.Optimization.dll
+E:\S1640\S1640\bin\System.Web.Razor.dll
+E:\S1640\S1640\bin\System.Web.WebPages.Deployment.dll
+E:\S1640\S1640\bin\System.Web.WebPages.dll
+E:\S1640\S1640\bin\System.Web.WebPages.Razor.dll
+E:\S1640\S1640\bin\WebGrease.dll
+E:\S1640\S1640\bin\EntityFramework.xml
+E:\S1640\S1640\bin\EntityFramework.SqlServer.xml
+E:\S1640\S1640\bin\System.Web.Helpers.xml
+E:\S1640\S1640\bin\System.Web.Mvc.xml
+E:\S1640\S1640\bin\System.Web.Optimization.xml
+E:\S1640\S1640\bin\System.Web.Razor.xml
+E:\S1640\S1640\bin\System.Web.WebPages.xml
+E:\S1640\S1640\bin\System.Web.WebPages.Deployment.xml
+E:\S1640\S1640\bin\System.Web.WebPages.Razor.xml
+E:\S1640\S1640\bin\Newtonsoft.Json.xml
+E:\S1640\S1640\bin\Antlr3.Runtime.pdb
+E:\S1640\S1640\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\S1640\S1640\obj\Debug\S1640.csproj.AssemblyReference.cache
+E:\S1640\S1640\obj\Debug\S1640.csproj.CoreCompileInputs.cache
+E:\S1640\S1640\obj\Debug\S1640.csproj.CopyComplete
+E:\S1640\S1640\obj\Debug\S1640.dll
+E:\S1640\S1640\obj\Debug\S1640.pdb
+D:\Rohit\S1640\Latest Code\S1640\bin\S1640.dll.config
+D:\Rohit\S1640\Latest Code\S1640\bin\S1640.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\S1640.pdb
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\csc.exe
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\csc.exe.config
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\csc.rsp
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\csi.exe
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\csi.exe.config
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\csi.rsp
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.AppContext.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Collections.Immutable.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Console.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Globalization.Calendars.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.IO.Compression.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.IO.Compression.ZipFile.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.IO.FileSystem.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Net.Http.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Net.Sockets.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Reflection.Metadata.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Threading.Tasks.Extensions.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.ValueTuple.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Xml.XPath.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\vbc.exe
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\vbc.exe.config
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\vbc.rsp
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\VBCSCompiler.exe
+D:\Rohit\S1640\Latest Code\S1640\bin\roslyn\VBCSCompiler.exe.config
+D:\Rohit\S1640\Latest Code\S1640\bin\Antlr3.Runtime.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\EntityFramework.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\EntityFramework.SqlServer.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\Microsoft.Web.Infrastructure.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\Newtonsoft.Json.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Helpers.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Mvc.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Optimization.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Razor.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.WebPages.Deployment.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.WebPages.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.WebPages.Razor.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\WebGrease.dll
+D:\Rohit\S1640\Latest Code\S1640\bin\EntityFramework.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\EntityFramework.SqlServer.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Helpers.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Mvc.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Optimization.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.Razor.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.WebPages.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.WebPages.Deployment.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\System.Web.WebPages.Razor.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\Newtonsoft.Json.xml
+D:\Rohit\S1640\Latest Code\S1640\bin\Antlr3.Runtime.pdb
+D:\Rohit\S1640\Latest Code\S1640\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Rohit\S1640\Latest Code\S1640\obj\Debug\S1640.csproj.AssemblyReference.cache
+D:\Rohit\S1640\Latest Code\S1640\obj\Debug\S1640.csproj.CoreCompileInputs.cache
+D:\Rohit\S1640\Latest Code\S1640\obj\Debug\S1640.dll
+D:\Rohit\S1640\Latest Code\S1640\obj\Debug\S1640.pdb
+D:\Rohit\S1640\Latest Code\S1640\obj\Debug\S1640.csproj.CopyComplete

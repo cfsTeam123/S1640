@@ -1,0 +1,201 @@
+﻿@using S1640.Models;
+@model S1640.Models.UserValidation
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    S1640Entities conn = new S1640Entities();
+    string mUserType = Convert.ToString(Session["UserType"]);
+}
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<div id="loading"></div>
+
+<style>
+    #passwordMismatchError {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    #RePassword {
+        border-color: #ccc; /* Default border color */
+    }
+
+</style>
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Users</h2>
+        <div class="right-wrapper text-right" style="margin-right: 2%;">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="Index" >
+                        <i class="fas fa-list">   <span>&nbsp; Index</span></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="~/Home/Index" title="Home">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+
+            </ol>
+        </div>
+    </header>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <section class="card">               
+                <div class="card-body">
+                    <div id="SDisplay" style="margin-top:65px"></div>
+                    <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Address)
+
+                        <div class="row mb-3">
+                            <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> User Name</label>
+                            <div class="col-lg-3">
+                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", maxlength = "100" })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { style = "color: red" })
+                            </div>
+
+                            <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> Login Id</label>
+                            <div class="col-lg-3">
+                                @Html.TextBoxFor(model => model.UserId, new { @class = "form-control", maxlength = "20" })
+                                @Html.ValidationMessageFor(model => model.UserId, "", new { style = "color: red" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> Password</label>
+                            <div class="col-lg-3">
+                                @Html.TextBoxFor(model => model.PW, new { @type = "Password", @class = "form-control", maxlength = "20", id = "Password", @autofocus = "True" })
+                                @Html.ValidationMessageFor(model => model.PW, "", new { @class = "validation-message" })
+                            </div>
+
+                            <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> Re-Password</label>
+                            <div class="col-lg-3">
+                                @Html.TextBoxFor(model => model.RePW, new { @type = "Password", @class = "form-control", maxlength = "20", id = "RePassword", @autofocus = "True" })
+                                <span id="passwordMismatchError" class="validation-message" style="display: none; color: red;">Passwords do not match.</span>
+                                @Html.ValidationMessageFor(model => model.RePW, "", new { @class = "validation-message" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> User Access</label>
+                            <div class="col-lg-3">
+                                @Html.DropDownListFor(model => model.UserType, null, "", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.UserType, "", new { style = "color: red" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> Status</label>
+                            <div class="col-lg-3">
+                                @Html.DropDownListFor(model => model.LockStatus, null, "", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.LockStatus, "", new { style = "color: red" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                @Html.HiddenFor(model => model.MTransNo)
+                                <button type="submit" name="MainSubmit" id="MainSubmit" class="btn btn-success btn-lg">Submit</button>
+                                <a href="/user/Index" class="btn btn-danger btn-lg">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<script>
+    if (screen.width < 600) {
+        $('#SDisplay').hide();
+    }
+    else {
+        $('#SDisplay').show();
+    }
+    function show(id, value) {
+        document.getElementById(id).style.display = value ? 'block' : 'none';
+    }
+    $(document).ready(function () {
+        show('loading', false);
+    });
+    function secFuc() {
+        setTimeout(function () {
+            var act = document.activeElement.id;
+            if (act != "undefined") {
+                if (act != "MainSubmit") {
+                    $("#loading").hide();
+                }
+            }
+        }, 500);
+    }
+    $("#MainSubmit").click(function () {
+        show("loading", true);
+        secFuc();
+    });
+    $('body').on('keydown', 'input, select', function (e) {
+        if (e.key === "Enter") {
+            var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+            focusable = form.find('input,a,select,button,textarea').filter(':visible');
+            next = focusable.eq(focusable.index(this) + 1);
+            if (next.length) {
+                next.focus();
+            } else {
+                form.submit();
+            }
+            return false;
+        }
+    });
+    $(document).ready(function () {
+        // Live password match validation on input
+        $("#Password, #RePassword").on("input", checkPasswordMatch);
+
+        function checkPasswordMatch() {
+            var password = $("#Password").val();
+            var rePassword = $("#RePassword").val();
+
+            // If passwords do not match, show the error message and prevent form submission
+            if (password !== rePassword) {
+                $("#passwordMismatchError").show();
+                $("#RePassword").css("border-color", "red"); // Optional: red border for the "Re-Password" field
+                $("#MainSubmit").prop("disabled", true); // Disable submit button
+            } else {
+                $("#passwordMismatchError").hide();
+                $("#RePassword").css("border-color", ""); // Reset border color
+                $("#MainSubmit").prop("disabled", false); // Enable submit button
+            }
+        }
+
+        // Handle submit click with jQuery
+        $("#MainSubmit").click(function (event) {
+            var password = $("#Password").val();
+            var rePassword = $("#RePassword").val();
+
+            if (password !== rePassword) {
+                event.preventDefault(); // Prevent form submission
+                alert("Passwords do not match!"); // Optional: Alert message for user
+            } else {
+                // Optionally show loading indicator
+                show("loading", true);
+                secFuc();
+            }
+        });
+    });
+
+    // Function for showing loading indicator (You may have this function elsewhere)
+    function show(elementId, isVisible) {
+        if (isVisible) {
+            $("#" + elementId).show();
+        } else {
+            $("#" + elementId).hide();
+        }
+    }
+
+</script>
+@Html.Partial("_jsfooter")

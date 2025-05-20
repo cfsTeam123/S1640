@@ -1,0 +1,139 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Rohit\\S1640\\Latest Code\\S1640\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|d:\\rohit\\s1640\\latest code\\s1640\\controllers\\binmastercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|solutionrelative:controllers\\binmastercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|d:\\rohit\\s1640\\latest code\\s1640\\views\\binmaster\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|solutionrelative:views\\binmaster\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|d:\\rohit\\s1640\\latest code\\s1640\\views\\binmaster\\addedit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|solutionrelative:views\\binmaster\\addedit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|d:\\rohit\\s1640\\latest code\\s1640\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|D:\\Rohit\\S1640\\Latest Code\\S1640\\views\\inward\\addedit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|solutionrelative:views\\inward\\addedit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|D:\\Rohit\\S1640\\Latest Code\\S1640\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|d:\\rohit\\s1640\\latest code\\s1640\\controllers\\inwardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F56B569C-8D3D-415F-AE6D-BDC3429F179A}|S1640.csproj|solutionrelative:controllers\\inwardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Views\\BinMaster\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\BinMaster\\Index.cshtml",
+              "ToolTip": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Views\\BinMaster\\Index.cshtml",
+              "RelativeToolTip": "Views\\BinMaster\\Index.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADgAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-29T05:26:36.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AddEdit.cshtml",
+              "DocumentMoniker": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Views\\BinMaster\\AddEdit.cshtml",
+              "RelativeDocumentMoniker": "Views\\BinMaster\\AddEdit.cshtml",
+              "ToolTip": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Views\\BinMaster\\AddEdit.cshtml",
+              "RelativeToolTip": "Views\\BinMaster\\AddEdit.cshtml",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAJYAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-29T05:24:55.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BinMasterController.cs",
+              "DocumentMoniker": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\BinMasterController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BinMasterController.cs",
+              "ToolTip": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\BinMasterController.cs",
+              "RelativeToolTip": "Controllers\\BinMasterController.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAUwGwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-29T05:23:55.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "InwardController.cs",
+              "DocumentMoniker": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\InwardController.cs",
+              "RelativeDocumentMoniker": "Controllers\\InwardController.cs",
+              "ToolTip": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\InwardController.cs",
+              "RelativeToolTip": "Controllers\\InwardController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-29T05:23:44.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AddEdit.cshtml",
+              "DocumentMoniker": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Views\\Inward\\AddEdit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Inward\\AddEdit.cshtml",
+              "ToolTip": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Views\\Inward\\AddEdit.cshtml",
+              "RelativeToolTip": "Views\\Inward\\AddEdit.cshtml",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAIwNQAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-25T06:17:01.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAwwBYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-29T05:17:28.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\Rohit\\S1640\\Latest Code\\S1640\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAMQAAAAAAAAAAAAIwMwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T03:42:38.179Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+﻿@using S1640.Models;
+@{
+    Layout = null;
+    S1640Entities conn = new S1640Entities();
+    var AllList = conn.ErrorLogDatas.Where(x => x.DeleteStatus == "N").OrderByDescending(x => x.MTransNo).FirstOrDefault();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="~/Content/img/C_icon.png">
+    <title>Error.</title>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <meta name="keywords" content="CREINTORS" />
+    <meta name="description" content="Creintors Automation Solutions Pvt. Ltd.">
+    <meta name="author" content="Creintors">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Web Fonts  -->
+    <link href="~/fonts/css.css" rel="stylesheet" />
+    @Html.Partial("_jsHeader")
+</head>
+<body>
+    <div class="col-lg-12">
+       
+        <div align="center" class="h1 font-weight-bold col-lg-12" style="color:red;">
+            Error.
+        </div>
+        <div align="center" class="h2 col-lg-12" style="color:red;">
+            Oops, something went wrong..! <br /> Please contact system administrator.
+            <br />  <br />
+        </div>
+        @if (AllList != null)
+        {
+            <div align="left"  class="h5 col-lg-12" style="border:1px solid; color: #076eb7;">
+                @AllList.Message;
+            </div>
+            <div align="left" class="h5 col-lg-12" style="border: 1px solid; color: #076eb7; ">
+                @AllList.StackTrace;
+            </div>
+        }
+        <div align="center" class="col-lg-12">
+            <br />
+            <a href="~/Home/Index" class="btn btn-info col-md-2 btn-lg h3">OK</a>
+        </div>
+    </div>
+</body>
+</html>

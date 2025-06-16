@@ -73,28 +73,28 @@ namespace S1640.Controllers
         // Method to generate barcode
         public JsonResult GenerateBarcode()
         {
-            try
-            {
-                S1640Entities db = new S1640Entities();
-                // Get the last used barcode from the database
-                var lastBarcode = db.BinMasters.OrderByDescending(b => b.BarCode).FirstOrDefault();
-                // Start from SR5001 if there are no existing barcodes
-                int barcodeNumber = 5001;
-                if (lastBarcode != null)
+                try
                 {
-                    // Extract the numeric part of the last barcode (after 'SR')
-                    var lastBarcodeNumber = int.Parse(lastBarcode.BarCode.Substring(2));
-                    barcodeNumber = lastBarcodeNumber + 1;
+                    S1640Entities db = new S1640Entities();
+                    // Get the last used barcode from the database
+                    var lastBarcode = db.BinMasters.OrderByDescending(b => b.BarCode).FirstOrDefault();
+                    // Start from SR5001 if there are no existing barcodes
+                    int barcodeNumber = 5001;
+                    if (lastBarcode != null)
+                    {
+                        // Extract the numeric part of the last barcode (after 'SR')
+                        var lastBarcodeNumber = int.Parse(lastBarcode.BarCode.Substring(2));
+                        barcodeNumber = lastBarcodeNumber + 1;
+                    }
+                    // Generate the barcode
+                    string newBarcode = "SR" + barcodeNumber;
+                    // Return the generated barcode and the MTransNo back to the AddEdit
+                    return Json(new { success = true, barcode = newBarcode });
                 }
-                // Generate the barcode
-                string newBarcode = "SR" + barcodeNumber;
-                // Return the generated barcode and the MTransNo back to the AddEdit
-                return Json(new { success = true, barcode = newBarcode });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, error = ex.Message });
-            }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, error = ex.Message });
+                }
         }
         public ActionResult DtlDelete(int MTransNo = 0)
         {

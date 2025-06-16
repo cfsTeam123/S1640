@@ -4,6 +4,10 @@
     S1640Entities conn = new S1640Entities();
     var AllList = conn.BinMasters.OrderBy(x => x.MTransNo).ToList();
 }
+
+<!-- JsBarcode CDN -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
 <table class="table table-bordered table-striped mb-0" id="MyTable" width="100%">
     <thead>
         <tr align="center">
@@ -30,48 +34,79 @@
                 {
                     <td align="center">Inactive</td>
                 }
-              
-            <td align="center">
-            @*<a href="javascript:void(0);" class="btn btn-danger DtlDelete btn-xs" data-toggle="tooltip" title="Delete" data-MTransNo="@item.MTransNo">
-                <i class="far fa-trash-alt"></i>*@
-                <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary DtlDelete btn-xs" data-toggle="tooltip" title="Edit">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-</td>
+                <td align="center">
+                    <button type="button" class="btn btn-success btn-sm printBarcodeBtn" data-barcode="@item.BarCode">Print Barcode</button>
+                    <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary DtlDelete btn-xs" data-toggle="tooltip" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
+<!-- Barcode Display Section -->
+<div id="barcodeContainer" style="display: none; margin-top: 20px; text-align: center;">
+    <h5>Generated Barcode:</h5>
+    <svg id="barcode"></svg>
+    <button id="printBarcode" class="btn btn-primary mt-2">Print</button>
+</div>
+
+<!-- Edit/Delete Script -->
 <script type="text/javascript">
-    // When the delete button is clicked
-  $(".DtlDelete").click(function (e) {
-    e.preventDefault(); // Prevent the default link action
-
-    // Get MTransNo from the hidden <td> (which is in the same row as the button)
-    var MTransNo = $(this).closest('tr').find('td:eq(2)').text(); // Assuming MTransNo is in the 3rd <td>
-    var confirmation = confirm("Do you really want to edit this item?");
-    if (confirmation) {
-        // If the user confirms, perform the deletion by redirecting to the delete URL
-        window.location.href = '@Url.Action("DtlDelete", "BinMaster")?MTransNo=' + MTransNo;
-       
-    }
-  });
-
-
+    $(".DtlDelete").click(function (e) {
+        e.preventDefault();
+        var MTransNo = $(this).closest('tr').find('td:eq(2)').text();
+        var confirmation = confirm("Do you really want to edit this item?");
+        if (confirmation) {
+            window.location.href = '@Url.Action("DtlDelete", "BinMaster")?MTransNo=' + MTransNo;
+        }
+    });
 </script>
+
+<!-- Barcode Generation & Print Script -->
+<script>
+    $(document).ready(function () {
+        $(".printBarcodeBtn").click(function () {
+            var barcodeValue = $(this).data("barcode");
+
+            // Generate barcode
+            JsBarcode("#barcode", barcodeValue, {
+                format: "CODE128",
+                width: 2,
+                height: 60,
+                displayValue: true
+            });
+
+            $("#barcodeContainer").show();
+        });
+
+        $("#printBarcode").click(function () {
+            var printWindow = window.open('', '_blank');
+            var barcodeSVG = document.getElementById("barcode").outerHTML;
+
+            printWindow.document.write(`
+                <html>
+                <head><title>Print Barcode</title></head>
+                <body style="text-align:center; margin-top:50px;">
+                    ${barcodeSVG}
+                </body>
+                </html>
+            `);
+
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        });
+    });
+</script>
+
+<!-- DataTables and Theme Scripts -->
 <script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
-
-<!-- Theme Base, Components and Settings -->
 <script src="~/Scripts/js/theme.js"></script>
-
-<!-- Theme Custom -->
 <script src="~/Scripts/js/custom.js"></script>
-
-<!-- Theme Initialization Files -->
 <script src="~/Scripts/js/theme.init.js"></script>
-
-<!-- Examples -->
 <script src="~/Scripts/js/examples/examples.datatables.tabletools.js"></script>
 <script src="~/Scripts/js/examples/examples.datatables.ajax.js"></script>

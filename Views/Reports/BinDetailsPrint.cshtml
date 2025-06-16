@@ -19,7 +19,7 @@
                             CIN = CO.CIN,
                             WebSite = CO.Website,
                         }).FirstOrDefault();
-
+    //var AllList1=conn.BinMasters.Where
     var AllList = (from OM in conn.Transactions
                    join CM in conn.BinMasters
                    on OM.BarCode equals CM.BarCode

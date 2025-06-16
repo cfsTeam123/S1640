@@ -9,7 +9,10 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<div id="loading"></div>
+<div id="loader" >
+    <span class="loader-text">loading</span>
+    <span class="load"></span>
+</div>
 
 <style>
     #passwordMismatchError {
@@ -113,6 +116,13 @@
     </div>
 </section>
 <script>
+    $(document).ready(function () {
+        $("#loader").show();
+    
+    });
+</script>
+<script>
+    show("loader", true);
     if (screen.width < 600) {
         $('#SDisplay').hide();
     }
@@ -123,20 +133,20 @@
         document.getElementById(id).style.display = value ? 'block' : 'none';
     }
     $(document).ready(function () {
-        show('loading', false);
+        show('loader', false);
     });
     function secFuc() {
         setTimeout(function () {
             var act = document.activeElement.id;
             if (act != "undefined") {
                 if (act != "MainSubmit") {
-                    $("#loading").hide();
+                    $("#loader").hide();
                 }
             }
         }, 500);
     }
     $("#MainSubmit").click(function () {
-        show("loading", true);
+        show("loader", true);
         secFuc();
     });
     $('body').on('keydown', 'input, select', function (e) {
@@ -153,6 +163,7 @@
         }
     });
     $(document).ready(function () {
+        $('#loder').show();
         // Live password match validation on input
         $("#Password, #RePassword").on("input", checkPasswordMatch);
 
@@ -182,7 +193,7 @@
                 alert("Passwords do not match!"); // Optional: Alert message for user
             } else {
                 // Optionally show loading indicator
-                show("loading", true);
+                show("loader", true);
                 secFuc();
             }
         });
@@ -197,5 +208,32 @@
         }
     }
 
+
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('#UserId').on('input', function () {
+            var userId = $('#UserId').val(); // keep it as string
+            $.ajax({
+                url: "/User/UserIdCheck",
+                data: { UserId: userId },
+                success: function (result) {
+                    if (result === true) {
+
+                        alert("User Already Exist");
+                        $('#UserId').val('');
+                        // You can show a green checkmark, message, etc.
+                    } else {
+                        console.log("UserId does not exist.");
+                        // Show error or warning
+                    }
+                },
+                error: function () {
+                    console.log("Something went wrong in the AJAX call.");
+                }
+            });
+        });
+    });
 </script>
 @Html.Partial("_jsfooter")

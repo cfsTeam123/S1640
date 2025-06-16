@@ -138,5 +138,11 @@ namespace S1640.Controllers
             }
             return "Delete";
         }
+        public JsonResult UserIdCheck(string UserId)
+        {
+            S1640Entities conn = new S1640Entities();
+            bool exists = conn.UserMasters.Any(s => s.UserId == UserId);
+            return Json(exists, JsonRequestBehavior.AllowGet);
+        }
     }
 }

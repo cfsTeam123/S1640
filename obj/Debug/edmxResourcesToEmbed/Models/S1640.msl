@@ -204,5 +204,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Inward" FunctionName="S1640.Store.SP_Inward" />
   </EntityContainerMapping>
 </Mapping>

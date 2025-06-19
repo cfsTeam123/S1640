@@ -137,6 +137,7 @@
     <Compile Include="Controllers\BinMasterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InwardController.cs" />
+    <Compile Include="Controllers\CleaningAreaController.cs" />
     <Compile Include="Controllers\OutwardController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\UserAuthController.cs" />
@@ -241,6 +242,7 @@
     <Content Include="Content\img\arrows.png" />
     <Content Include="Content\img\ASRS.png" />
     <Content Include="Content\img\Automation_Expo2019.jpg" />
+    <Content Include="Content\img\BarCode.png" />
     <Content Include="Content\img\blog-image-1.jpg" />
     <Content Include="Content\img\blog-image-2.jpg" />
     <Content Include="Content\img\blog-image-3.jpg" />
@@ -4721,6 +4723,7 @@
     <Content Include="Views\Reports\OutwardReportPrint.cshtml" />
     <Content Include="Views\Reports\TransactionList.cshtml" />
     <Content Include="Views\BinMaster\Index.cshtml" />
+    <Content Include="Views\CleaningArea\AddEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

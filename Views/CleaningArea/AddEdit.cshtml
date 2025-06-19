@@ -1,0 +1,154 @@
+﻿@using S1640.Models
+@model S1640.Models.InwardValidation
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    S1640Entities conn = new S1640Entities();
+    string mUserType = Convert.ToString(Session["UserType"]);
+
+    // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
+    var AllList = conn.InawardTables.Where(s => s.Status == "Unclean").ToList();
+}
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<!-- Toastify CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<!-- Toastify JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Inward</h2>
+        <div class="right-wrapper text-right" style="margin-right: 2%;">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="~/Home/Index" title="Home">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+            </ol>
+        </div>
+    </header>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <section class="card">
+                <div class="card-body">
+                    <div id="SDisplay" style="margin-top:65px"></div>
+                    <div id="customToast" class="custom-toast"></div>
+                    <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover mb-0" id="MyTable">
+                                        <thead class="text-center">
+                                            <tr>
+                                                <th hidden></th>
+                                                <th width="5%">SL No</th>
+                                                <th width="20%">BarCode</th>
+                                                <th width="10%">Bin Condition</th>
+                                                <th width="10%">Bin Wash Status</th>
+                                                <th width="10%">Bin Fill Status</th>
+                                                <th width="10%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableCont">
+                                            @{
+                                                int rowNo = 0;
+                                            }
+                                            @foreach (var item in AllList)
+                                            {
+                                                var enqmst = conn.InawardTables.FirstOrDefault(x => x.MTransNo == item.MTransNo);
+                                                <tr>
+                                                    <td class="mtrans-no" hidden>@item.MTransNo</td>
+                                                    <td class="text-center">@(++rowNo)</td>
+                                                    <td>@item.BarCode</td>
+                                                    <td>@item.BinCondition</td>
+                                                    <td>@item.BinWash</td>
+                                                    @*<td>
+                                                            <select name="BinWashStatusList" class="form-control form-control-sm">
+                                                                <option value="Clean" @(item.BinWash == "Clean" ? "selected" : "")>Clean</option>
+                                                                <option value="Unclean" @(item.BinWash == "Unclean" ? "selected" : "")>Unclean</option>
+                                                            </select>
+                                                        </td>*@
+                                                    <td>@item.BinFillStatus</td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" name="DtlCheckList" value="@item.MTransNo" class="form-check-input DtlCheck" />
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit and Cancel Buttons -->
+                        <div class="form-group row mt-4">
+                            <div class="col text-center">
+                                <button type="submit" id="MainSubmit" class="btn btn-success btn-lg">Submit</button>
+                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ml-2">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("#MainSubmit").click(function (e) {
+            e.preventDefault(); // Prevent default form submit
+
+            var dataList = [];
+
+            $("#MyTable tbody tr").each(function () {
+                var mtransNo = $(this).find("td:eq(0)").text().trim(); // hidden field
+                var isChecked = $(this).find("input[name='DtlCheckList']").is(":checked");
+
+                dataList.push({
+                    mtransNo: mtransNo,
+                    isChecked: isChecked
+                });
+            });
+            console.log("dataList", dataList);
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/CleaningArea/UpdateData",
+            //    contentType: "application/json",
+            //    data: JSON.stringify({ items: dataList }),
+            //    success: function (result) {
+            //        console.log("Success:", result);
+            //        // handle success
+            //    },
+            //    error: function (xhr, status, error) {
+            //        console.error("Error:", error);
+            //        // handle error
+            //    }
+            //});
+            $.ajax({
+                type: "POST",
+                url: "/CleaningArea/UpdateData",
+                contentType: "application/json",
+                data: JSON.stringify(dataList), // sending raw array
+                success: function (result) {
+                    console.log("Success:", result);
+                    alert("Data updated successfully.");
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+    });
+
+</script>
+
+
+@Html.Partial("_jsfooter")

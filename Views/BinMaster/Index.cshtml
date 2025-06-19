@@ -2,7 +2,7 @@
 @using S1640.Models;
 @{
     S1640Entities conn = new S1640Entities();
-    var AllList = conn.BinMasters.OrderBy(x => x.MTransNo).ToList();
+    var AllList = conn.BinMasters.OrderBy(x => x.MTransNo).Take(30).ToList();
 }
 
 <!-- JsBarcode CDN -->
@@ -46,11 +46,11 @@
 </table>
 
 <!-- Barcode Display Section -->
-<div id="barcodeContainer" style="display: none; margin-top: 20px; text-align: center;">
+<!--<div id="barcodeContainer" style="display: none; margin-top: 20px; text-align: center;">
     <h5>Generated Barcode:</h5>
     <svg id="barcode"></svg>
     <button id="printBarcode" class="btn btn-primary mt-2">Print</button>
-</div>
+</div>-->
 
 <!-- Edit/Delete Script -->
 <script type="text/javascript">

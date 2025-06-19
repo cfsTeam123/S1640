@@ -106,5 +106,66 @@ namespace S1640.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UserMaster", iD, mTransNoParameter, mCountParameter, userNameParameter, addressParameter, userIdParameter, pWParameter, userTypeParameter, contactNoParameter, emailIdParameter, pWExpiryParameter, badLoginsParameter, lockStatusParameter, createdByParameter, createdOnParameter, subscIDParameter, statusParameter);
         }
+    
+        public virtual int SP_Inward(Nullable<int> mTransNo, Nullable<System.DateTime> docDate, Nullable<System.DateTime> docDate2, string barCode, string binCondition, string binWash, string binFillStatus, Nullable<int> createdBy, Nullable<System.DateTime> createdOn, string status, Nullable<int> modifiedBy, Nullable<System.DateTime> modifiedOn, Nullable<int> docNO, string status1)
+        {
+            var mTransNoParameter = mTransNo.HasValue ?
+                new ObjectParameter("MTransNo", mTransNo) :
+                new ObjectParameter("MTransNo", typeof(int));
+    
+            var docDateParameter = docDate.HasValue ?
+                new ObjectParameter("DocDate", docDate) :
+                new ObjectParameter("DocDate", typeof(System.DateTime));
+    
+            var docDate2Parameter = docDate2.HasValue ?
+                new ObjectParameter("DocDate2", docDate2) :
+                new ObjectParameter("DocDate2", typeof(System.DateTime));
+    
+            var barCodeParameter = barCode != null ?
+                new ObjectParameter("BarCode", barCode) :
+                new ObjectParameter("BarCode", typeof(string));
+    
+            var binConditionParameter = binCondition != null ?
+                new ObjectParameter("BinCondition", binCondition) :
+                new ObjectParameter("BinCondition", typeof(string));
+    
+            var binWashParameter = binWash != null ?
+                new ObjectParameter("BinWash", binWash) :
+                new ObjectParameter("BinWash", typeof(string));
+    
+            var binFillStatusParameter = binFillStatus != null ?
+                new ObjectParameter("BinFillStatus", binFillStatus) :
+                new ObjectParameter("BinFillStatus", typeof(string));
+    
+            var createdByParameter = createdBy.HasValue ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(int));
+    
+            var createdOnParameter = createdOn.HasValue ?
+                new ObjectParameter("CreatedOn", createdOn) :
+                new ObjectParameter("CreatedOn", typeof(System.DateTime));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var modifiedByParameter = modifiedBy.HasValue ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(int));
+    
+            var modifiedOnParameter = modifiedOn.HasValue ?
+                new ObjectParameter("ModifiedOn", modifiedOn) :
+                new ObjectParameter("ModifiedOn", typeof(System.DateTime));
+    
+            var docNOParameter = docNO.HasValue ?
+                new ObjectParameter("DocNO", docNO) :
+                new ObjectParameter("DocNO", typeof(int));
+    
+            var status1Parameter = status1 != null ?
+                new ObjectParameter("Status1", status1) :
+                new ObjectParameter("Status1", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inward", mTransNoParameter, docDateParameter, docDate2Parameter, barCodeParameter, binConditionParameter, binWashParameter, binFillStatusParameter, createdByParameter, createdOnParameter, statusParameter, modifiedByParameter, modifiedOnParameter, docNOParameter, status1Parameter);
+        }
     }
 }

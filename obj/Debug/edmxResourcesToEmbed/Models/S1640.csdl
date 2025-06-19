@@ -30,6 +30,22 @@
     <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
     <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
     <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
+    <FunctionImport Name="SP_Inward">
+      <Parameter Name="MTransNo" Mode="In" Type="Int32" />
+      <Parameter Name="DocDate" Mode="In" Type="DateTime" />
+      <Parameter Name="DocDate2" Mode="In" Type="DateTime" />
+      <Parameter Name="BarCode" Mode="In" Type="String" />
+      <Parameter Name="BinCondition" Mode="In" Type="String" />
+      <Parameter Name="BinWash" Mode="In" Type="String" />
+      <Parameter Name="BinFillStatus" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="ModifiedBy" Mode="In" Type="Int32" />
+      <Parameter Name="ModifiedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="DocNO" Mode="In" Type="Int32" />
+      <Parameter Name="Status1" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="BinMaster">
     <Key>

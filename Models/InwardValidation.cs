@@ -19,12 +19,10 @@ namespace S1640.Models
         public string BarCode { get; set; }
         //[Required(ErrorMessage = "Please select valid values from Dropdown")]
         public string BinCondition { get; set; }
-        public string BinWash { get; set; }
+        public string BinClean { get; set; }
         public string BinFillStatus { get; set; }
        // [Required(ErrorMessage = "Please Enter The Remarks")]
-        public string Remarks1 { get; set; }
-       // [Required(ErrorMessage = "Please Enter The Remarks")]
-        public string Remarks2 { get; set; }
+        public string Remarks { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string Status { get; set; }

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\S1640\S1640\Models\S1640.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\S1640\Latest Code\S1640\Models\S1640.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

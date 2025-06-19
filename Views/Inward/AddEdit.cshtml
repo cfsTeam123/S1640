@@ -6,17 +6,40 @@
     S1640Entities conn = new S1640Entities();
     string mUserType = Convert.ToString(Session["UserType"]);
     // Calculate the time difference of 10 minutes from now
-    DateTime time = DateTime.Now.AddMinutes(-3);
+    DateTime time = DateTime.Now.AddMinutes(-100);
 
     // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
-    var AllList = conn.InawardTables
-                      .Where(s => s.DocDate >= time)
-                      .ToList();
+    var AllList = conn.InawardTables.Where(s => s.DocDate >= time).ToList();
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<!-- Toastify CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
+<!-- Toastify JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<style>
+    .custom-toast {
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        border-radius: 10px;
+        padding: 20px 28px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        min-width: 400px;
+        text-align: center;
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: none;
+    }
+
+</style>
 <section role="main" class="content-body">
     <header class="page-header">
         <h2>Inward</h2>
@@ -36,64 +59,34 @@
             <section class="card">
                 <div class="card-body">
                     <div id="SDisplay" style="margin-top:65px"></div>
+                    <div id="customToast" class="custom-toast"></div>
                     <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                         @Html.AntiForgeryToken()
 
                         <div class="form-group row">
-                            @*<label class="col-lg-1 control-label  text-lg-right pt-2">
-                                <span class="required">*</span>Bar Code
-                            </label>
+                            <!-- Bin Wash Dropdown -->
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Wash Status </label>
                             <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BarCode, (SelectList)ViewBag.BarCode, "", new { @class = "form-control populate", @autofocus = "True" })
-                                @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
-                            </div>*@
-                            
-                    @* SCAN BARCODE*@ 
-
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
-                            <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", id = "BarCodeInput", placeholder = "Scan or Enter Barcode" })
-                                @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
-                            </div>    
-                        </div>
-                        <div class="form-group row">
+                                @Html.DropDownListFor(model => model.BinClean, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                @Html.ValidationMessageFor(model => model.BinClean, "", new { style = "color: red" })
+                            </div>
                             <label class="col-lg-1 control-label   text-lg-right pt-2"><span class="required">*</span>Bin Condition</label>
                             <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BinCondition, (SelectList)ViewBag.BinConditions, "Select Bin Condition", new { @class = "form-control populate", @autofocus = "True", id = "BinCondition" })
+                                @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control", data_plugin_selecttwo = "" })
                                 @Html.ValidationMessageFor(model => model.BinCondition, "", new { style = "color: red" })
                             </div>
-
-                            <!-- Bin Wash Dropdown -->
-                            <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                <span class="required">*</span>Bin Wash Status
-                            </label>
-                            <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BinWash, (SelectList)ViewBag.BinWashes, "Select Bin Wash", new { @class = "form-control populate", @autofocus = "True", id = "BinWash" })
-                                @Html.ValidationMessageFor(model => model.BinWash, "", new { style = "color: red" })
-                            </div>
-
                             <!-- Bin Fill Status Dropdown -->
-                            <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                <span class="required">*</span>Bin Fill Status
-                            </label>
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Fill Status  </label>
                             <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BinFillStatus, (SelectList)ViewBag.BinFillStatuses, "Select Bin Fill Status", new { @class = "form-control populate", @autofocus = "True", id = "BinFillStatus" })
+                                @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", id = "BinFillStatus" })
                                 @Html.ValidationMessageFor(model => model.BinFillStatus, "", new { style = "color: red" })
                             </div>
                         </div>
-                      
                         <div class="form-group row">
-                            <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                Remarks
-                            </label>
-                            <div class="col-lg-7">
-                                @Html.TextBoxFor(model => model.Remarks1, new { @class = "form-control", @maxlength = "500" })
-                                @Html.ValidationMessageFor(model => model.Remarks1, "", new { @class = "validation-message" })
-                            </div>
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
                             <div class="col-lg-3">
-                                @Html.HiddenFor(model => model.MTransNo)
-                               @* @Html.HiddenFor(model => model.InwardNo)*@
-                                <button type="submit" name="Add" id="addDtl" class="btn btn-success btn-lg">Add</button>
+                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
+                                @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
                             </div>
                         </div>
                         <div class="form-group row">
@@ -106,7 +99,6 @@
                                         <th width="7%">Bin Condition</th>
                                         <th width="7%">Bin Wash Status</th>
                                         <th width="7%">Bin Fill Status</th>
-                                        <th width="30%">Remarks</th>
                                         <th width="15%">Action</th>
                                     </tr>
                                 </thead>
@@ -125,22 +117,15 @@
                                             <td>@item.BinCondition</td>
                                             <td>@item.BinWash</td>
                                             <td>@item.BinFillStatus</td>
-                                            <td>@item.Remarks1</td>
                                             <td class=" text-sm-center">
-
                                                 @if (enqmst != null)
                                                 {
-                                                    @* <button type="button" name="" value="@item.TransSlNo" id="" class="btn btn-primary  btn-xs"><i class="fas fa-pencil-alt"></i></button>*@
                                                     <button type="button" name="DtlEdit" value="@item.MTransNo" id="DtlEdit" class="btn btn-primary DtlEdit btn-xs"><i class="fas fa-pencil-alt"></i></button>
-                                                    //<a data-toggle="tooltip" title="Delete" class="btn btn-danger btn-xs" onclick="alert('Deletion is locked');" href="#"><i class="far fa-trash-alt"></i></a>
                                                 }
                                                 else
                                                 {
                                                     <button type="button" name="DtlEdit" value="@item.MTransNo" id="DtlEdit" class="btn btn-primary DtlEdit btn-xs"><i class="fas fa-pencil-alt"></i></button>
-                                                    //<button type="button" name="DtlDelete" value="@item.MTransNo" id="DtlDelete" data-toggle="tooltip" title="Delete" class="btn btn-danger DtlDelete btn-xs"><i class="fa fa-trash-alt"></i></button>
-                                                    @*<a href="DtlDelete?TransSlNo=@item.TransSlNo" id="DtlDet" title="Delete" class="btn btn-danger btn-xs DtlDet"><i class="fas fa-trash-alt"></i></a>*@
                                                 }
-
                                             </td>
                                         </tr>
                                     }
@@ -164,139 +149,73 @@
         </div>
     </div>
 </section>
-
-
 <script>
     $(document).ready(function () {
-
-
-        //$('form').submit(function (e) {
-        //    var binCondition = $('#BinCondition').val();
-        //    var binWash = $('#BinWash').val();
-        //    var binFillStatus = $('#BinFillStatus').val();
-
-        //    // Check if Bin Condition is "Good" and if fields are not selected
-        //    if (binCondition === 'Good' && (binWash === "" || binFillStatus === "")) {
-        //        e.preventDefault();  // Prevent form submission
-        //        alert("Please select both Bin Wash and Bin Fill Status");
-        //    }
-        //});
-        // Check initial state
-        //toggleBinStatusFields();
-        $('#BinCondition').change(function () {
-            toggleBinStatusFields();
-        });
-
-        function toggleBinStatusFields() {
-            var binCondition = $('#BinCondition').val();
-
-            // Enable/Disable Bin Wash and Bin Fill Status based on Bin Condition
-            if (binCondition === 'Good') {
-                $('#BinWash').prop('disabled', false);  // Enable Bin Wash
-                $('#BinFillStatus').prop('disabled', false);  // Enable Bin Fill Status
-            } else if (binCondition === 'Broken') {
-                $('#BinWash').val('').prop('disabled', true);         // Clear value and disable Bin Wash
-                $('#BinFillStatus').val('').prop('disabled', true);   // Clear value and disable Bin Fill Status
-                alert("Bin is broken"); // Show alert for broken condition
-            } else {
-                $('#BinWash').prop('disabled', true);  // Disable Bin Wash
-                $('#BinFillStatus').prop('disabled', true);  // Disable Bin Fill Status
-            }
-        }
-        
-
-        $(document).ready(function () {
-            // When the barcode scanner inputs a barcode or the user types it
-            $('#BarCodeInput').on('input', function () {
-                var scannedBarcode = $(this).val();
-                // Handle the scanned barcode (you can perform actions here if needed)
-                console.log('Scanned Barcode:', scannedBarcode);
-                // Optionally, set the barcode number to some hidden field or use for validation, etc.
-                // For example, if you want to store it in a hidden field for further processing:
-                $('#ScannedBarcode').val(scannedBarcode);
-            });
-        });
-            $("#MyTable").on('click', '.DtlEdit', function () {
-                /*     event.preventDefault();*/
-               /* alert("Hiii");*/
-                var currentRow = $(this).closest("tr");
-                var MTransNo = currentRow.find("td:eq(0)").html();
-
-                $.ajax({
-                    type: "GET",
-                    data: { MTransNo: MTransNo },
-                    url: "/Inward/AddEdit",
-                    success: function (result) {
-                        console.log(result);
-                        $('#BarCodeInput').val(result.BarCode);
-                        $('#MTransNo').val(result.MTransNo);
-                        //$("#BinCondition").val(result.BinCondition);
-                        //$("#BinWash").val(result.BinWash);
-                        //$("#BinFillStatus").val(result.BinFillStatus);
-                        $("#Remarks1").val(result.Remarks1);
-                        if (result.BinCondition == "Broken")
-                        {
-                            $('#BinWash').val('').prop('disabled', true);         // Clear value and disable Bin Wash
-                            $('#BinFillStatus').val('').prop('disabled', true);   // Clear value and disable Bin Fill Status
-                        }
-                        $('#BinCondition').val(result.BinCondition);
-                        $('#BinWash').val(result.BinWash);
-                        $('#BinFillStatus').val(result.BinFillStatus);
-                        $("#select2-BinCondition-container").html(result.BinCondition);
-                        $("#select2-BinWash-container").html(result.BinWash);
-                        $("#select2-BinFillStatus-container").html(result.BinFillStatus);
-                    }
-                });
-            });
-        // Event listener for the submit button click
-        document.getElementById('submitBtn').addEventListener('click', function (event) {
-            // Get the table body element by ID (the part containing the rows)
-            var tableBody = document.getElementById('tableCont');
-
-            // Check the number of rows in the table body (excluding the header row)
-            if (tableBody.rows.length === 0) {
-                // If there are no rows, prevent the form submission
-                event.preventDefault();
-
-                // Show an alert if the table is empty
-                alert('Please add data before submitting.');
-            } else {
-                // If the table is not empty, navigate to the home page
-                window.location.href = '/Home/Index'; // Redirect to the home page (index)
-            }
-        });
-
-        $('#addDtl').click(function () {
-            var x = $('#BarCodeInput').val();
-            alert(x);
-            var Y = $('#BinCondition').val();
-            alert(Y);
-            var binCondition = $('#BinCondition').val();
-            var binWash = $('#BinWash').val();
+        $('#BarCode').blur(function () {
+            //$('#BarCode').on('input', function () {
+            var MTransNo = $('#MTransNo').val();
+            var condition = $('#BinCondition').val();
+            var binclean = $('#BinClean').val();
             var binFillStatus = $('#BinFillStatus').val();
+            var barcode = $('#BarCode').val();
+            $.ajax({
+                type: "POST",
+                url: "/Inward/AddData",
+                data: {
+                    MTransNo: MTransNo,
+                    condition: condition,
+                    binclean: binclean,
+                    binfillstatus: binFillStatus,
+                    barcode: barcode
+                },
+                success: function (result) {
+                    if (result == "Exist") {
+                        $('#customToast').text("This barcode has already been scanned or loaded. Please check and try again.").fadeIn(300).delay(4000).fadeOut(400);
+                    }
+                    else if (result == "Success")
+                    {
+                        console.log("Data saved successfully.");
+                        location.reload();
+                    } else if (result == "NotExist")
+                    {
+                        $('#customToast').text("Invalid barcode: Not available in BinMaster data.").fadeIn(300).delay(4000).fadeOut(400);
 
-            // Check if Bin Condition is "Good" and if fields are not selected
-            if (binCondition === 'Good' && (binWash === "" || binFillStatus === "")) {
-                alert("Please select both Bin Wash and Bin Fill Status");
-                $('#BinWash').focus();
-                return false;
-            }
-            if (x == 0 || x == "") {
-                alert("Please Scan The  BarCode");
-                $('#BarCode').focus();
-                return false;
-            }
-            else if (Y == 0 || x == null || x == "") {
-                alert("Please Select The Bin Condition");
-                $('#BinCondition').focus();
-                return false;
-            }
+                    }
+                   
+                    // Optionally show a success message or reload data
+                },
+                error: function (err) {
+                    console.error("Error saving data:", err);
+                }
+            });
+        });
+    });
+    $("#MyTable").on('click', '.DtlEdit', function () {
+        /*     event.preventDefault();*/
+        /* alert("Hiii");*/
+        var currentRow = $(this).closest("tr");
+        var MTransNo = currentRow.find("td:eq(0)").html();
 
-            else {
-                return true;
+        $.ajax({
+            type: "GET",
+            data: { MTransNo: MTransNo },
+            url: "/Inward/AddEdit",
+            success: function (result) {
+                console.log(result);
+                $('#BarCode').val(result.BarCode);
+                $('#MTransNo').val(result.MTransNo);
+                //$("#BinCondition").val(result.BinCondition);
+                //$("#BinWash").val(result.BinWash);
+                //$("#BinFillStatus").val(result.BinFillStatus);
+                $("#Remarks1").val(result.Remarks1);
+                $('#BinCondition').val(result.BinCondition);
+                $('#BinWash').val(result.BinWash);
+                $('#BinFillStatus').val(result.BinFillStatus);
+                $("#select2-BinCondition-container").html(result.BinCondition);
+                $("#select2-BinWash-container").html(result.BinWash);
+                $("#select2-BinFillStatus-container").html(result.BinFillStatus);
             }
         });
     });
 </script>
-
 @Html.Partial("_jsfooter")

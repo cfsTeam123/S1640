@@ -67,7 +67,7 @@ namespace S1640.Controllers
                 {
                     // Update the existing entity
                     existingEntity.DocDate2 = DateTime.Now;
-                    existingEntity.Remarks2 = model.Remarks2;
+                    existingEntity.Remarks2 = model.Remarks;
                     existingEntity.Status = "UNLOADED";
                     existingEntity.ModifiedOn = DateTime.Now;
                     existingEntity.ModifiedBy = Convert.ToByte(Session["Userid"]);
@@ -85,8 +85,8 @@ namespace S1640.Controllers
                         BarCode = existingEntity.BarCode,
                         BinCondition = model.BinCondition,
                         BinFillStatus = model.BinFillStatus,
-                        BinWash = model.BinWash,
-                        Remarks1 = model.Remarks2,
+                        BinWash = model.BinClean,
+                        Remarks1 = model.Remarks,
                         CreatedBy = Convert.ToByte(Session["Userid"]),
                         DocDate = DateTime.Now,
                         CreatedOn = DateTime.Now,

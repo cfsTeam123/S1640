@@ -192,6 +192,22 @@
     <Property Name="loginDate" Type="date" />
     <Property Name="EmailId" Type="varchar" MaxLength="50" />
   </EntityType>
+  <Function Name="SP_Inward" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="MTransNo" Type="int" Mode="In" />
+    <Parameter Name="DocDate" Type="datetime" Mode="In" />
+    <Parameter Name="DocDate2" Type="datetime" Mode="In" />
+    <Parameter Name="BarCode" Type="varchar" Mode="In" />
+    <Parameter Name="BinCondition" Type="varchar" Mode="In" />
+    <Parameter Name="BinWash" Type="varchar" Mode="In" />
+    <Parameter Name="BinFillStatus" Type="varchar" Mode="In" />
+    <Parameter Name="CreatedBy" Type="int" Mode="In" />
+    <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="ModifiedBy" Type="int" Mode="In" />
+    <Parameter Name="ModifiedOn" Type="datetime" Mode="In" />
+    <Parameter Name="DocNO" Type="int" Mode="In" />
+    <Parameter Name="Status1" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="SP_UserMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ID" Type="int" Mode="InOut" />
     <Parameter Name="MTransNo" Type="int" Mode="In" />

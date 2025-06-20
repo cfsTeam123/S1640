@@ -31,6 +31,7 @@ namespace S1640.Controllers
                 BinMaster RS = db.BinMasters.Where(x => x.MTransNo == MTransNo).FirstOrDefault();
                 binMaster.BarCode = RS.BarCode;
                 binMaster.Status = RS.Status;
+                binMaster.MTransNo=RS.MTransNo;
                 return View(binMaster);
             }
             else
@@ -68,7 +69,7 @@ namespace S1640.Controllers
                 var mTransNo = binMaster.MTransNo;
                
             }
-            return RedirectToAction("AddEdit", "BinMaster");
+            return RedirectToAction("Index", "BinMaster");
         }
         // Method to generate barcode
         public JsonResult GenerateBarcode()

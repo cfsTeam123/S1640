@@ -59,7 +59,7 @@
                         <div class="row mb-3">
                             <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> User Name</label>
                             <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", maxlength = "100" })
+                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", maxlength = "100" , @autofocus = "True" })
                                 @Html.ValidationMessageFor(model => model.UserName, "", new { style = "color: red" })
                             </div>
 
@@ -73,13 +73,13 @@
                         <div class="row mb-3">
                             <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> Password</label>
                             <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.PW, new { @type = "Password", @class = "form-control", maxlength = "20", id = "Password", @autofocus = "True" })
+                                @Html.TextBoxFor(model => model.PW, new { @type = "Password", @class = "form-control", maxlength = "20", id = "Password"})
                                 @Html.ValidationMessageFor(model => model.PW, "", new { @class = "validation-message" })
                             </div>
 
                             <label class="col-lg-2 col-form-label text-lg-right"><span class="required">*</span> Re-Password</label>
                             <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.RePW, new { @type = "Password", @class = "form-control", maxlength = "20", id = "RePassword", @autofocus = "True" })
+                                @Html.TextBoxFor(model => model.RePW, new { @type = "Password", @class = "form-control", maxlength = "20", id = "RePassword" })
                                 <span id="passwordMismatchError" class="validation-message" style="display: none; color: red;">Passwords do not match.</span>
                                 @Html.ValidationMessageFor(model => model.RePW, "", new { @class = "validation-message" })
                             </div>
@@ -213,7 +213,7 @@
 <script>
     $(document).ready(function () {
 
-        $('#UserId').on('input', function () {
+        $('#UserId').on('blur', function () {
             var userId = $('#UserId').val(); // keep it as string
             $.ajax({
                 url: "/User/UserIdCheck",

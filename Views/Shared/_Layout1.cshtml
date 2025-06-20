@@ -1,0 +1,458 @@
+﻿@RenderSection("scripts", required: false)
+@using S1640.Models;
+@{
+    S1640Entities conn = new S1640Entities();
+    int UserNo = Convert.ToInt32(Session["Userid"]);
+    int mSubscID = Convert.ToByte(Session["SubscID"]);
+    string UserType = Convert.ToString(Session["UserType"]);
+    string CompName = "";
+    string mEmail = "";
+    string SoftwareType = "";
+    DateTime TodayDate = DateTime.Now;
+    var user = conn.UserMasters.Where(x => x.MTransNo == UserNo).FirstOrDefault();
+    if (user != null)
+    {
+        Session["Userid"] = user.MTransNo;
+        Session["SubscID"] = mSubscID;
+        Session["UserType"] = user.UserType;
+
+        //var Branch = (from B in conn.BranchMasters
+        //              where B.DeleteStatus == "N" && B.MTransNo == mSubscID
+        //              select new
+        //              {
+        //                  BranchType = B.BranchType
+        //              }).FirstOrDefault();
+        //if (Branch != null)
+        //{
+        //    Session["BranchType"] = Branch.BranchType;
+        //}
+
+        var Comp = conn.Companies.FirstOrDefault();
+        if (Comp != null)
+        {
+            Session["CompNo"] = Comp.MTransNo;
+            Session["CompName"] = Comp.CompName;
+            Session["CStateCode"] = Comp.StateCode;
+            Session["CompCode"] = Comp.CompCode;
+            Session["CYear"] = 2021;
+            CompName = Comp.CompName;
+            mEmail = Comp.GeneralEmail;
+        }
+    }
+    else
+    {
+        Response.Redirect("~/Home/Login");
+    }
+    int SubscID = Convert.ToByte(Session["SubscID"]);
+    var User = conn.UserMasters.Where(x => x.MTransNo == UserNo).FirstOrDefault();
+    //var BCode = (from M in conn.BranchMasters
+    //             where M.MTransNo == SubscID
+    //             select new
+    //             {
+    //                 BranchCode = M.BranchCode,
+    //             }).FirstOrDefault();
+}
+<!DOCTYPE html>
+<html class="fixed sidebar-left-collapsed">
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="~/Content/img/C_icon.png">
+    <title>WMS</title>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <meta name="keywords" content="CREINTORS" />
+    <meta name="description" content="Creintors Automation Solutions Pvt. Ltd.">
+    <meta name="author" content="Creintors">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Web Fonts  -->
+    <link href="~/fonts/css.css" rel="stylesheet" />
+    @Html.Partial("_jsHeader")
+
+    <style>
+
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+            .autocomplete-items div {
+                padding: 3px;
+                cursor: pointer;
+                background-color: #fff;
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+                /*when hovering an item:*/
+                .autocomplete-items div:hover {
+                    background-color: #e9e9e9;
+                }
+
+        /*when navigating through the items using the arrow keys:*/
+        .autocomplete-active {
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+    </style>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .notification {
+            background-color: rgba(192, 192, 192, 0.82);
+            color: white;
+            text-decoration: none;
+            padding: 6px 8px;
+            position: relative;
+            display: inline-block;
+            border-radius: 70%;
+        }
+
+            .notification:hover {
+                background: blue;
+            }
+
+            .notification .badge {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                padding: 5px 5px;
+                border-radius: 70%;
+                background-color: red;
+                color: white;
+            }
+    </style>
+</head>
+<!-- Custom Loading Wrapper -->
+
+
+<body>
+    <header class="header header-nav-menu header-nav-top-line">
+        <div class="row" style="width:100%; margin:0px; padding:0px;">
+            <div class="col-lg-5" style="margin:0px; padding:0px;">
+                <a href="~/Home/Index" class="logo text-center">
+                    <font size="6"><b>@SoftwareType</b></font><br />
+                </a>
+            </div>
+            @*<div class="row col-lg-7" style="margin:0px; padding:0px;">
+
+                </div>*@
+            <div class="col-lg-7 header-right text-right fixedHeader-locked" style="margin:-1px; padding:0px">
+                <div id="userbox" class="userbox">
+                    <a href="#" data-toggle="dropdown">
+                        <figure class="profile-picture">
+                            <img src="~/Content/img/C_icon.png" alt="Creintors Teknosol Private Limited" class="rounded-circle" data-lock-picture="img/!logged-user.jpg" />
+                        </figure>
+
+                        <div class="profile-info" data-lock-name="@CompName" data-lock-email="@mEmail" data-lock-picture="~/Content/img/C_icon.png">
+                            <span class="name">@CompName</span>
+                            <span class="role">@User.UserId</span>
+                        </div>
+                        <i class="fa custom-caret"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul class="list-unstyled mb-2">
+                            <li class="divider"></li>
+                            @*<li>
+                                    <a role="menuitem" tabindex="-1" href="/Company/Index"><i class="fas fa-user"></i> My Profile</a>
+                                </li>*@
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="/Home/ChangePassword"><i class="fas fa-user-lock"></i> Change Password</a>
+                            </li>
+                            @*<li>
+                                    <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fas fa-lock"></i> Lock Screen</a>
+                                </li>*@
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="/Home/LogOut"><i class="fas fa-power-off"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <h6 id="time" style="margin-right:15px; margin-top:5px;"> Session ends in 30:00</h6>
+            </div>
+            <div style="margin-top:-5px; margin-right:10px;" class="d-md-none toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+                <i class="fas fa-bars" aria-label="Toggle sidebar"></i>
+            </div>
+        </div>
+    </header>
+    <!-- end: header -->
+    <!-- start: sidebar -->
+    <section>
+        <aside id="sidebar-left" class="sidebar-left">
+            <div class="sidebar-header">
+                <div class="sidebar-toggle d-none d-md-block" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+                    <i class="fas fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+            </div>
+            <div class="nano">
+                <div class="nano-content">
+                    <nav id="menu" class="nav-main" role="navigation">
+                        <ul class="nav nav-main">
+                            <li>
+                                <a class="nav-link" href="~/Home/Index">
+                                    <i class="fas fa-home" aria-hidden="true"></i>
+                                    <span>HOME</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="~/Home/DashBoard">
+                                    <i class="fas fa-desktop" aria-hidden="true"></i>
+                                    <span>DASHBOARD</span>
+                                </a>
+                            </li>
+                            <li class="nav-parent">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-cogs" aria-hidden="true"></i>
+                                    <span>INBOUND OPERATIONS</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    @{
+                                        var AllList1 = (from MO in conn.Menulists
+                                                        where MO.ModuleType == "INBOUND OPERATIONS"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        if (User.UserType != "ADMIN")
+                                        {
+                                            AllList1 = (from UA in conn.UserAuthorizations
+                                                        join MO in conn.Menulists
+                                                        on UA.ModuleNo equals MO.MTransNo
+                                                        where MO.ModuleType == "INBOUND OPERATIONS" && UA.UserNo == UserNo && UA.AuthType != "N"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        }
+                                    }
+                                    @foreach (var item in AllList1)
+                                    {
+                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                    }
+                                </ul>
+                            </li>
+                            <li class="nav-parent">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-cogs" aria-hidden="true"></i>
+                                    <span>OUTBOUND OPERATIONS</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    @{
+
+                                        var AllList4 = (from MO in conn.Menulists
+                                                        where MO.ModuleType == "OUTBOUND OPERATIONS"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        if (User.UserType != "ADMIN")
+                                        {
+                                            AllList4 = (from UA in conn.UserAuthorizations
+                                                        join MO in conn.Menulists
+                                                        on UA.ModuleNo equals MO.MTransNo
+                                                        where MO.ModuleType == "OUTBOUND OPERATIONS" && UA.UserNo == UserNo && UA.AuthType != "N"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        }
+                                    }
+                                    @foreach (var item in AllList4)
+                                    {
+                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                    }
+                                </ul>
+                            </li>
+                            <li class="nav-parent">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-th-list" aria-hidden="true"></i>
+                                    <span>REPORTS</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    @{
+                                        var AllList2 = (from MO in conn.Menulists
+                                                        where MO.ModuleType == "REPORTS"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        if (User.UserType != "ADMIN")
+                                        {
+                                            AllList2 = (from UA in conn.UserAuthorizations
+                                                        join MO in conn.Menulists
+                                                        on UA.ModuleNo equals MO.MTransNo
+                                                        where MO.ModuleType == "REPORTS" && UA.UserNo == UserNo && UA.AuthType != "N"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        }
+                                    }
+                                    @foreach (var item in AllList2)
+                                    {
+                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                    }
+                                </ul>
+                            </li>
+                            <li class="nav-parent">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-user-lock" aria-hidden="true"></i>
+                                    <span>ADMINISTRATION</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    @{
+                                        var AllList3 = (from MO in conn.Menulists
+                                                        where MO.ModuleType == "ADMINISTRATION"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        if (User.UserType != "ADMIN")
+                                        {
+                                            AllList3 = (from UA in conn.UserAuthorizations
+                                                        join MO in conn.Menulists
+                                                        on UA.ModuleNo equals MO.MTransNo
+                                                        where MO.ModuleType == "ADMINISTRATION" && UA.UserNo == UserNo && UA.AuthType != "N"
+                                                        select new
+                                                        {
+                                                            SlNo = MO.MSLNo,
+                                                            ModuleName = MO.ModuleName,
+                                                            ModulePage = MO.ModulePage,
+                                                            ModuleLink = MO.ModuleLink
+                                                        }).OrderBy(x => x.SlNo).ToList();
+                                        }
+                                    }
+                                    @foreach (var item in AllList3)
+                                    {
+                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                    }
+                                </ul>
+                            </li>
+                            @if (UserNo == 18)
+                            {
+                                <li class="nav-parent">
+                                    <a class="nav-link" href="#">
+                                        <i class="fas fa-user-cog" aria-hidden="true"></i>
+                                        <span>SETUP</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a class="nav-link" href="/Company/Index">Company</a>
+                                        </li>
+                                        @*<li>
+                                                <a class="nav-link" href="/BranchMaster/Index">Branches</a>
+                                            </li>*@
+                                        @*<li>
+                                                <a class="nav-link" href="/user/Index">Users</a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" href="/UserAuth/Index">User Authorization</a>Initialize
+                                            </li>*@
+                                        <li>
+                                            <a class="nav-link" href="/CategoryLinkingMaster/AddEdit">Category Linking</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="/Home/Initialize">Machine Initialize</a>
+                                        </li>
+
+                                        <li>
+                                            <a class="nav-link" href="/ConfigurationMaster/AddEdit">Configuration Master</a>
+                                        </li>
+
+                                        <li>
+                                            <a class="nav-link" href="/Storage/Index">Storage Area</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+    </section>
+    <script>
+        var modNms;
+        var modLks;
+        window.addEventListener("load", function (evt) {
+            var fift = 60 * 30,
+                display = document.querySelector('#time');
+            startTimer(fift, display);
+        });
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = "Session ends in " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                    window.location.href = "/Home/LogOut";
+                }
+            }, 1000);
+        }
+    </script>
+    <!-- end: sidebar -->
+    <!-- Vendor -->
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+    <script src="~/Content/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="~/Content/vendor/popper/umd/popper.min.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/vendor/common/common.js"></script>
+    <script src="~/Content/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="~/Content/vendor/magnific-popup/jquery.magnific-popup.js"></script>
+    <script src="~/Content/vendor/jquery-placeholder/jquery-placeholder.js"></script>
+
+    <!-- Specific Page Vendor -->
+    <script src="~/Content/vendor/jquery-appear/jquery-appear.js"></script>
+    <script src="~/Content/vendor/owl.carousel/owl.carousel.js"></script>
+    <script src="~/Content/vendor/isotope/isotope.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Scripts/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Scripts/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Scripts/js/theme.init.js"></script>
+    <script src="~/Scripts/js/examples/examples.advanced.form.js"></script>
+    @RenderBody()
+</body>
+</html>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -48,27 +50,33 @@ namespace S1640.Controllers
             string Status1 = MTransNo > 0 ? "Update" : "Insert"; 
             int mUserNo1 = MTransNo > 0 ? mUserNo : 0;
             DateTime? Modifiedon = MTransNo > 0 ? DateTime.Now : (DateTime?)null;
+            if (barcode == "") 
+                return View();
 
             var DocDate = DateTime.Now;
             var DocDate2 = DateTime.Now;
             var Createdon = DateTime.Now;
             var Status = binclean == "Clean" ? "Clean" : "Unclean";
-            var BarcodeExist=db.InawardTables.Where(s=>s.BarCode==barcode).FirstOrDefault();
-            int mTransNo = MTransNo > 0 ? MTransNo : 0;
+            var BarcodeExist=db.InawardTables.Where(s=>s.BarCode==barcode ).FirstOrDefault();
+           // int  mTransNo = MTransNo > 0 ? MTransNo : 0;
             if (BarcodeExist == null || Status1== "Update")
             {
-                var barcodeExists = db.BinMasters.FirstOrDefault(s => s.BarCode == barcode);
+                var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == barcode && s.Status != "N").Select(s=>s.MTransNo).FirstOrDefault();
+                var barcodeExists = db.BinMasters.FirstOrDefault(s => s.BarCode == barcode && s.Status != "N");
                 if (barcodeExists != null)
                 {
                     try
                     {
-                        db.SP_Inward(mTransNo, DocDate, DocDate2, barcode,condition,binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, 0, Status1);
+                       // System.Data.Entity.Core.Objects.ObjectParameter mID = new System.Data.Entity.Core.Objects.ObjectParameter("MTransNo", typeof(Int32));
+                        var mTransNo = new ObjectParameter("MTransNo", 0); // treated as input-output
+                        db.SP_Inward(mTransNo, DocDate, DocDate2, barcode,condition,binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo, Status1);
+                        var mtr = Convert.ToInt32(mTransNo.Value);
+                        db.SP_Transaction(0, mtr, DocDate,barcode,condition,binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo);
                     }
                     catch
                     {
                     }
                     //int generatedTransNo = (int)mTransNo.Value;
-                    // You can return this value if needed
                 }
                 else
                 {
@@ -81,6 +89,31 @@ namespace S1640.Controllers
                 return Json("Exist", JsonRequestBehavior.AllowGet);
             }
             return Json("Success", JsonRequestBehavior.AllowGet);
+        }
+        public static int GetInwardNo(int InwardNo)
+        {
+            using (var db = new S1640Entities())
+            {
+                // Input parameter
+                var inputParam = new SqlParameter("@InputInwardNo", InwardNo);
+
+                // Output parameter
+                var outputParam = new SqlParameter
+                {
+                    ParameterName = "@MTransNo",
+                    SqlDbType = SqlDbType.Int,
+                    Direction = ParameterDirection.Output
+                };
+
+                // Call the stored procedure
+                db.Database.ExecuteSqlCommand(
+                    "EXEC SP_GetInwardNo @InputInwardNo, @MTransNo OUTPUT",
+                    inputParam, outputParam
+                );
+
+                // Return the output value
+                return (int)outputParam.Value;
+            }
         }
 
     }

@@ -17,10 +17,49 @@
 
 <!-- Toastify JS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<style>
+    .custom-toast {
+        background: linear-gradient(to right, #00c9ff, #92fe9d); /* Unique: cyan to mint green */
+        border-radius: 10px;
+        padding: 20px 28px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        min-width: 400px;
+        text-align: center;
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: none;
+    }
+    .custom-toast1 {
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        border-radius: 10px;
+        padding: 20px 28px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        min-width: 400px;
+        text-align: center;
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: none;
+    }
 
+
+</style>
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Inward</h2>
+        <h2>Cleaning Area</h2>
         <div class="right-wrapper text-right" style="margin-right: 2%;">
             <ol class="breadcrumbs">
                 <li>
@@ -37,7 +76,8 @@
             <section class="card">
                 <div class="card-body">
                     <div id="SDisplay" style="margin-top:65px"></div>
-                    <div id="customToast" class="custom-toast"></div>
+                    <div id="customToast" class="custom-toast"></div>   
+                    <div id="customToast1" class="custom-toast1"></div>
                     <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                         @Html.AntiForgeryToken()
                         <div class="form-group row">
@@ -111,42 +151,40 @@
                 var mtransNo = $(this).find("td:eq(0)").text().trim(); // hidden field
                 var isChecked = $(this).find("input[name='DtlCheckList']").is(":checked");
 
+                //Pushing data in list
                 dataList.push({
                     mtransNo: mtransNo,
                     isChecked: isChecked
                 });
             });
-            console.log("dataList", dataList);
-            //$.ajax({
-            //    type: "POST",
-            //    url: "/CleaningArea/UpdateData",
-            //    contentType: "application/json",
-            //    data: JSON.stringify({ items: dataList }),
-            //    success: function (result) {
-            //        console.log("Success:", result);
-            //        // handle success
-            //    },
-            //    error: function (xhr, status, error) {
-            //        console.error("Error:", error);
-            //        // handle error
-            //    }
-            //});
+
+            // Check if any checkbox is checked
+            var hasChecked = dataList.some(function (item) {
+                return item.isChecked;
+            });
+
+            if (!hasChecked) {
+                $('#customToast1').text("Please check at least one item.").fadeIn(300).delay(4000).fadeOut(400);
+                return; // Exit without AJAX
+            }
+            
             $.ajax({
                 type: "POST",
                 url: "/CleaningArea/UpdateData",
                 contentType: "application/json",
-                data: JSON.stringify(dataList), // sending raw array
+                data: JSON.stringify(dataList),
                 success: function (result) {
                     console.log("Success:", result);
-                    alert("Data updated successfully.");
-                    location.reload();
+                    $('#customToast').text("The bin is updated as Clean").fadeIn(300).delay(4000).fadeOut(400);
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", error);
                 }
             });
+        location.reload();
         });
     });
+
 
 </script>
 

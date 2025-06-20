@@ -6,27 +6,63 @@
     S1640Entities conn = new S1640Entities();
     string mUserType = Convert.ToString(Session["UserType"]);
     // Calculate the time difference of 10 minutes from now
-    DateTime time = DateTime.Now.AddMinutes(-3);
+
+
     // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
-    var AllList = conn.InawardTables
-                      .Where(s => s.DocDate2 >= time)
-                      .ToList();
-   
+    var AllList = conn.TempTables.Where(s => s.Status == "Unloaded").ToList();
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<!-- Toastify CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
+<!-- Toastify JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<style>
+    .custom-toast {
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        border-radius: 10px;
+        padding: 20px 28px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        min-width: 400px;
+        text-align: center;
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: none;
+    }
+
+    .custom-toast1 {
+        background: linear-gradient(to right, #00c9ff, #92fe9d); /* Unique: cyan to mint green */
+        border-radius: 10px;
+        padding: 20px 28px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        min-width: 400px;
+        text-align: center;
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: none;
+    }
+</style>
 <section role="main" class="content-body">
     <header class="page-header">
         <h2>Outward</h2>
         <div class="right-wrapper text-right" style="margin-right: 2%;">
             <ol class="breadcrumbs">
-                @*<li>
-                        <a href="Index">
-                            <i class="fas fa-list">   <span>&nbsp; Index</span></i>
-                        </a>
-                    </li>*@
                 <li>
                     <a href="~/Home/Index" title="Home">
                         <i class="fas fa-home"></i>
@@ -41,222 +77,171 @@
             <section class="card">
                 <div class="card-body">
                     <div id="SDisplay" style="margin-top:65px"></div>
+                    <div id="customToast1" class="custom-toast1"></div>
+                    <div id="customToast" class="custom-toast"></div>
                     <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                         @Html.AntiForgeryToken()
 
                         <div class="form-group row">
-                            <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                <span class="required">*</span>Bar Code
-                            </label>
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
                             <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BarCode, (SelectList)ViewBag.BarCode, "", new { @class = "form-control populate", @autofocus = "True" })
+                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
                                 @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
                             </div>
-                         </div>
-                            <!-- SCAN BARCODE -->
-                            <!--<label class="col-lg-1 control-label   text-lg-right pt-2">
-                            <span class="required">*</span>Bar Code
-                                         </label>
-    <div class="col-lg-3">
-       <!--  @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", id = "BarCodeInput", placeholder = "Scan or Enter Barcode" })
-        @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
-                        </div>-->
+                        </div>
 
-                            <div class="form-group row">
-                                <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                    <span class="required">*</span>Bin Condition
-                                </label>
-                                <div class="col-lg-3">
-                                    @Html.TextBoxFor(model => model.BinCondition, new { @class = "form-control populate", @readonly = "True" })
-                                    @Html.ValidationMessageFor(model => model.BinCondition, "", new { style = "color: red" })
-                                </div>
-
-                                <!-- Bin Wash Dropdown -->
-                                <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                    <span class="required">*</span>Bin Wash Status
-                                </label>
-                                <div class="col-lg-3">
-                                    @Html.TextBoxFor(model => model.BinWash, new { @class = "form-control populate", @readonly = "True" })
-                                    @Html.ValidationMessageFor(model => model.BinWash, "", new { style = "color: red" })
-                                </div>
-
-                                <!-- Bin Fill Status Dropdown -->
-                                <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                    <span class="required">*</span>Bin Fill Status
-                                </label>
-                                <div class="col-lg-3">
-                                    @Html.TextBoxFor(model => model.BinFillStatus, new { @class = "form-control populate", @readonly = "True" })
-                                    @Html.ValidationMessageFor(model => model.BinFillStatus, "", new { style = "color: red" })
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-lg-1 control-label   text-lg-right pt-2">
-                                    Remarks
-                                </label>
-                                <div class="col-lg-7">
-                                    @Html.TextBoxFor(model => model.Remarks2, new { @class = "form-control", @maxlength = "500" })
-                                    @Html.ValidationMessageFor(model => model.Remarks2, "", new { @class = "validation-message" })
-                                </div>
-                                <div class="col-lg-3">
-                                    @Html.HiddenFor(model => model.MTransNo)
-                                    @* @Html.HiddenFor(model => model.InwardNo)*@
-                                    <button type="submit" name="Add" id="Add" class="btn btn-success btn-lg">Add</button>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <table width="100%" class="table table-bordered table-striped mb-0" id="MyTable">
-                                    <thead>
-                                        <tr class="text-center" style="background-color: dimgrey; color:white;">
-                                            <th hidden></th>
-                                            <th width="5%">SL No</th>
-                                            <th width="20%">BarCode</th>
-                                            <th width="7%">Bin Condition</th>
-                                            <th width="7%">Bin Wash Status</th>
-                                            <th width="7%">Bin Fill Status</th>
-                                            <th width="30%">Remarks</th>
-                                            <th width="15%">Action</th>
+                        <div class="form-group row">
+                            <table width="100%" class="table table-bordered table-striped mb-0" id="MyTable">
+                                <thead>
+                                    <tr class="text-center" style="background-color: dimgrey; color:white;">
+                                        <th hidden></th>
+                                        <th width="5%">SL No</th>
+                                        <th width="20%">BarCode</th>
+                                        <th width="7%">Bin Condition</th>
+                                        <th width="7%">Bin Wash Status</th>
+                                        <th width="7%">Bin Fill Status</th>
+                                        <th width="15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableCont">
+                                    @{
+                                        int rowNo = 0;
+                                    }
+                                    @foreach (var item in AllList)
+                                    {
+                                        <tr>
+                                            <td hidden> @item.InwardNo</td>
+                                            <td hidden> @item.MTransNo</td>
+                                            <td class="text-sm-center">@(++rowNo)</td> <!-- Incremented row number for each item -->
+                                            <td>@item.BinCode</td>
+                                            <td>@item.BinStatus</td>
+                                            <td>@item.BinCondition</td>
+                                            <td>@item.BinFillStatus</td>
+                                            <td class="text-sm-center"><button type="button" value="Delete" id="Delete" class="btn btn-danger btn-xs Delete"><i class="far fa-trash-alt"></i></button></td>
                                         </tr>
-                                    </thead>
-                                    <tbody id="tableCont">
-                                        @{
-                                            int rowNo = 0;
-                                        }
-                                        @foreach (var item in AllList)
-                                        {
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
 
-                                            var enqmst = conn.InawardTables.Where(x => x.MTransNo == item.MTransNo).FirstOrDefault();
-                                            <tr>
-                                                <td hidden> @item.MTransNo</td>
-                                                <td class="text-sm-center">@(++rowNo)</td> <!-- Incremented row number for each item -->
-                                                <td>@item.BarCode</td>
-                                                <td>@item.BinCondition</td>
-                                                <td>@item.BinWash</td>
-                                                <td>@item.BinFillStatus</td>
-                                                <td>@item.Remarks2</td>
-                                                <td class=" text-sm-center">
-
-                                                    @if (enqmst != null)
-                                                    {
-                                                        @* <button type="button" name="" value="@item.TransSlNo" id="" class="btn btn-primary  btn-xs"><i class="fas fa-pencil-alt"></i></button>*@
-                                                        <button type="button" name="DtlEdit" value="@item.MTransNo" id="DtlEdit" class="btn btn-primary DtlEdit btn-xs"><i class="fas fa-pencil-alt"></i></button>
-                                                        //<a data-toggle="tooltip" title="Delete" class="btn btn-danger btn-xs" onclick="alert('Deletion is locked');" href="#"><i class="far fa-trash-alt"></i></a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <button type="button" name="DtlEdit" value="@item.MTransNo" id="DtlEdit" class="btn btn-primary DtlEdit btn-xs"><i class="fas fa-pencil-alt"></i></button>
-                                                        //<button type="button" name="DtlDelete" value="@item.MTransNo" id="DtlDelete" data-toggle="tooltip" title="Delete" class="btn btn-danger DtlDelete btn-xs"><i class="fa fa-trash-alt"></i></button>
-                                                        @*<a href="DtlDelete?TransSlNo=@item.TransSlNo" id="DtlDet" title="Delete" class="btn btn-danger btn-xs DtlDet"><i class="fas fa-trash-alt"></i></a>*@
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Submit and Cancel Button -->
-                            <div class="form-group row">
-                                <div class="col-md-12 col-md-offset-2">
-                                    <div class="text-center">
-                                        @Html.HiddenFor(model => model.MTransNo)
-                                        <button type="button" id="submitBtn" class="btn btn-success btn-lg">Submit</button>
-                                        <a href="/Home/Index" class="btn btn-danger btn-lg">Cancel</a>
-                                    </div>
+                        <!-- Submit and Cancel Button -->
+                        <div class="form-group row">
+                            <div class="col-md-12 col-md-offset-2">
+                                <div class="text-center">
+                                    @*@Html.HiddenFor(model => model.MTransNo)*@
+                                    <button type="submit" id="MainSubmit" class="btn btn-success btn-lg">Submit</button>
+                                    <a href="/Home/Index" class="btn btn-danger btn-lg">Cancel</a>
                                 </div>
                             </div>
-</form>
+                        </div>
+                    </form>
                 </div>
             </section>
         </div>
     </div>
 </section>
-
 <script>
     $(document).ready(function () {
-        // Check initial state
-        $(document).ready(function () {
-            // When the barcode scanner inputs a barcode or the user types it
-            $('#BarCodeInput').on('input', function () {
-                var scannedBarcode = $(this).val();
-                // Handle the scanned barcode (you can perform actions here if needed)
-                console.log('Scanned Barcode:', scannedBarcode);
-                // Optionally, set the barcode number to some hidden field or use for validation, etc.
-                // For example, if you want to store it in a hidden field for further processing:
-                $('#ScannedBarcode').val(scannedBarcode);
-            });
-        });
-
-        $("#MyTable").on('click', '.DtlEdit', function () {
-            /*     event.preventDefault();*/
-            /* alert("Hiii");*/
-            var currentRow = $(this).closest("tr");
-            var MTransNo = currentRow.find("td:eq(0)").html();
+       /* $('#BarCode').blur(function () {*/
+            $('#BarCode').on('input', function () {
+            var barcode = $('#BarCode').val();
 
             $.ajax({
                 type: "GET",
-                data: { MTransNo: MTransNo },
-                url: "/Outward/AddEdit",
+                url: "/Outward/FetchBin",
+                data: { barcode: barcode },
                 success: function (result) {
-                    console.log(result);
-                    $('#BarCode').val(result.BarCode);
-                    $('#MTransNo').val(result.MTransNo);
-                    $("#BinCondition").val(result.BinCondition);
-                    $("#BinWash").val(result.BinWash);
-                    $("#BinFillStatus").val(result.BinFillStatus);
-                    $("#Remarks2").val(result.Remarks2.trim());
-                }
-            });
-        });
-    });
-    $(document).ready(function () {
-        $('#BarCode').change(function () {
-            var Barcode = $('#BarCode').val();
-            $.ajax({
-                type: "GET",
-                data: { Barcode: Barcode },
-                url: "/Outward/GetData",
-                success: function (result) {
-                    console.log(result);  // For debugging, you can log the result to inspect it
-                    if (result && result.length > 0) {
-                        // Assuming the result contains a list, and we need the first item
-                        $("#BinCondition").val(result[0].BinCondition);
-                        $("#MTransNo").val(result[0].MTransNo);
-                        $("#BinWash").val(result[0].BinWash);
-                        $("#BinFillStatus").val(result[0].BinFillStatus);
+                    if (result == "Exist") {
+                        $('#customToast').text("This barcode has already been scanned or loaded. Please check and try again.").fadeIn(300).delay(4000).fadeOut(400, function () {
+                            // location.reload(); // ✅ Reload after toast fades out
+                        });
+                    }
+                    if (result !== "NotFound") {
+                        var currentRowNo = $("#MyTable tbody tr").length;
+                        var event_data = '';
+                        var results = Array.isArray(result) ? result : [result];
+                        console.log(results);
+                        for (var i = 0; i < results.length; i++) {
+                            event_data += '<tr>';
+                            event_data += '<td hidden>' + results[i].InwardNo + '</td>';
+                            event_data += '<td hidden>' + results[i].MTransNo + '</td>';
+                            event_data += '<td class="text-sm-center">' + (++currentRowNo) + '</td>';
+                            event_data += '<td>' + results[i].BinCode + '</td>';
+                            event_data += '<td>' + results[i].BinCondition + '</td>';
+                            event_data += '<td>' + results[i].BinStatus + '</td>';
+                            event_data += '<td>' + results[i].BinFillStatus + '</td>';
+                            event_data += '<td class="text-sm-center">';
+                            event_data += '<button type="button" class="btn btn-danger btn-xs Delete"><i class="far fa-trash-alt"></i></button>';
+                            event_data += '</td>';
+                            event_data += '</tr>';
+                        }
+                        $('#tableCont').append(event_data);
                     } else {
-                        // Handle case where no results are returned
-                        alert("No data found for this barcode.");
+                        $('#customToast').text("The Bin is not cleaned yet, please clean it first.").fadeIn(300).delay(4000).fadeOut(400);
                     }
                 },
-                error: function () {
-                    alert("Error while fetching data.");
+                error: function (err) {
+                    console.error("Error saving data:", err);
                 }
             });
         });
+    });
+    $("#MyTable").on('click', '.Delete', function () {
+        /*     event.preventDefault();*/
+        /* alert("Hiii");*/
+        var currentRow = $(this).closest("tr");
+        var MTransNo = currentRow.find("td:eq(0)").html();
+        var Barcode = currentRow.find("td:eq(3)").html();
+
+        $.ajax({
+            type: "GET",
+            data: { MTransNo: MTransNo, Barcode: Barcode },
+            url: "/Outward/DtlDelete",
+            success: function (result) {
+                if (result == "Success") {
+                    $('#customToast1').text("The Bin is Deleted and move back to the cleaning Area").fadeIn(300).delay(4000).fadeOut(400, function () {
+                        location.reload(); // ✅ Reload after toast fades out
+                    });
+                }
+                else {
+                    $('#customToast').text("Error saving data:").fadeIn(300).delay(4000).fadeOut(400);
+                }
+            }
+        });
 
     });
+    $(document).ready(function () {
+        $("#MainSubmit").click(function (e) {
+            e.preventDefault(); // Prevent default form submit
+            var dataList = [];
+            $("#MyTable tbody tr").each(function () {
+                var mtransNo = $(this).find("td:eq(1)").text().trim(); // hidden field
+                var Barcode = $(this).find("td:eq(3)").text().trim(); // hidden field
 
-   
-    // Event listener for the submit button click
-        document.getElementById('submitBtn').addEventListener('click', function(event) {
-        // Get the table body element by ID (the part containing the rows)
-        var tableBody = document.getElementById('tableCont');
+                //Pushing data in list
+                dataList.push({
+                    mtransNo: mtransNo,
+                    Barcode: Barcode
+                });
+            });
 
-        // Check the number of rows in the table body (excluding the header row)
-        if (tableBody.rows.length === 0) {
-            // If there are no rows, prevent the form submission
-            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/Outward/SaveData",
+                contentType: "application/json",
+                data: JSON.stringify(dataList),
+                success: function (result) {
+                    console.log("Success:", result);
+                    $('#customToast').text("The bin is updated as Clean").fadeIn(300).delay(4000).fadeOut(400, function () {
+                        window.location.href = '/Home/Index';
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
 
-        // Show an alert if the table is empty
-        alert('Please add data before submitting.');
-        } else {
-            // If the table is not empty, navigate to the home page
-            window.location.href = '/Home/Index'; // Redirect to the home page (index)
-        }
+        });
     });
-
-
 </script>
-
 @Html.Partial("_jsfooter")

@@ -9,108 +9,81 @@ namespace S1640.Controllers
 {
     public class OutwardController : Controller
     {
-        
-        public ActionResult AddEdit(int MTransNo = 0)
+
+        // GET: Outward
+        S1640Entities conn = new S1640Entities();
+        public ActionResult AddEdit()
         {
-            S1640Entities conn = new S1640Entities();
-            InwardValidation RS = new InwardValidation();
-            // Fetch list of barcodes for dropdown (used in both GET and POST actions)
-            var barcodeList = conn.InawardTables
-                                  .Where(s => s.Status == "LOADED")
-                                  .OrderByDescending(s => s.MTransNo)
-                                  .Select(s => new { s.MTransNo, s.BarCode })
-                                  .ToList();
-
-          
-            if (MTransNo > 0)
-            {
-                // Get the existing data for the specified MTransNo
-                InawardTable InwardModule = conn.InawardTables.FirstOrDefault(x => x.MTransNo == MTransNo);
-                if (InwardModule != null)
-                {
-                    RS.MTransNo = MTransNo;
-                }
-                return Json(conn.InawardTables.Where(x => x.MTransNo == MTransNo).FirstOrDefault(), JsonRequestBehavior.AllowGet);
-
-            }
-
-            // Set dropdown lists for the form (both for creating and editing)
-            ViewBag.BarCode = new SelectList(barcodeList, "MTransNo", "BarCode");
-            return View(RS);
+            S1640Entities db = new S1640Entities();
+            InwardValidation inward = new InwardValidation();
+            return View(inward);
         }
-       
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [ValidateInput(true)]
-        public ActionResult AddEdit(InwardValidation model)
+        //Fetching data from barcode scann only cleaned data will shown
+        [HttpGet]
+        public ActionResult FetchBin(string barcode)
         {
-            if (Session["Userid"] == null)
+            S1640Entities db = new S1640Entities();
+            Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
+            DateTime docdate = DateTime.Now;
+            var record = db.LiveStockDatas.Where(s => s.BinCode == barcode && s.Status == "loaded").FirstOrDefault();
+            if (record != null)
             {
-                return RedirectToAction("Login", "Home");
-            }
-            if (model.DocNo == 0 && model.BarCode == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            S1640Entities conn = new S1640Entities();
-            InwardValidation n = new InwardValidation();
-            // To fetch the MTransNo from BinMaster (based on BarCode)
-            int? MTransNo = conn.BinMasters
-                                .Where(x => x.BarCode.Trim() == model.BarCode.Trim())
-                                .Select(x => x.MTransNo)
-                                .FirstOrDefault();
-            if (model.MTransNo > 0)
-            {
-                // load the existing entity from the database
-                var existingEntity = conn.InawardTables.FirstOrDefault(x => x.MTransNo == model.MTransNo);
-                if (existingEntity != null)
-                {
-                    // Update the existing entity
-                    existingEntity.DocDate2 = DateTime.Now;
-                    existingEntity.Remarks2 = model.Remarks;
-                    existingEntity.Status = "UNLOADED";
-                    existingEntity.ModifiedOn = DateTime.Now;
-                    existingEntity.ModifiedBy = Convert.ToByte(Session["Userid"]);
-                    conn.SaveChanges();
-                }
-                else
-                {
-                    // If not found, handle the error (could be a delete or data issue)
-                    ModelState.AddModelError("", "The record was not found.");
-                    return View(model);
-                }
-                    Transaction RR = new Transaction
-                    {
-                        DocNo = existingEntity.DocNo,
-                        BarCode = existingEntity.BarCode,
-                        BinCondition = model.BinCondition,
-                        BinFillStatus = model.BinFillStatus,
-                        BinWash = model.BinClean,
-                        Remarks1 = model.Remarks,
-                        CreatedBy = Convert.ToByte(Session["Userid"]),
-                        DocDate = DateTime.Now,
-                        CreatedOn = DateTime.Now,
-                        Status = "UNLOADED"
-                    };
-                    conn.Transactions.Add(RR);
-                    // Save changes to the database
-                    conn.SaveChanges();
+                    var TempData = db.SP_TempTable(record.MTransNo, docdate, barcode, "NA", 0, mUserNo, docdate, "Unloaded", "Clean", record.BinCondition, record.BinFillStatus);
+                    var data = db.TempTables.Where(s => s.BinCode == barcode && s.Status == "Unloaded").FirstOrDefault();
+                    return Json(data, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return RedirectToAction("AddEdit");
+                return Json("Exist", JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("AddEdit");
         }
-        public JsonResult GetData(int Barcode)
+        //Deleting Temptable data 
+        public ActionResult DtlDelete(int MTransNo, string Barcode)
         {
-            using (S1640Entities conn = new S1640Entities())
+            S1640Entities db = new S1640Entities();
+            var record = db.TempTables.Where(s => s.BinCode == Barcode && s.InwardNo == MTransNo).FirstOrDefault();
+            if (record != null)
             {
-                // Fetch data based on MTransNo (Barcode is assumed to map to MTransNo)
-                var data = conn.InawardTables.Where(s => s.MTransNo == Barcode).ToList();
-                // Return the data as JSON, explicitly allowing GET requests
-                return Json(data, JsonRequestBehavior.AllowGet);
+                db.TempTables.Remove(record);
+                db.SaveChanges();
+                return Json("Success", JsonRequestBehavior.AllowGet);
             }
+            else
+            {
+                return Json("Error", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public class MyItem
+        {
+            public string MTransNo { get; set; }
+            public string Barcode { get; set; }
+            public bool IsChecked { get; set; }
+        }
+        [HttpPost]
+        public JsonResult SaveData(List<MyItem> data)
+        {
+            S1640Entities db = new S1640Entities();
+            InwardValidation inward = new InwardValidation();
+            Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
+            DateTime docdate = DateTime.Now;
+            try
+            {
+                foreach (var item in data)
+                {
+                    int mTransNo = Convert.ToInt32(item.MTransNo);
+                    string Barcode = Convert.ToString(item.Barcode);
+                    // Example: Find and update your entity
+                    var record = db.LiveStockDatas.Where(s => s.MTransNo == mTransNo || s.BinCode== Barcode).FirstOrDefault();
+                    db.LiveStockDatas.Remove(record);
+                    db.SaveChanges();
+                    var tempdata = db.TempTables.Where(s => s.MTransNo == mTransNo).FirstOrDefault();
+                    db.TempTables.Remove(tempdata);
+                    db.SaveChanges();
+                }
+                return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            catch { }
+            return Json("Error", JsonRequestBehavior.AllowGet);
         }
     }
 }

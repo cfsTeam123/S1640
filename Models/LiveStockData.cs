@@ -24,5 +24,7 @@ namespace S1640.Models
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string Status { get; set; }
         public string BinStatus { get; set; }
+        public string BinCondition { get; set; }
+        public string BinFillStatus { get; set; }
     }
 }

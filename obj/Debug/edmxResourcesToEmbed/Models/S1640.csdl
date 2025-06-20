@@ -1,6 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="S1640" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="S1640Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
+    <EntitySet Name="Companies" EntityType="S1640.Company" />
+    <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
+    <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
+    <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
+    <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
+    <EntitySet Name="TempTables" EntityType="S1640.TempTable" />
+    <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
+    <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
+    <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
+    <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
+    <FunctionImport Name="SP_Inward">
+      <Parameter Name="MTransNo" Mode="InOut" Type="Int32" />
+      <Parameter Name="DocDate" Mode="In" Type="DateTime" />
+      <Parameter Name="DocDate2" Mode="In" Type="DateTime" />
+      <Parameter Name="BarCode" Mode="In" Type="String" />
+      <Parameter Name="BinCondition" Mode="In" Type="String" />
+      <Parameter Name="BinWash" Mode="In" Type="String" />
+      <Parameter Name="BinFillStatus" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="ModifiedBy" Mode="In" Type="Int32" />
+      <Parameter Name="ModifiedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="DocNO" Mode="In" Type="Int32" />
+      <Parameter Name="Status1" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Livestock">
+      <Parameter Name="InwardNo" Mode="In" Type="Int32" />
+      <Parameter Name="DocDate" Mode="In" Type="DateTime" />
+      <Parameter Name="BinCode" Mode="In" Type="String" />
+      <Parameter Name="Remarks" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Createdby" Mode="In" Type="Int32" />
+      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="BinStatus" Mode="In" Type="String" />
+      <Parameter Name="BinCondition" Mode="In" Type="String" />
+      <Parameter Name="BinFillStatus" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_TempTable">
+      <Parameter Name="InwardNo" Mode="In" Type="Int32" />
+      <Parameter Name="DocDate" Mode="In" Type="DateTime" />
+      <Parameter Name="BinCode" Mode="In" Type="String" />
+      <Parameter Name="Remarks" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Createdby" Mode="In" Type="Int32" />
+      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="BinStatus" Mode="In" Type="String" />
+      <Parameter Name="BinCondition" Mode="In" Type="String" />
+      <Parameter Name="BinFillStatus" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Transaction">
+      <Parameter Name="MTransNo" Mode="In" Type="Int32" />
+      <Parameter Name="InwardNo" Mode="In" Type="Int32" />
+      <Parameter Name="DocDate" Mode="In" Type="DateTime" />
+      <Parameter Name="BarCode" Mode="In" Type="String" />
+      <Parameter Name="BinCondition" Mode="In" Type="String" />
+      <Parameter Name="BinWash" Mode="In" Type="String" />
+      <Parameter Name="BinFillStatus" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="ModifiedBy" Mode="In" Type="Int32" />
+      <Parameter Name="ModifiedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="DocNO" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_UserMaster">
       <Parameter Name="ID" Mode="InOut" Type="Int32" />
       <Parameter Name="MTransNo" Mode="In" Type="Int32" />
@@ -19,32 +87,6 @@
       <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
       <Parameter Name="SubscID" Mode="In" Type="Int32" />
       <Parameter Name="Status" Mode="In" Type="String" />
-    </FunctionImport>
-    <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
-    <EntitySet Name="Companies" EntityType="S1640.Company" />
-    <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
-    <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
-    <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
-    <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
-    <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
-    <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
-    <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
-    <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
-    <FunctionImport Name="SP_Inward">
-      <Parameter Name="MTransNo" Mode="In" Type="Int32" />
-      <Parameter Name="DocDate" Mode="In" Type="DateTime" />
-      <Parameter Name="DocDate2" Mode="In" Type="DateTime" />
-      <Parameter Name="BarCode" Mode="In" Type="String" />
-      <Parameter Name="BinCondition" Mode="In" Type="String" />
-      <Parameter Name="BinWash" Mode="In" Type="String" />
-      <Parameter Name="BinFillStatus" Mode="In" Type="String" />
-      <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
-      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
-      <Parameter Name="Status" Mode="In" Type="String" />
-      <Parameter Name="ModifiedBy" Mode="In" Type="Int32" />
-      <Parameter Name="ModifiedOn" Mode="In" Type="DateTime" />
-      <Parameter Name="DocNO" Mode="In" Type="Int32" />
-      <Parameter Name="Status1" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <EntityType Name="BinMaster">
@@ -158,6 +200,8 @@
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="BinStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinFillStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Menulist">
     <Key>
@@ -177,6 +221,23 @@
     <Property Name="HODAmount" Type="Decimal" Precision="16" Scale="2" />
     <Property Name="OPAmount" Type="Decimal" Precision="16" Scale="2" />
   </EntityType>
+  <EntityType Name="TempTable">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InwardNo" Type="Int32" />
+    <Property Name="DocDate" Type="DateTime" Precision="3" />
+    <Property Name="BinCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Createdby" Type="Int32" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinFillStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="Transaction">
     <Key>
       <PropertyRef Name="MTransNo" />
@@ -194,6 +255,7 @@
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
     <Property Name="DocNo" Type="Int32" />
+    <Property Name="InwardNo" Type="Int32" />
   </EntityType>
   <EntityType Name="UserAuthorization">
     <Key>

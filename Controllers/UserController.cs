@@ -78,6 +78,7 @@ namespace S1640.Controllers
                 UserMaster RS = conn.UserMasters.Where(x => x.MTransNo == UserMasterModule.MTransNo).FirstOrDefault();
                 RS.UserName = UserMasterModule.UserName;
                 RS.UserId = UserMasterModule.UserId;
+                RS.UserType = UserMasterModule.UserType;
                 RS.PW = encVa;
                 RS.ModifiedBy = Convert.ToByte(Session["Userid"]);
                 RS.ModifiedOn = DateTime.Today;

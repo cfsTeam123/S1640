@@ -18,22 +18,6 @@ namespace S1373.Controllers
         {
             return View();
         }
-        //[HttpPost]
-        //public ActionResult UpdateData(dynamic data)
-        //{
-        //    var entries = data.data;
-
-        //    foreach (var item in entries)
-        //    {
-        //        string mtransNo = item.MTransNo;
-        //        string status = item.BinWashStatus;
-        //        bool isChecked = item.IsChecked;
-
-        //        // Use these values as needed
-        //    }
-
-        //    return Json(new { success = true, message = "Data updated successfully" });
-        //}
 
         public class MyItem
         {
@@ -45,24 +29,35 @@ namespace S1373.Controllers
         {
             S1640Entities db = new S1640Entities();
             InwardValidation inward = new InwardValidation();
-
             try
             {
                 foreach (var item in data)
                 {
                     if (item.IsChecked == true)
                     {
+                        Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
                         int mTransNo = Convert.ToInt32(item.MtransNo);
+                        int mUserNo1 = mTransNo > 0 ? mUserNo : 0;
                         // Example: Find and update your entity
-                        var record = db.InawardTables.Where(s => s.MTransNo == mTransNo).FirstOrDefault();
+                        //var record = db.InawardTables.Where(s => s.MTransNo == mTransNo).FirstOrDefault();
+                        //if (record != null)
+                        //{
+                        //    string Status1 = mTransNo > 0 ? "Update" : "Insert";
+
+                        //    db.SP_Inward(mTransNo, record.DocDate, record.DocDate2, record.BarCode, record.BinCondition, "Clean", record.BinFillStatus, record.CreatedBy, record.CreatedOn, "Clean", record.ModifiedBy, record.ModifiedOn, 0, Status1);
+                        //}
+                        var record = db.InawardTables.FirstOrDefault(x => x.MTransNo == mTransNo);
                         if (record != null)
                         {
-                            string Status1 = mTransNo > 0 ? "Update" : "Insert";
-                            db.SP_Inward(mTransNo, record.DocDate, record.DocDate2, record.BarCode, record.BinCondition, "Cleaned", record.BinFillStatus, record.CreatedBy, record.CreatedOn, "Cleaned", record.ModifiedBy, record.ModifiedOn, 0, Status1);
+                            record.BinWash = "Clean";
+                            record.Status = "Clean";
+                            record.ModifiedBy = mUserNo;
+                            record.ModifiedOn = DateTime.Now;
+                            db.SaveChanges();
                         }
+
                     }
                 }
-
                 db.SaveChanges();
 
                 return Json(new { success = true, message = "Data updated successfully." });

@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BinMasterController.cs" />
+    <Compile Include="Controllers\CleanedAreaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InwardController.cs" />
     <Compile Include="Controllers\CleaningAreaController.cs" />
@@ -182,6 +183,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>S1640.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TempTable.cs">
+      <DependentUpon>S1640.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transaction.cs">
       <DependentUpon>S1640.tt</DependentUpon>
@@ -4724,11 +4728,12 @@
     <Content Include="Views\Reports\TransactionList.cshtml" />
     <Content Include="Views\BinMaster\Index.cshtml" />
     <Content Include="Views\CleaningArea\AddEdit.cshtml" />
+    <Content Include="Views\CleanedArea\AddEdit.cshtml" />
+    <Content Include="Views\Shared\_Layout1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\NewFolder1\" />
-    <Folder Include="Views\Demo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

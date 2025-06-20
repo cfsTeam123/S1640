@@ -1,112 +1,159 @@
-﻿@model S1640.Models.BinMasterValidation
-@using S1640.Models;
+﻿@using S1640.Models;
 @{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     S1640Entities conn = new S1640Entities();
     var AllList = conn.BinMasters.OrderBy(x => x.MTransNo).Take(30).ToList();
 }
-
+<!-- From Uiverse.io by alexruix -->
 <!-- JsBarcode CDN -->
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<table class="table table-bordered table-striped mb-0" id="MyTable" width="100%">
-    <thead>
-        <tr align="center">
-            <th width="10%">Sl No</th>
-            <th width="25%">BarCode</th>
-            <th width="20%">Status</th>
-            <th width="15%">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{ int rowNo = 0; }
-        @foreach (var item in AllList)
-        {
-            var data = conn.BinMasters.Where(s => s.MTransNo == item.MTransNo).OrderBy(s => s.MTransNo).FirstOrDefault();
-            <tr>
-                <td align="center">@(rowNo += 1)</td>
-                <td align="center">@data.BarCode</td>
-                <td align="center" style="display:none;">@data.MTransNo</td>
-                @if (@item.Status == "Y")
-                {
-                    <td align="center">Active</td>
-                }
-                else
-                {
-                    <td align="center">Inactive</td>
-                }
-                <td align="center">
-                    <button type="button" class="btn btn-success btn-sm printBarcodeBtn" data-barcode="@item.BarCode">Print Barcode</button>
-                    <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary DtlDelete btn-xs" data-toggle="tooltip" title="Edit">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-<!-- Barcode Display Section -->
-<!--<div id="barcodeContainer" style="display: none; margin-top: 20px; text-align: center;">
-    <h5>Generated Barcode:</h5>
-    <svg id="barcode"></svg>
-    <button id="printBarcode" class="btn btn-primary mt-2">Print</button>
-</div>-->
+<div class="loader">
+    <span class="loader-text">loading</span>
+    <span class="load"></span>
+</div>
 
-<!-- Edit/Delete Script -->
-<script type="text/javascript">
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Index</h2>
+        <div class="row">
+            <div class="col-md-11 pt-2 text-center" width="100%">
+                <a href="~/BinMaster/AddEdit" class="btn btn-primary" onclick="load()" autofocus><i class="fas fa-plus-square"></i> Add New</a>
+            </div>
+            <div class="right-wrapper text-right" style="margin-left:4%;">
+                <ol class="breadcrumbs">
+                    <li>
+                        <a href="~/Home/Index" title="Home">
+                            <i class="fas fa-home"></i>
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </header>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <section class="card">
+                <div class="card-body">
+                    <div id="SDisplay" style="margin-top:65px"></div>
+                    <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                        <thead style="text-align:center">
+                            <tr>
+                                <th width="0%" style="display:none;">MTransNo</th> <!-- Match this --></th>
+                                <th width="10%">Sl No</th>
+                                <th width="25%">BarCode</th>
+                                <th width="20%">Status</th>
+                                <th width="15%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int rowNo = 0; }
+                            @foreach (var item in AllList)
+                            {
+                                var data = conn.BinMasters.Where(s => s.MTransNo == item.MTransNo).OrderBy(s => s.MTransNo).FirstOrDefault();
+                                <tr>
+                                    <td align="center" style="display:none;">@data.MTransNo</td>
+                                    <td align="center">@(rowNo += 1)</td>
+                                    <td align="center">@data.BarCode</td>
+                                    @if (@item.Status == "Y")
+                                    {
+                                        <td align="center">Active</td>
+                                    }
+                                    else
+                                    {
+                                        <td align="center">Inactive</td>
+                                    }
+                                    <td>
+                                        <button type="button" class="btn btn-success btn-sm printBarcodeBtn" data-barcode="@item.BarCode">Print Barcode</button>
+                                        <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary DtlDelete btn-xs" data-toggle="tooltip" title="Edit">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- Edit/Delete Script -->
+    <script type="text/javascript">
     $(".DtlDelete").click(function (e) {
         e.preventDefault();
-        var MTransNo = $(this).closest('tr').find('td:eq(2)').text();
+        var MTransNo = $(this).closest('tr').find('td:eq(0)').text();
         var confirmation = confirm("Do you really want to edit this item?");
         if (confirmation) {
-            window.location.href = '@Url.Action("DtlDelete", "BinMaster")?MTransNo=' + MTransNo;
+            window.location.href = '@Url.Action("AddEdit", "BinMaster")?MTransNo=' + MTransNo;
         }
     });
-</script>
-
-<!-- Barcode Generation & Print Script -->
-<script>
-    $(document).ready(function () {
-        $(".printBarcodeBtn").click(function () {
-            var barcodeValue = $(this).data("barcode");
-
-            // Generate barcode
-            JsBarcode("#barcode", barcodeValue, {
-                format: "CODE128",
-                width: 2,
-                height: 60,
-                displayValue: true
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#MyTable').DataTable({
+                "searching": true,
             });
-
-            $("#barcodeContainer").show();
         });
+    </script>
 
-        $("#printBarcode").click(function () {
-            var printWindow = window.open('', '_blank');
-            var barcodeSVG = document.getElementById("barcode").outerHTML;
 
-            printWindow.document.write(`
-                <html>
-                <head><title>Print Barcode</title></head>
-                <body style="text-align:center; margin-top:50px;">
-                    ${barcodeSVG}
-                </body>
-                </html>
-            `);
+    <!-- Barcode Generation & Print Script -->
+    <script>
+        $(document).ready(function () {
+            $(".printBarcodeBtn").click(function () {
+                var barcodeValue = $(this).data("barcode");
+              
+                // Create a temporary SVG element for barcode generation
+                var tempSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-            printWindow.close();
+                // Generate the barcode in the tempSvg
+                JsBarcode(tempSvg, barcodeValue, {
+                    format: "CODE128",
+                    width: 2,
+                    height: 60,
+                    displayValue: true
+                });
+
+                // Open print window
+                var printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                        <html>
+                        <head><title>Print Barcode</title></head>
+                        <body style="text-align:center; margin-top:50px;">
+                            ${tempSvg.outerHTML}
+                        </body>
+                        </html>
+                    `);
+                printWindow.document.close();
+                printWindow.focus();
+
+                // Print after slight delay to ensure content loads
+                setTimeout(function () {
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
+            });
         });
-    });
-</script>
+    </script>
+    <script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
 
-<!-- DataTables and Theme Scripts -->
-<script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
-<script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap4.min.js"></script>
-<script src="~/Scripts/js/theme.js"></script>
-<script src="~/Scripts/js/custom.js"></script>
-<script src="~/Scripts/js/theme.init.js"></script>
-<script src="~/Scripts/js/examples/examples.datatables.tabletools.js"></script>
-<script src="~/Scripts/js/examples/examples.datatables.ajax.js"></script>
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Scripts/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Scripts/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Scripts/js/theme.init.js"></script>
+
+    <!-- Examples -->
+    <script src="~/Scripts/js/examples/examples.datatables.tabletools.js"></script>
+</section>

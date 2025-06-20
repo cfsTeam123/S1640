@@ -6,7 +6,7 @@
     S1640Entities conn = new S1640Entities();
     string mUserType = Convert.ToString(Session["UserType"]);
     // Calculate the time difference of 10 minutes from now
-    DateTime time = DateTime.Now.AddMinutes(-100);
+    DateTime time = DateTime.Now.AddMinutes(-500);
 
     // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
     var AllList = conn.InawardTables.Where(s => s.DocDate >= time).ToList();
@@ -38,7 +38,6 @@
         z-index: 9999;
         display: none;
     }
-
 </style>
 <section role="main" class="content-body">
     <header class="page-header">
@@ -96,8 +95,8 @@
                                         <th hidden></th>
                                         <th width="5%">SL No</th>
                                         <th width="20%">BarCode</th>
-                                        <th width="7%">Bin Condition</th>
                                         <th width="7%">Bin Wash Status</th>
+                                        <th width="7%">Bin Condition</th>
                                         <th width="7%">Bin Fill Status</th>
                                         <th width="15%">Action</th>
                                     </tr>
@@ -114,8 +113,8 @@
                                             <td hidden> @item.MTransNo</td>
                                             <td class="text-sm-center">@(++rowNo)</td> <!-- Incremented row number for each item -->
                                             <td>@item.BarCode</td>
-                                            <td>@item.BinCondition</td>
                                             <td>@item.BinWash</td>
+                                            <td>@item.BinCondition</td>
                                             <td>@item.BinFillStatus</td>
                                             <td class=" text-sm-center">
                                                 @if (enqmst != null)
@@ -152,7 +151,7 @@
 <script>
     $(document).ready(function () {
         $('#BarCode').blur(function () {
-            //$('#BarCode').on('input', function () {
+          /*  $('#BarCode').on('input', function () {*/
             var MTransNo = $('#MTransNo').val();
             var condition = $('#BinCondition').val();
             var binclean = $('#BinClean').val();

@@ -111,6 +111,8 @@
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="Status" Type="varchar" MaxLength="50" />
     <Property Name="BinStatus" Type="varchar" MaxLength="50" />
+    <Property Name="BinCondition" Type="varchar" MaxLength="50" />
+    <Property Name="BinFillStatus" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Menulist">
     <Key>
@@ -130,11 +132,29 @@
     <Property Name="HODAmount" Type="numeric" Precision="16" Scale="2" />
     <Property Name="OPAmount" Type="numeric" Precision="16" Scale="2" />
   </EntityType>
+  <EntityType Name="TempTable">
+    <Key>
+      <PropertyRef Name="MTransNo" />
+    </Key>
+    <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InwardNo" Type="int" />
+    <Property Name="DocDate" Type="datetime" />
+    <Property Name="BinCode" Type="varchar" MaxLength="50" />
+    <Property Name="Remarks" Type="varchar" MaxLength="500" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Createdby" Type="int" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="BinStatus" Type="varchar" MaxLength="50" />
+    <Property Name="BinCondition" Type="varchar" MaxLength="50" />
+    <Property Name="BinFillStatus" Type="varchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Transactions">
     <Key>
       <PropertyRef Name="MTransNo" />
     </Key>
     <Property Name="MTransNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InwardNo" Type="int" />
     <Property Name="DocDate" Type="datetime" />
     <Property Name="BarCode" Type="varchar" MaxLength="50" />
     <Property Name="BinCondition" Type="varchar" MaxLength="50" />
@@ -193,7 +213,7 @@
     <Property Name="EmailId" Type="varchar" MaxLength="50" />
   </EntityType>
   <Function Name="SP_Inward" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="MTransNo" Type="int" Mode="In" />
+    <Parameter Name="MTransNo" Type="int" Mode="InOut" />
     <Parameter Name="DocDate" Type="datetime" Mode="In" />
     <Parameter Name="DocDate2" Type="datetime" Mode="In" />
     <Parameter Name="BarCode" Type="varchar" Mode="In" />
@@ -207,6 +227,47 @@
     <Parameter Name="ModifiedOn" Type="datetime" Mode="In" />
     <Parameter Name="DocNO" Type="int" Mode="In" />
     <Parameter Name="Status1" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SP_Livestock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InwardNo" Type="int" Mode="In" />
+    <Parameter Name="DocDate" Type="datetime" Mode="In" />
+    <Parameter Name="BinCode" Type="varchar" Mode="In" />
+    <Parameter Name="Remarks" Type="varchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="Createdby" Type="int" Mode="In" />
+    <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="BinStatus" Type="varchar" Mode="In" />
+    <Parameter Name="BinCondition" Type="varchar" Mode="In" />
+    <Parameter Name="BinFillStatus" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SP_TempTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InwardNo" Type="int" Mode="In" />
+    <Parameter Name="DocDate" Type="datetime" Mode="In" />
+    <Parameter Name="BinCode" Type="varchar" Mode="In" />
+    <Parameter Name="Remarks" Type="varchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="Createdby" Type="int" Mode="In" />
+    <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="BinStatus" Type="varchar" Mode="In" />
+    <Parameter Name="BinCondition" Type="varchar" Mode="In" />
+    <Parameter Name="BinFillStatus" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SP_Transaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="MTransNo" Type="int" Mode="In" />
+    <Parameter Name="InwardNo" Type="int" Mode="In" />
+    <Parameter Name="DocDate" Type="datetime" Mode="In" />
+    <Parameter Name="BarCode" Type="varchar" Mode="In" />
+    <Parameter Name="BinCondition" Type="varchar" Mode="In" />
+    <Parameter Name="BinWash" Type="varchar" Mode="In" />
+    <Parameter Name="BinFillStatus" Type="varchar" Mode="In" />
+    <Parameter Name="CreatedBy" Type="int" Mode="In" />
+    <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="ModifiedBy" Type="int" Mode="In" />
+    <Parameter Name="ModifiedOn" Type="datetime" Mode="In" />
+    <Parameter Name="DocNO" Type="int" Mode="In" />
   </Function>
   <Function Name="SP_UserMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ID" Type="int" Mode="InOut" />
@@ -234,6 +295,7 @@
     <EntitySet Name="InawardTable" EntityType="Self.InawardTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LiveStockData" EntityType="Self.LiveStockData" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Menulist" EntityType="Self.Menulist" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TempTable" EntityType="Self.TempTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserAuthorization" EntityType="Self.UserAuthorization" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserLogData" EntityType="Self.UserLogData" Schema="dbo" store:Type="Tables" />

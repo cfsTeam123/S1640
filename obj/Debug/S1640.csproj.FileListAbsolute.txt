@@ -230,6 +230,8 @@ D:\S1640\Latest Code\S1640\bin\System.Web.WebPages.Deployment.dll
 D:\S1640\Latest Code\S1640\bin\System.Web.WebPages.dll
 D:\S1640\Latest Code\S1640\bin\System.Web.WebPages.Razor.dll
 D:\S1640\Latest Code\S1640\bin\WebGrease.dll
+D:\S1640\Latest Code\S1640\bin\zxing.dll
+D:\S1640\Latest Code\S1640\bin\zxing.presentation.dll
 D:\S1640\Latest Code\S1640\bin\EntityFramework.xml
 D:\S1640\Latest Code\S1640\bin\EntityFramework.SqlServer.xml
 D:\S1640\Latest Code\S1640\bin\System.Web.Helpers.xml
@@ -241,13 +243,11 @@ D:\S1640\Latest Code\S1640\bin\System.Web.WebPages.Deployment.xml
 D:\S1640\Latest Code\S1640\bin\System.Web.WebPages.Razor.xml
 D:\S1640\Latest Code\S1640\bin\Newtonsoft.Json.xml
 D:\S1640\Latest Code\S1640\bin\Antlr3.Runtime.pdb
+D:\S1640\Latest Code\S1640\bin\zxing.xml
+D:\S1640\Latest Code\S1640\bin\zxing.presentation.xml
 D:\S1640\Latest Code\S1640\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\S1640\Latest Code\S1640\obj\Debug\S1640.csproj.AssemblyReference.cache
 D:\S1640\Latest Code\S1640\obj\Debug\S1640.csproj.CoreCompileInputs.cache
 D:\S1640\Latest Code\S1640\obj\Debug\S1640.csproj.CopyComplete
 D:\S1640\Latest Code\S1640\obj\Debug\S1640.dll
 D:\S1640\Latest Code\S1640\obj\Debug\S1640.pdb
-D:\S1640\Latest Code\S1640\bin\zxing.dll
-D:\S1640\Latest Code\S1640\bin\zxing.presentation.dll
-D:\S1640\Latest Code\S1640\bin\zxing.xml
-D:\S1640\Latest Code\S1640\bin\zxing.presentation.xml

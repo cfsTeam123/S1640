@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string mUserType = Convert.ToString(Session["UserType"]);
     S1640Entities conn = new S1640Entities();
-   var AllList = conn.BinMasters.Where(s => s.MTransNo == Model.MTransNo) .ToList();
+    var AllList = conn.BinMasters.Where(s => s.MTransNo == Model.MTransNo) .ToList();
 
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -40,27 +40,48 @@
                     <div class="form-group row">
                         <label class="col-lg-2 col-form-label text-lg-right pt-1">Barcode ID</label>
                         <div class="col-lg-4">
-                            @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @maxlength = "500" ,@readonly="true" ,id= "Barcode1" })
+                            @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @maxlength = "500", @readonly = "true", id = "Barcode1" })
                             <input type="hidden" id="HiddenBarcode" name="Barcode" />
                         </div>
-                        <div class="col-lg-2">
-                            <button type="button" name="generate" id="generate" class="btn btn-primary btn-lg w-100">Generate</button>
-                        </div>
-                    </div>
-
-                    <!-- Barcode Display & Print Section -->
-                    <div class="form-group row">
-                        <label class="col-lg-2 col-form-label text-lg-right pt-2">Barcode</label>
-                        <div class="col-lg-5 d-flex justify-content-between align-items-center">
-                            <div id="barcode-display-container">
-                                <svg id="barcode"></svg>  <!-- This will be replaced with the barcode -->
+                        @if (Model.MTransNo > 0)
+                        {
+                            <div class="col-lg-2" hidden>
+                                <button type="button" name="generate" id="generate" class="btn btn-primary btn-lg w-100">Generate</button>
                             </div>
-                            <div>
-                                <button type="button" class="btn btn-primary" id="PrintBarcode">Print</button>
+                        }
+                        else
+                        {
+                            <div class="col-lg-2" >
+                                <button type="button" name="generate" id="generate" class="btn btn-primary btn-lg w-100">Generate</button>
+                            </div>
+                        }
+                    </div>
+                    @if (Model.MTransNo > 0)
+                    {
+                        <!-- Barcode Display & Print Section -->
+                        <div class="form-group row" hidden>
+                            <label class="col-lg-2 col-form-label text-lg-right pt-2">Barcode</label>
+                            <div class="col-lg-5 d-flex justify-content-between align-items-center">
+                                <div id="barcode-display-container">
+                                    <svg id="barcode"></svg>  <!-- This will be replaced with the barcode -->
+                                </div>
+                                <div><button type="button" class="btn btn-primary" id="PrintBarcode">Print</button> </div>
                             </div>
                         </div>
-                    </div>
-
+                    }
+                    else
+                    {
+                        <!-- Barcode Display & Print Section -->
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label text-lg-right pt-2">Barcode</label>
+                            <div class="col-lg-5 d-flex justify-content-between align-items-center">
+                                <div id="barcode-display-container">
+                                    <svg id="barcode"></svg>  <!-- This will be replaced with the barcode -->
+                                </div>
+                                <div><button type="button" class="btn btn-primary" id="PrintBarcode">Print</button> </div>
+                            </div>
+                        </div>
+                    }
                     <!-- Status Dropdown Section -->
                     <div class="form-group row">
                         <label class="col-lg-2 col-form-label text-lg-right pt-2"><span class="required">*</span>Status:</label>
@@ -76,11 +97,10 @@
                         <div class="col-md-12 text-center">
                             @Html.HiddenFor(model => model.MTransNo)
                             <button type="submit" name="MainSubmit" value="MainSubmit" id="MainSubmit" class="btn btn-success btn-lg">Submit</button>
-                            <a href="~/Home/Index" class="btn btn-danger btn-lg">Cancel</a>
+                            <a href="~/BinMaster/Index" class="btn btn-danger btn-lg">Cancel</a>
                         </div>
                     </div>
                 </form>
-                @Html.Partial("Index")
             </section>
         </div>
     </div>

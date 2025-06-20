@@ -27,5 +27,6 @@ namespace S1640.Models
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public Nullable<int> DocNo { get; set; }
+        public Nullable<int> InwardNo { get; set; }
     }
 }

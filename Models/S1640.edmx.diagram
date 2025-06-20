@@ -10,11 +10,12 @@
         <EntityTypeShape EntityType="S1640.EMSMsg" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="S1640.InawardTable" Width="1.5" PointX="4.75" PointY="4.75" />
         <EntityTypeShape EntityType="S1640.LiveStockData" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="S1640.Menulist" Width="1.5" PointX="6.75" PointY="4.75" />
-        <EntityTypeShape EntityType="S1640.Transaction" Width="1.5" PointX="8.75" PointY="0.75" />
-        <EntityTypeShape EntityType="S1640.UserAuthorization" Width="1.5" PointX="8.75" PointY="5.75" />
-        <EntityTypeShape EntityType="S1640.UserLogData" Width="1.5" PointX="8.75" PointY="8.75" />
-        <EntityTypeShape EntityType="S1640.UserMaster" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="S1640.Menulist" Width="1.5" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="S1640.TempTable" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="S1640.Transaction" Width="1.5" PointX="8.75" PointY="5.75" />
+        <EntityTypeShape EntityType="S1640.UserAuthorization" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="S1640.UserLogData" Width="1.5" PointX="10.75" PointY="3.75" />
+        <EntityTypeShape EntityType="S1640.UserMaster" Width="1.5" PointX="4.75" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

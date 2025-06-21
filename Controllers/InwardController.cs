@@ -20,8 +20,8 @@ namespace S1640.Controllers
             InwardValidation RS = new InwardValidation();
             ViewBag.BinCondition = new List<SelectListItem> {   new SelectListItem { Text = "Good", Value = "Good",Selected=true },
                                                                 new SelectListItem { Text = "Broken", Value = "Broken" }                 };
-            ViewBag.BinClean = new List<SelectListItem>     {   new SelectListItem { Text = "Clean", Value = "Clean",Selected=true },
-                                                                new SelectListItem { Text = "Unclean", Value = "Unclean" }               };
+            ViewBag.BinClean = new List<SelectListItem>     {   new SelectListItem { Text = "Clean", Value = "Clean" },
+                                                                new SelectListItem { Text = "Unclean", Value = "Unclean" ,Selected=true}               };
             ViewBag.BinFillStatus = new List<SelectListItem>{   new SelectListItem { Text = "Fill", Value = "Fill" },
                                                                 new SelectListItem { Text = "Empty", Value = "Empty" ,Selected=true}     };
             if (MTransNo > 0)

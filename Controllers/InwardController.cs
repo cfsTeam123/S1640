@@ -67,11 +67,40 @@ namespace S1640.Controllers
                 {
                     try
                     {
-                       // System.Data.Entity.Core.Objects.ObjectParameter mID = new System.Data.Entity.Core.Objects.ObjectParameter("MTransNo", typeof(Int32));
-                        var mTransNo = new ObjectParameter("MTransNo", 0); // treated as input-output
-                        db.SP_Inward(mTransNo, DocDate, DocDate2, barcode,condition,binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo, Status1);
-                        var mtr = Convert.ToInt32(mTransNo.Value);
-                        db.SP_Transaction(0, mtr, DocDate,barcode,condition,binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo);
+                        if (MTransNo > 0)
+                        {
+                            var InwardData = db.InawardTables.Where(s => s.BarCode == barcode && s.MTransNo==MTransNo ).FirstOrDefault();
+                            if (InwardData != null)
+                            {
+                                InwardData.BinWash = binclean;
+                                InwardData.BinCondition = condition;
+                                InwardData.BinFillStatus = binfillstatus;
+                                InwardData.Status = Status;
+                                InwardData.ModifiedBy = mUserNo;
+                                InwardData.ModifiedOn = DateTime.Now;
+                                db.SaveChanges();
+                               
+                            }
+                            var TransactionData = db.Transactions.Where(s => s.BarCode == barcode && s.InwardNo == MTransNo).FirstOrDefault();
+                            if (TransactionData != null)
+                            {
+                                TransactionData.BinWash = binclean;
+                                TransactionData.BinCondition = condition;
+                                TransactionData.BinFillStatus = binfillstatus;
+                                TransactionData.Status = Status;
+                                TransactionData.ModifiedBy = mUserNo;
+                                TransactionData.ModifiedOn = DateTime.Now;
+                                db.SaveChanges();
+                            }
+                        }
+                        else 
+                        {
+                            // System.Data.Entity.Core.Objects.ObjectParameter mID = new System.Data.Entity.Core.Objects.ObjectParameter("MTransNo", typeof(Int32));
+                            var mTransNo = new ObjectParameter("MTransNo", 0); // treated as input-output
+                            db.SP_Inward(mTransNo, DocDate, DocDate2, barcode, condition, binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo, Status1);
+                            var mtr = Convert.ToInt32(mTransNo.Value);
+                            db.SP_Transaction(0, mtr, DocDate, barcode, condition, binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo);
+                        }
                     }
                     catch
                     {
@@ -90,31 +119,5 @@ namespace S1640.Controllers
             }
             return Json("Success", JsonRequestBehavior.AllowGet);
         }
-        public static int GetInwardNo(int InwardNo)
-        {
-            using (var db = new S1640Entities())
-            {
-                // Input parameter
-                var inputParam = new SqlParameter("@InputInwardNo", InwardNo);
-
-                // Output parameter
-                var outputParam = new SqlParameter
-                {
-                    ParameterName = "@MTransNo",
-                    SqlDbType = SqlDbType.Int,
-                    Direction = ParameterDirection.Output
-                };
-
-                // Call the stored procedure
-                db.Database.ExecuteSqlCommand(
-                    "EXEC SP_GetInwardNo @InputInwardNo, @MTransNo OUTPUT",
-                    inputParam, outputParam
-                );
-
-                // Return the output value
-                return (int)outputParam.Value;
-            }
-        }
-
     }
 }

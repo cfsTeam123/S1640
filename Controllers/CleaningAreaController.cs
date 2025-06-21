@@ -35,17 +35,12 @@ namespace S1373.Controllers
                 {
                     if (item.IsChecked == true)
                     {
+                       
                         Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
                         int mTransNo = Convert.ToInt32(item.MtransNo);
+                        DateTime? Modifiedon = mTransNo > 0 ? DateTime.Now : (DateTime?)null;
+                        DateTime Createdon= DateTime.Now;
                         int mUserNo1 = mTransNo > 0 ? mUserNo : 0;
-                        // Example: Find and update your entity
-                        //var record = db.InawardTables.Where(s => s.MTransNo == mTransNo).FirstOrDefault();
-                        //if (record != null)
-                        //{
-                        //    string Status1 = mTransNo > 0 ? "Update" : "Insert";
-
-                        //    db.SP_Inward(mTransNo, record.DocDate, record.DocDate2, record.BarCode, record.BinCondition, "Clean", record.BinFillStatus, record.CreatedBy, record.CreatedOn, "Clean", record.ModifiedBy, record.ModifiedOn, 0, Status1);
-                        //}
                         var record = db.InawardTables.FirstOrDefault(x => x.MTransNo == mTransNo);
                         if (record != null)
                         {
@@ -55,7 +50,7 @@ namespace S1373.Controllers
                             record.ModifiedOn = DateTime.Now;
                             db.SaveChanges();
                         }
-
+                        db.SP_Transaction(0, mTransNo, Createdon, record.BarCode, record.BinCondition, "Clean", record.BinFillStatus, mUserNo, Createdon, "Clean", mUserNo1, Modifiedon, record.DocNo);
                     }
                 }
                 db.SaveChanges();
@@ -67,8 +62,5 @@ namespace S1373.Controllers
                 return Json(new { success = false, message = "Error while updating data." });
             }
         }
-
-
-
     }
 }

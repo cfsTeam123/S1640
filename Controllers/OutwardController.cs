@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using S1640.Models;
+using ZXing.QrCode.Internal;
 
 namespace S1640.Controllers
 {
@@ -22,6 +23,8 @@ namespace S1640.Controllers
         [HttpGet]
         public ActionResult FetchBin(string barcode)
         {
+            if (barcode == "")
+                return View();
             S1640Entities db = new S1640Entities();
             Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
             DateTime docdate = DateTime.Now;
@@ -66,12 +69,16 @@ namespace S1640.Controllers
             InwardValidation inward = new InwardValidation();
             Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
             DateTime docdate = DateTime.Now;
+            var Createdon = DateTime.Now;
             try
             {
                 foreach (var item in data)
                 {
                     int mTransNo = Convert.ToInt32(item.MTransNo);
                     string Barcode = Convert.ToString(item.Barcode);
+                    var LiveStockdata=db.LiveStockDatas.Where(s => s.MTransNo == mTransNo).FirstOrDefault();
+                    var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == LiveStockdata.BinCode && s.Status != "N").Select(s => s.MTransNo).FirstOrDefault();
+                    db.SP_Transaction(0, LiveStockdata.InwardNo, docdate, LiveStockdata.BinCode, LiveStockdata.BinCondition, "Clean", LiveStockdata.BinFillStatus, mUserNo, Createdon, "Loaded", null, null, BarcodeMTransNo);
                     // Example: Find and update your entity
                     var record = db.LiveStockDatas.Where(s => s.MTransNo == mTransNo || s.BinCode== Barcode).FirstOrDefault();
                     db.LiveStockDatas.Remove(record);

@@ -1,17 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="S1640" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="S1640Entities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
-    <EntitySet Name="Companies" EntityType="S1640.Company" />
-    <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
-    <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
-    <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
-    <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
-    <EntitySet Name="TempTables" EntityType="S1640.TempTable" />
-    <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
-    <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
-    <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
-    <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
     <FunctionImport Name="SP_Inward">
       <Parameter Name="MTransNo" Mode="InOut" Type="Int32" />
       <Parameter Name="DocDate" Mode="In" Type="DateTime" />
@@ -88,6 +77,17 @@
       <Parameter Name="SubscID" Mode="In" Type="Int32" />
       <Parameter Name="Status" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
+    <EntitySet Name="Companies" EntityType="S1640.Company" />
+    <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
+    <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
+    <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
+    <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
+    <EntitySet Name="TempTables" EntityType="S1640.TempTable" />
+    <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
+    <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
+    <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
+    <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
   </EntityContainer>
   <EntityType Name="BinMaster">
     <Key>
@@ -100,6 +100,10 @@
     <Property Name="CreatedBy" Type="Int32" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+    <Property Name="BinWash" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinFillStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BinStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Company">
     <Key>
@@ -243,6 +247,7 @@
       <PropertyRef Name="MTransNo" />
     </Key>
     <Property Name="MTransNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InwardNo" Type="Int32" />
     <Property Name="DocDate" Type="DateTime" Precision="3" />
     <Property Name="BarCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="BinCondition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -255,7 +260,6 @@
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
     <Property Name="DocNo" Type="Int32" />
-    <Property Name="InwardNo" Type="Int32" />
   </EntityType>
   <EntityType Name="UserAuthorization">
     <Key>

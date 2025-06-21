@@ -19,11 +19,14 @@
                             CIN = CO.CIN,
                             WebSite = CO.Website,
                         }).FirstOrDefault();
-    //var AllList1=conn.BinMasters.Where
-    var AllList = (from OM in conn.Transactions
+    var AllList = (from OM in
+                           (from t in conn.Transactions
+                            where t.CreatedOn >= Model.FromDate && t.CreatedOn <= Model.ToDate
+                            group t by t.BarCode into g
+                            select g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()
+                            )
                    join CM in conn.BinMasters
                    on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate
                    select new
                    {
                        MTransNo = OM.MTransNo,
@@ -33,13 +36,20 @@
                        BinWash = OM.BinWash,
                        Remarks = OM.Remarks1,
                        Status = OM.Status,
-                   }).OrderBy(x => x.MTransNo).ToList();
+                   }).OrderByDescending(x => x.BarCode).ToList();
+
+
+
     if (Model.BarCode != null)
     {
-        AllList = (from OM in conn.Transactions
+        AllList = (from OM in
+                     (from t in conn.Transactions
+                      where t.CreatedOn >= Model.FromDate && t.CreatedOn <= Model.ToDate && t.BarCode == Model.BarCode
+                      group t by t.BarCode into g
+                      select g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()
+                      )
                    join CM in conn.BinMasters
                    on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BarCode == Model.BarCode
                    select new
                    {
                        MTransNo = OM.MTransNo,
@@ -49,7 +59,7 @@
                        BinWash = OM.BinWash,
                        Remarks = OM.Remarks1,
                        Status = OM.Status,
-                   }).OrderBy(x => x.MTransNo).ToList();
+                   }).OrderByDescending(x => x.BarCode).ToList();
     }
     else
     {

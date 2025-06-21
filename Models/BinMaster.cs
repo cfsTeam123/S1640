@@ -21,5 +21,9 @@ namespace S1640.Models
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
+        public string BinWash { get; set; }
+        public string BinCondition { get; set; }
+        public string BinFillStatus { get; set; }
+        public string BinStatus { get; set; }
     }
 }

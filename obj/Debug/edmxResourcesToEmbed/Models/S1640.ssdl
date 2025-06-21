@@ -11,6 +11,10 @@
     <Property Name="CreatedBy" Type="int" />
     <Property Name="ModifiedBy" Type="int" />
     <Property Name="ModifiedOn" Type="datetime" />
+    <Property Name="BinWash" Type="varchar" MaxLength="50" />
+    <Property Name="BinCondition" Type="varchar" MaxLength="50" />
+    <Property Name="BinFillStatus" Type="varchar" MaxLength="50" />
+    <Property Name="BinStatus" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Company">
     <Key>

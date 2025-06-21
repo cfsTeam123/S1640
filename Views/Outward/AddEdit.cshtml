@@ -217,11 +217,13 @@
             $("#MyTable tbody tr").each(function () {
                 var mtransNo = $(this).find("td:eq(1)").text().trim(); // hidden field
                 var Barcode = $(this).find("td:eq(3)").text().trim(); // hidden field
+                var InwardNo = $(this).find("td:eq(0)").text().trim(); // hidden field
 
                 //Pushing data in list
                 dataList.push({
                     mtransNo: mtransNo,
-                    Barcode: Barcode
+                    Barcode: Barcode,
+                    InwardNo: InwardNo
                 });
             });
 
@@ -232,7 +234,7 @@
                 data: JSON.stringify(dataList),
                 success: function (result) {
                     console.log("Success:", result);
-                    $('#customToast').text("The bin is updated as Clean").fadeIn(300).delay(4000).fadeOut(400, function () {
+                    $('#customToast').text("The Bin is moved to Production area").fadeIn(300).delay(4000).fadeOut(400, function () {
                         window.location.href = '/Home/Index';
                     });
                 },

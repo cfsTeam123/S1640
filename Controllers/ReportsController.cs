@@ -95,7 +95,6 @@ namespace S1640.Controllers
             {
                 return RedirectToAction("LiveStockList", "Reports", obj);
             }
-
             else
             {
                 return RedirectToAction("Index");
@@ -223,11 +222,11 @@ namespace S1640.Controllers
             //    return RedirectToAction("Login", "Home");
             //}
             ReportListValidation obj = new ReportListValidation();
-            obj.InwardNo = ReportListModule.InwardNo;
+            obj.BinCondition = ReportListModule.BinCondition;
             obj.DocDate = ReportListModule.DocDate;
-            obj.BinCode = ReportListModule.BinCode;
-            obj.Remarks = ReportListModule.Remarks;
-            obj.UserId = ReportListModule.UserId;
+            obj.BarCode = ReportListModule.BarCode;
+            obj.BinFillStatus = ReportListModule.BinFillStatus;
+            obj.BinWash = ReportListModule.BinWash;
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;

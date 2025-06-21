@@ -19,167 +19,196 @@
                             WebSite = CO.Website,
                         }).FirstOrDefault();
 
-    var AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                      
-                   }).OrderBy(x => x.MTransNo).ToList();
+    //var AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = OM.MTransNo,
+    //                   BarCode = OM.BarCode,
+    //                   BinCondition = OM.BinCondition,
+    //                   BinFillStatus = OM.BinFillStatus,
+    //                   BinWash = OM.BinWash,
+    //                   Remarks = OM.Remarks1,
+    //                   Status = OM.Status,
+
+    //               }).OrderBy(x => x.MTransNo).ToList();
+    //if (Model.BarCode != null)
+    //{
+    //    AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BarCode == Model.BarCode && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = OM.MTransNo,
+    //                   BarCode = OM.BarCode,
+    //                   BinCondition = OM.BinCondition,
+    //                   BinFillStatus = OM.BinFillStatus,
+    //                   BinWash = OM.BinWash,
+    //                   Remarks = OM.Remarks1,
+    //                   Status = OM.Status,
+    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    //else if (Model.BinCondition == "Good")
+    //{
+    //    AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinCondition == "Good" && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = CM.MTransNo,
+    //                   BarCode = CM.BarCode,
+    //                   BinCondition = CM.BinCondition,
+    //                   BinFillStatus = CM.BinFillStatus,
+    //                   BinWash = CM.BinWash,
+    //                   Remarks = CM.Remarks1,
+    //                   Status = CM.Status,
+
+    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    //else if (Model.BinCondition == "Broken")
+    //{
+    //    AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinCondition == "Broken" && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = OM.MTransNo,
+    //                   BarCode = OM.BarCode,
+    //                   BinCondition = OM.BinCondition,
+    //                   BinFillStatus = OM.BinFillStatus,
+    //                   BinWash = OM.BinWash,
+    //                   Remarks = OM.Remarks1,
+    //                   Status = OM.Status,
+
+    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    //else if (Model.BinFillStatus == "Fill")
+    //{
+    //    AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinFillStatus == "Fill" && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = OM.MTransNo,
+    //                   BarCode = OM.BarCode,
+    //                   BinCondition = OM.BinCondition,
+    //                   BinFillStatus = OM.BinFillStatus,
+    //                   BinWash = OM.BinWash,
+    //                   Remarks = OM.Remarks1,
+    //                   Status = OM.Status,
+
+    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    //else if (Model.BinFillStatus == "Empty")
+    //{
+    //    AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinFillStatus == "Empty" && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = OM.MTransNo,
+    //                   BarCode = OM.BarCode,
+    //                   BinCondition = OM.BinCondition,
+    //                   BinFillStatus = OM.BinFillStatus,
+    //                   BinWash = OM.BinWash,
+    //                   Remarks = OM.Remarks1,
+    //                   Status = OM.Status,
+
+    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    //else if (Model.BinWash == "Wash")
+    //{
+    //    AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinWash == "Wash" && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = OM.MTransNo,
+    //                   BarCode = OM.BarCode,
+    //                   BinCondition = OM.BinCondition,
+    //                   BinFillStatus = OM.BinFillStatus,
+    //                   BinWash = OM.BinWash,
+    //                   Remarks = OM.Remarks1,
+    //                   Status = OM.Status,
+
+
+    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    //else if (Model.BinWash == "UnWash")
+    //{
+    //    AllList = (from OM in conn.Transactions
+    //               join CM in conn.InawardTables
+    //               on OM.BarCode equals CM.BarCode
+    //               where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinWash == "UnWash" && OM.Status == "LOADED"
+    //               select new
+    //               {
+    //                   MTransNo = OM.MTransNo,
+    //                   BarCode = OM.BarCode,
+    //                   BinCondition = OM.BinCondition,
+    //                   BinFillStatus = OM.BinFillStatus,
+    //                   BinWash = OM.BinWash,
+    //                   Remarks = OM.Remarks1,
+    //                   Status = OM.Status,
+
+
+    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    //else
+    //{
+    //    //AllList = (from OM in conn.Transactions
+    //    //           join CM in conn.InawardTables
+    //    //           on OM.BarCode equals CM.BarCode
+    //    //           where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate
+    //    //           select new
+    //    //           {
+    //    //               MTransNo = OM.MTransNo,
+    //    //               BarCode = OM.BarCode,
+    //    //               BinCondition = OM.BinCondition,
+    //    //               BinFillStatus = OM.BinFillStatus,
+    //    //               BinWash = OM.BinWash,
+    //    //               Remarks = OM.Remarks1,
+    //    //               Status = OM.Status,
+    //    //               DocNo = OM.DocNo,
+    //    //               CreatedOn = OM.CreatedOn,
+    //    //               CreatedBy = OM.CreatedBy
+    //    //           }).OrderBy(x => x.MTransNo).Distinct().ToList();
+    //}
+    var AllList = conn.LiveStockDatas.Where(s => s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     if (Model.BarCode != null)
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BarCode == Model.BarCode && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = conn.LiveStockDatas.Where(s => s.BinCode == Model.BarCode && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     }
     else if (Model.BinCondition == "Good")
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinCondition == "Good" && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = CM.MTransNo,
-                       BarCode = CM.BarCode,
-                       BinCondition = CM.BinCondition,
-                       BinFillStatus = CM.BinFillStatus,
-                       BinWash = CM.BinWash,
-                       Remarks = CM.Remarks1,
-                       Status = CM.Status,
-                       
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = conn.LiveStockDatas.Where(s => s.BinCondition == "Good" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     }
     else if (Model.BinCondition == "Broken")
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinCondition == "Broken" && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                      
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = conn.LiveStockDatas.Where(s => s.BinCondition == "Broken" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     }
     else if (Model.BinFillStatus == "Fill")
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinFillStatus == "Fill" && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                       
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = conn.LiveStockDatas.Where(s => s.BinFillStatus == "Fill" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     }
     else if (Model.BinFillStatus == "Empty")
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinFillStatus == "Empty" && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                      
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = conn.LiveStockDatas.Where(s => s.BinFillStatus == "Empty" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     }
-    else if (Model.BinWash == "Wash")
+    else if (Model.BinWash == "Clean")
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinWash == "Wash" && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                       
-
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = conn.LiveStockDatas.Where(s => s.BinStatus == "Clean" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     }
-    else if (Model.BinWash == "UnWash")
+    else if (Model.BinWash == "Unclean")
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.BarCode equals CM.BarCode
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BinWash == "UnWash" && OM.Status == "LOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                      
-
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
-    }
-    else
-    {
-        //AllList = (from OM in conn.Transactions
-        //           join CM in conn.InawardTables
-        //           on OM.BarCode equals CM.BarCode
-        //           where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate
-        //           select new
-        //           {
-        //               MTransNo = OM.MTransNo,
-        //               BarCode = OM.BarCode,
-        //               BinCondition = OM.BinCondition,
-        //               BinFillStatus = OM.BinFillStatus,
-        //               BinWash = OM.BinWash,
-        //               Remarks = OM.Remarks1,
-        //               Status = OM.Status,
-        //               DocNo = OM.DocNo,
-        //               CreatedOn = OM.CreatedOn,
-        //               CreatedBy = OM.CreatedBy
-        //           }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = conn.LiveStockDatas.Where(s => s.BinStatus == "Unclean" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).ToList();
     }
 }
 <html>
@@ -257,10 +286,10 @@
                                             {
                                                 <tr>
                                                     <td class="text-sm-right"><h6 style="margin-right:5px;">@(rowNo += 1)</h6></td>
-                                                    <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BarCode</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinCode</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinCondition</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinFillStatus</h6></td>
-                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.BinWash</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.BinStatus</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Remarks</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Status</h6></td>
                                                 </tr>

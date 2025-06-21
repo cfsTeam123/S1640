@@ -52,12 +52,15 @@ namespace S1640.Controllers
             DateTime? Modifiedon = MTransNo > 0 ? DateTime.Now : (DateTime?)null;
             if (barcode == "") 
                 return View();
-
+            var LivestockExist = db.LiveStockDatas.Where(s => s.BinCode == barcode).FirstOrDefault();
+            if (LivestockExist != null)
+               return Json("Loaded", JsonRequestBehavior.AllowGet);
             var DocDate = DateTime.Now;
-            var DocDate2 = DateTime.Now;
+            DateTime? DocDate2 = null;
             var Createdon = DateTime.Now;
             var Status = binclean == "Clean" ? "Clean" : "Unclean";
             var BarcodeExist=db.InawardTables.Where(s=>s.BarCode==barcode ).FirstOrDefault();
+
            // int  mTransNo = MTransNo > 0 ? MTransNo : 0;
             if (BarcodeExist == null || Status1== "Update")
             {
@@ -79,7 +82,6 @@ namespace S1640.Controllers
                                 InwardData.ModifiedBy = mUserNo;
                                 InwardData.ModifiedOn = DateTime.Now;
                                 db.SaveChanges();
-                               
                             }
                             var TransactionData = db.Transactions.Where(s => s.BarCode == barcode && s.InwardNo == MTransNo).FirstOrDefault();
                             if (TransactionData != null)

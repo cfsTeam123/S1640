@@ -42,6 +42,8 @@ namespace S1640.Controllers
         [HttpPost]
         public ActionResult AddEdit( BinMasterValidation BinMaster, string MainSubmit, string Status ,int MTransNo)
         {
+            if (BinMaster.BarCode == null)
+                return RedirectToAction("AddEdit", "BinMaster");
             if (MTransNo>0)
             {
                 S1640Entities db = new S1640Entities();
@@ -52,7 +54,6 @@ namespace S1640.Controllers
                 db.BinMasters.Add(RS);
                 db.Entry(RS).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-               
             }
             else
             {
@@ -62,7 +63,11 @@ namespace S1640.Controllers
                     BarCode = BinMaster.BarCode,
                     CreatedOn = DateTime.Now,
                     CreatedBy = Convert.ToByte(Session["Userid"]),
-                    Status = "Y",
+                    Status = BinMaster.Status,
+                    BinCondition="NA",
+                    BinFillStatus="NA",
+                    BinWash="NA",
+                    BinStatus="NA"
                 };
                 db.BinMasters.Add(binMaster);
                 db.SaveChanges();

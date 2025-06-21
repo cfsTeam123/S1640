@@ -60,6 +60,7 @@ namespace S1640.Controllers
         {
             public string MTransNo { get; set; }
             public string Barcode { get; set; }
+            public int InwardNo { get; set; }
             public bool IsChecked { get; set; }
         }
         [HttpPost]
@@ -74,16 +75,16 @@ namespace S1640.Controllers
             {
                 foreach (var item in data)
                 {
-                    int mTransNo = Convert.ToInt32(item.MTransNo);
+                    int InwardNo = Convert.ToInt32(item.InwardNo);
                     string Barcode = Convert.ToString(item.Barcode);
-                    var LiveStockdata=db.LiveStockDatas.Where(s => s.MTransNo == mTransNo).FirstOrDefault();
+                    var LiveStockdata=db.LiveStockDatas.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
                     var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == LiveStockdata.BinCode && s.Status != "N").Select(s => s.MTransNo).FirstOrDefault();
-                    db.SP_Transaction(0, LiveStockdata.InwardNo, docdate, LiveStockdata.BinCode, LiveStockdata.BinCondition, "Clean", LiveStockdata.BinFillStatus, mUserNo, Createdon, "Loaded", null, null, BarcodeMTransNo);
+                    db.SP_Transaction(0, LiveStockdata.InwardNo, docdate, LiveStockdata.BinCode, LiveStockdata.BinCondition, "Clean", LiveStockdata.BinFillStatus, mUserNo, Createdon, "Unoaded", null, null, BarcodeMTransNo);
                     // Example: Find and update your entity
-                    var record = db.LiveStockDatas.Where(s => s.MTransNo == mTransNo || s.BinCode== Barcode).FirstOrDefault();
+                    var record = db.LiveStockDatas.Where(s => s.InwardNo == InwardNo || s.BinCode== Barcode).FirstOrDefault();
                     db.LiveStockDatas.Remove(record);
                     db.SaveChanges();
-                    var tempdata = db.TempTables.Where(s => s.MTransNo == mTransNo).FirstOrDefault();
+                    var tempdata = db.TempTables.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
                     db.TempTables.Remove(tempdata);
                     db.SaveChanges();
                 }

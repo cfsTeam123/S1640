@@ -15,6 +15,7 @@ namespace S1640.Models
     public partial class Transaction
     {
         public int MTransNo { get; set; }
+        public Nullable<int> InwardNo { get; set; }
         public Nullable<System.DateTime> DocDate { get; set; }
         public string BarCode { get; set; }
         public string BinCondition { get; set; }
@@ -27,6 +28,5 @@ namespace S1640.Models
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public Nullable<int> DocNo { get; set; }
-        public Nullable<int> InwardNo { get; set; }
     }
 }

@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="S1640StoreContainer" CdmEntityContainer="S1640Entities">
+    <FunctionImportMapping FunctionImportName="SP_Inward" FunctionName="S1640.Store.SP_Inward" />
+    <FunctionImportMapping FunctionImportName="SP_Livestock" FunctionName="S1640.Store.SP_Livestock" />
+    <FunctionImportMapping FunctionImportName="SP_TempTable" FunctionName="S1640.Store.SP_TempTable" />
+    <FunctionImportMapping FunctionImportName="SP_Transaction" FunctionName="S1640.Store.SP_Transaction" />
+    <FunctionImportMapping FunctionImportName="SP_UserMaster" FunctionName="S1640.Store.SP_UserMaster" />
     <EntitySetMapping Name="BinMasters">
       <EntityTypeMapping TypeName="S1640.BinMaster">
         <MappingFragment StoreEntitySet="BinMaster">
+          <ScalarProperty Name="BinStatus" ColumnName="BinStatus" />
+          <ScalarProperty Name="BinFillStatus" ColumnName="BinFillStatus" />
+          <ScalarProperty Name="BinCondition" ColumnName="BinCondition" />
+          <ScalarProperty Name="BinWash" ColumnName="BinWash" />
           <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
           <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -160,7 +169,6 @@
     <EntitySetMapping Name="Transactions">
       <EntityTypeMapping TypeName="S1640.Transaction">
         <MappingFragment StoreEntitySet="Transactions">
-          <ScalarProperty Name="InwardNo" ColumnName="InwardNo" />
           <ScalarProperty Name="DocNo" ColumnName="DocNo" />
           <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
           <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -173,6 +181,7 @@
           <ScalarProperty Name="BinCondition" ColumnName="BinCondition" />
           <ScalarProperty Name="BarCode" ColumnName="BarCode" />
           <ScalarProperty Name="DocDate" ColumnName="DocDate" />
+          <ScalarProperty Name="InwardNo" ColumnName="InwardNo" />
           <ScalarProperty Name="MTransNo" ColumnName="MTransNo" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -224,10 +233,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="SP_Inward" FunctionName="S1640.Store.SP_Inward" />
-    <FunctionImportMapping FunctionImportName="SP_Livestock" FunctionName="S1640.Store.SP_Livestock" />
-    <FunctionImportMapping FunctionImportName="SP_TempTable" FunctionName="S1640.Store.SP_TempTable" />
-    <FunctionImportMapping FunctionImportName="SP_Transaction" FunctionName="S1640.Store.SP_Transaction" />
-    <FunctionImportMapping FunctionImportName="SP_UserMaster" FunctionName="S1640.Store.SP_UserMaster" />
   </EntityContainerMapping>
 </Mapping>

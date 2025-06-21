@@ -21,9 +21,12 @@ namespace S1373.Controllers
         //Fetching data from barcode scann only cleaned data will shown
         [HttpGet]
         public ActionResult FetchBin(string barcode)
+        
         {
-            S1640Entities db = new S1640Entities();
-            
+            if(barcode == "") 
+                return View();
+
+                S1640Entities db = new S1640Entities();
                 Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
                 DateTime docdate = DateTime.Now;
                 var record = db.InawardTables.Where(s => s.BarCode == barcode && s.Status == "Clean").FirstOrDefault();
@@ -70,6 +73,9 @@ namespace S1373.Controllers
         [HttpPost]
         public JsonResult SaveData(List<MyItem> data)
         {
+            if(data == null || data.Count == 0)
+                return Json("Error", JsonRequestBehavior.AllowGet);
+
             S1640Entities db = new S1640Entities();
             InwardValidation inward = new InwardValidation();
             Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
@@ -96,8 +102,10 @@ namespace S1373.Controllers
                 }
                 return Json("Success", JsonRequestBehavior.AllowGet);
             }
-            catch { }
-            return Json("Error", JsonRequestBehavior.AllowGet);  
+            catch {
+                return Json("Error", JsonRequestBehavior.AllowGet);
+            }
+          
         }
     }
 }

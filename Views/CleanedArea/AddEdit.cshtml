@@ -229,8 +229,16 @@
                 data: JSON.stringify(dataList),
                 success: function (result) {
                     console.log("Success:", result);
-                    $('#customToast').text("The bin is updated as Clean").fadeIn(300).delay(4000).fadeOut(400, function () {
-                        window.location.href = '/Home/Index';   });
+                    if (result == "Success")
+                    {
+                        $('#customToast1').text("The bin is updated as Clean").fadeIn(300).delay(4000).fadeOut(400, function () {
+                            window.location.href = '/Home/Index';
+                        });
+                    }
+                    else if (result == "Error")
+                    {
+                        $('#customToast').text("Error saving data:").fadeIn(300).delay(4000).fadeOut(400);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", error);

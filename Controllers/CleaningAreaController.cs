@@ -35,7 +35,6 @@ namespace S1373.Controllers
                 {
                     if (item.IsChecked == true)
                     {
-                       
                         Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
                         int mTransNo = Convert.ToInt32(item.MtransNo);
                         DateTime? Modifiedon = mTransNo > 0 ? DateTime.Now : (DateTime?)null;
@@ -46,6 +45,7 @@ namespace S1373.Controllers
                         {
                             record.BinWash = "Clean";
                             record.Status = "Clean";
+                            record.DocDate2 = DateTime.Now;
                             record.ModifiedBy = mUserNo;
                             record.ModifiedOn = DateTime.Now;
                             db.SaveChanges();

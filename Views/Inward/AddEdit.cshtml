@@ -9,7 +9,18 @@
     DateTime time = DateTime.Now.AddMinutes(-500);
 
     // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
-    var AllList = conn.InawardTables.Where(s => s.DocDate >= time).ToList();
+    //var AllList = conn.InawardTables.Where(s => s.DocDate >= time).ToList();
+    var AllList = (from IT in conn.InawardTables
+                   where IT.DocDate >= time && !conn.LiveStockDatas.Any(LT => LT.BinCode == IT.BarCode && LT.Status == "Loaded")
+                   select new
+                   {
+                       MTransNo = IT.MTransNo,
+                       BarCode = IT.BarCode,
+                       BinWash = IT.BinWash,
+                       BinCondition = IT.BinCondition,
+                       BinFillStatus = IT.BinFillStatus
+                   }).ToList();
+
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -179,6 +190,9 @@
                     {
                         $('#customToast').text("Invalid barcode: Not available in BinMaster data.").fadeIn(300).delay(4000).fadeOut(400);
 
+                    } else if (result == "Loaded")
+                    {
+                        $('#customToast').text("This bin has already been inwarded.").fadeIn(300).delay(4000).fadeOut(400);
                     }
                    
                     // Optionally show a success message or reload data

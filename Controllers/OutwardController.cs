@@ -31,7 +31,7 @@ namespace S1640.Controllers
             var record = db.LiveStockDatas.Where(s => s.BinCode == barcode && s.Status == "loaded").FirstOrDefault();
             if (record != null)
             {
-                    var TempData = db.SP_TempTable(record.MTransNo, docdate, barcode, "NA", 0, mUserNo, docdate, "Unloaded", "Clean", record.BinCondition, record.BinFillStatus);
+                    var TempData = db.SP_TempTable(record.InwardNo, docdate, barcode, "NA", 0, mUserNo, docdate, "Unloaded", "Clean", record.BinCondition, record.BinFillStatus);
                     var data = db.TempTables.Where(s => s.BinCode == barcode && s.Status == "Unloaded").FirstOrDefault();
                     return Json(data, JsonRequestBehavior.AllowGet);
             }
@@ -79,7 +79,7 @@ namespace S1640.Controllers
                     string Barcode = Convert.ToString(item.Barcode);
                     var LiveStockdata=db.LiveStockDatas.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
                     var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == LiveStockdata.BinCode && s.Status != "N").Select(s => s.MTransNo).FirstOrDefault();
-                    db.SP_Transaction(0, LiveStockdata.InwardNo, docdate, LiveStockdata.BinCode, LiveStockdata.BinCondition, "Clean", LiveStockdata.BinFillStatus, mUserNo, Createdon, "Unoaded", null, null, BarcodeMTransNo);
+                    db.SP_Transaction(0, LiveStockdata.InwardNo, docdate, LiveStockdata.BinCode, LiveStockdata.BinCondition, "Clean", LiveStockdata.BinFillStatus, mUserNo, Createdon, "Unloaded", null, null, BarcodeMTransNo);
                     // Example: Find and update your entity
                     var record = db.LiveStockDatas.Where(s => s.InwardNo == InwardNo || s.BinCode== Barcode).FirstOrDefault();
                     db.LiveStockDatas.Remove(record);

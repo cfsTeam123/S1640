@@ -10,8 +10,9 @@
 
     // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
     //var AllList = conn.InawardTables.Where(s => s.DocDate >= time).ToList();
-    var AllList = (from IT in conn.InawardTables
-                   where IT.DocDate >= time && !conn.LiveStockDatas.Any(LT => LT.BinCode == IT.BarCode && LT.Status == "Loaded")
+    var AllList = (from IT in conn.InawardTables                                                                                                 
+                   where IT.DocDate >= time && !conn.LiveStockDatas.Any(LT => LT.BinCode == IT.BarCode && LT.Status == "Loaded") &&
+                         IT.DocDate >= time && !conn.Transactions.Any(LT => LT.BarCode == IT.BarCode && LT.Status == "Unloaded")
                    select new
                    {
                        MTransNo = IT.MTransNo,

@@ -94,7 +94,7 @@ namespace S1373.Controllers
                     var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == record.BinCode && s.Status != "N").Select(s => s.MTransNo).FirstOrDefault();
                     if (record != null)
                     {
-                        var TempData = db.SP_Livestock(record.MTransNo, docdate, record.BinCode, "NA", 0, mUserNo, docdate, "Loaded", "Clean", record.BinCondition, record.BinFillStatus);
+                        var TempData = db.SP_Livestock(record.InwardNo, docdate, record.BinCode, "NA", 0, mUserNo, docdate, "Loaded", "Clean", record.BinCondition, record.BinFillStatus);
                         db.SP_Transaction(0, record.InwardNo, docdate, record.BinCode, record.BinCondition, "Clean", record.BinFillStatus, mUserNo, Createdon, "Loaded", null, null, BarcodeMTransNo);
                     }
                     db.TempTables.Remove(record);

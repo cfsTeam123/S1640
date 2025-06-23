@@ -176,8 +176,11 @@
     ////    //               Status = OM.Status,
     ////    //           }).OrderBy(x => x.MTransNo).Distinct().ToList();
     ////}
-    var AllList = conn.InawardTables.GroupBy(x => x.BarCode).Select(g => g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()).OrderByDescending(x => x.BarCode).ToList();
-
+    var AllList = conn.InawardTables.Where(s => s.Remarks2 != "Unloaded").GroupBy(x => x.BarCode).Select(g => g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()).OrderByDescending(x => x.BarCode).ToList();
+    if (Model.BarCode != null)
+    {
+        AllList = conn.InawardTables.Where(s => s.BarCode == Model.BarCode && s.Remarks2 != "Unloaded").GroupBy(x => x.BarCode).Select(g => g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()).OrderByDescending(x => x.BarCode).ToList();
+    }
 }
 
 

@@ -1,4 +1,4 @@
-﻿@RenderSection("scripts", required: false)
+﻿﻿@RenderSection("scripts", required: false)
 @using S1640.Models;
 @{
     S1640Entities conn = new S1640Entities();
@@ -33,12 +33,12 @@
     int SubscID = Convert.ToByte(Session["SubscID"]);
     var User = conn.UserMasters.Where(x => x.MTransNo == UserNo).FirstOrDefault();
     var AdminMenuList = (from M in conn.Menulists
-                         where M.DSLNo>0
+                         where M.DSLNo > 0
                          select new
                          {
-                             DSalNo=M.DSLNo,
+                             DSalNo = M.DSLNo,
                              Department = M.Department
-                         }).Distinct().OrderBy(x=>x.DSalNo).ToList();
+                         }).Distinct().OrderBy(x => x.DSalNo).ToList();
 }
 <!DOCTYPE html>
 <html class="fixed sidebar-left-collapsed">
@@ -58,270 +58,275 @@
     @*<link href="~/fonts/css.css" rel="stylesheet" />*@
     @Html.Partial("_jsHeader")
 
-<style>
+    <style>
         /* From Uiverse.io by alexruix */
-.loader {
-  width: 80px;
-  height: 50px;
-  position: relative;
-}
+        .loader {
+            width: 80px;
+            height: 50px;
+            position: relative;
+        }
 
-.loader-text {
-  position: absolute;
-  top: 0;
-  padding: 0;
-  margin: 0;
-  color: #C8B6FF;
-  animation: text_713 3.5s ease both infinite;
-  font-size: .8rem;
-  letter-spacing: 1px;
-}
+        .loader-text {
+            position: absolute;
+            top: 0;
+            padding: 0;
+            margin: 0;
+            color: #C8B6FF;
+            animation: text_713 3.5s ease both infinite;
+            font-size: .8rem;
+            letter-spacing: 1px;
+        }
 
-.load {
-  background-color: #9A79FF;
-  border-radius: 50px;
-  display: block;
-  height: 16px;
-  width: 16px;
-  bottom: 0;
-  position: absolute;
-  transform: translateX(64px);
-  animation: loading_713 3.5s ease both infinite;
-}
+        .load {
+            background-color: #9A79FF;
+            border-radius: 50px;
+            display: block;
+            height: 16px;
+            width: 16px;
+            bottom: 0;
+            position: absolute;
+            transform: translateX(64px);
+            animation: loading_713 3.5s ease both infinite;
+        }
 
-.load::before {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 100%;
-  background-color: #D1C2FF;
-  border-radius: inherit;
-  animation: loading2_713 3.5s ease both infinite;
-}
+            .load::before {
+                position: absolute;
+                content: "";
+                width: 100%;
+                height: 100%;
+                background-color: #D1C2FF;
+                border-radius: inherit;
+                animation: loading2_713 3.5s ease both infinite;
+            }
 
-@@keyframes text_713 {
-  0% {
-    letter-spacing: 1px;
-    transform: translateX(0px);
-  }
+        @@keyframes text_713 {
+            0% {
+                letter-spacing: 1px;
+                transform: translateX(0px);
+            }
 
-  40% {
-    letter-spacing: 2px;
-    transform: translateX(26px);
-  }
+            40% {
+                letter-spacing: 2px;
+                transform: translateX(26px);
+            }
 
-  80% {
-    letter-spacing: 1px;
-    transform: translateX(32px);
-  }
+            80% {
+                letter-spacing: 1px;
+                transform: translateX(32px);
+            }
 
-  90% {
-    letter-spacing: 2px;
-    transform: translateX(0px);
-  }
+            90% {
+                letter-spacing: 2px;
+                transform: translateX(0px);
+            }
 
-  100% {
-    letter-spacing: 1px;
-    transform: translateX(0px);
-  }
-}
+            100% {
+                letter-spacing: 1px;
+                transform: translateX(0px);
+            }
+        }
 
-@@keyframes loading_713 {
-  0% {
-    width: 16px;
-    transform: translateX(0px);
-  }
+        @@keyframes loading_713 {
+            0% {
+                width: 16px;
+                transform: translateX(0px);
+            }
 
-  40% {
-    width: 100%;
-    transform: translateX(0px);
-  }
+            40% {
+                width: 100%;
+                transform: translateX(0px);
+            }
 
-  80% {
-    width: 16px;
-    transform: translateX(64px);
-  }
+            80% {
+                width: 16px;
+                transform: translateX(64px);
+            }
 
-  90% {
-    width: 100%;
-    transform: translateX(0px);
-  }
+            90% {
+                width: 100%;
+                transform: translateX(0px);
+            }
 
-  100% {
-    width: 16px;
-    transform: translateX(0px);
-  }
-}
+            100% {
+                width: 16px;
+                transform: translateX(0px);
+            }
+        }
 
-@@keyframes loading2_713 {
-  0% {
-    transform: translateX(0px);
-    width: 16px;
-  }
+        @@keyframes loading2_713 {
+            0% {
+                transform: translateX(0px);
+                width: 16px;
+            }
 
-  40% {
-    transform: translateX(0%);
-    width: 80%;
-  }
+            40% {
+                transform: translateX(0%);
+                width: 80%;
+            }
 
-  80% {
-    width: 100%;
-    transform: translateX(0px);
-  }
+            80% {
+                width: 100%;
+                transform: translateX(0px);
+            }
 
-  90% {
-    width: 80%;
-    transform: translateX(15px);
-  }
+            90% {
+                width: 80%;
+                transform: translateX(15px);
+            }
 
-  100% {
-    transform: translateX(0px);
-    width: 16px;
-  }
-}
-
-
+            100% {
+                transform: translateX(0px);
+                width: 16px;
+            }
+        }
 
 
-    /* Loading Screen */
-    #loading {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(34, 193, 195, 0.2); /* Soft teal background */
-        background-image: url("../Content/img/Loader.gif");
-        background-repeat: no-repeat;
-        background-position: center;
-        animation: fadeIn 0.5s ease-in-out;
-    }
 
-    @@keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
 
-    /* Autocomplete Items */
-    .autocomplete-items {
-        position: absolute;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        z-index: 99;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: linear-gradient(135deg, #f6f8f9, #ffffff);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
+        /* Loading Screen */
+        #loading {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(34, 193, 195, 0.2); /* Soft teal background */
+            background-image: url("../Content/img/Loader.gif");
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
 
-    .autocomplete-items div {
-        padding: 12px;
-        cursor: pointer;
-        background-color: #f9f9f9;
-        font-size: 16px;
-        border-bottom: 1px solid #e0e0e0;
-        transition: background-color 0.3s ease;
-    }
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
 
-    .autocomplete-items div:hover {
-        background-color: #1e90ff;
-        color: white;
-    }
+            to {
+                opacity: 1;
+            }
+        }
 
-    .autocomplete-active {
-        background-color: #28a745 !important;
-        color: white;
-    }
+        /* Autocomplete Items */
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #f6f8f9, #ffffff);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Body */
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #eef2f7;
-        color: #2c3e50;
-        margin: 0;
-        padding: 0;
-    }
+            .autocomplete-items div {
+                padding: 12px;
+                cursor: pointer;
+                background-color: #f9f9f9;
+                font-size: 16px;
+                border-bottom: 1px solid #e0e0e0;
+                transition: background-color 0.3s ease;
+            }
 
-    /* Notification Badge */
-    .notification {
-        background-color: #8e44ad; /* Purple background */
-        color: white;
-        text-decoration: none;
-        padding: 10px 14px;
-        position: relative;
-        display: inline-block;
-        border-radius: 50%;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-    }
+                .autocomplete-items div:hover {
+                    background-color: #1e90ff;
+                    color: white;
+                }
 
-    .notification:hover {
-        background: #9b59b6; /* Lighter purple on hover */
-    }
+        .autocomplete-active {
+            background-color: #28a745 !important;
+            color: white;
+        }
 
-    .notification .badge {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        padding: 6px 8px;
-        border-radius: 50%;
-        background-color: #e74c3c; /* Red badge */
-        color: white;
-        font-weight: bold;
-        font-size: 14px;
-    }
+        /* Body */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #eef2f7;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Rating */
-    .rating {
-        display: inline-block;
-        width: auto;
-        height: 35px;
-        direction: rtl;
-        margin-top: 20px;
-    }
+        /* Notification Badge */
+        .notification {
+            background-color: #8e44ad; /* Purple background */
+            color: white;
+            text-decoration: none;
+            padding: 10px 14px;
+            position: relative;
+            display: inline-block;
+            border-radius: 50%;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
 
-    .rating > input {
-        opacity: 0;
-        margin-right: -100%;
-    }
+            .notification:hover {
+                background: #9b59b6; /* Lighter purple on hover */
+            }
 
-    .rating > label {
-        display: inline-block;
-        width: 35px;
-        height: 35px;
-        background: url('star-off-big.png') no-repeat center center;
-        background-size: contain;
-        cursor: pointer;
-        transition: transform 0.3s ease, background 0.3s;
-    }
+            .notification .badge {
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                padding: 6px 8px;
+                border-radius: 50%;
+                background-color: #e74c3c; /* Red badge */
+                color: white;
+                font-weight: bold;
+                font-size: 14px;
+            }
 
-    .rating > label:before {
-        content: '';
-        width: 100%;
-        height: 100%;
-        background: url('star-on-big.png') no-repeat center center;
-        background-size: contain;
-        opacity: 0;
-        transition: opacity 0.2s linear;
-    }
+        /* Rating */
+        .rating {
+            display: inline-block;
+            width: auto;
+            height: 35px;
+            direction: rtl;
+            margin-top: 20px;
+        }
 
-    .rating > label:hover {
-        transform: scale(1.1);
-        background-color: rgba(255, 223, 0, 0.8);
-    }
+            .rating > input {
+                opacity: 0;
+                margin-right: -100%;
+            }
 
-    .rating > label:hover:before, .rating > label:hover ~ label:before, .rating:not(:hover) > :checked ~ label:before {
-        opacity: 1;
-    }
+            .rating > label {
+                display: inline-block;
+                width: 35px;
+                height: 35px;
+                background: url('star-off-big.png') no-repeat center center;
+                background-size: contain;
+                cursor: pointer;
+                transition: transform 0.3s ease, background 0.3s;
+            }
 
-    /* Hover Effects for Star Ratings */
-    .rating > label:hover {
-        background-color: #ffd700;
-    }
-</style>
+                .rating > label:before {
+                    content: '';
+                    width: 100%;
+                    height: 100%;
+                    background: url('star-on-big.png') no-repeat center center;
+                    background-size: contain;
+                    opacity: 0;
+                    transition: opacity 0.2s linear;
+                }
+
+                .rating > label:hover {
+                    transform: scale(1.1);
+                    background-color: rgba(255, 223, 0, 0.8);
+                }
+
+                    .rating > label:hover:before, .rating > label:hover ~ label:before, .rating:not(:hover) > :checked ~ label:before {
+                        opacity: 1;
+                    }
+
+                /* Hover Effects for Star Ratings */
+                .rating > label:hover {
+                    background-color: #ffd700;
+                }
+    </style>
 
 
 </head>
@@ -332,7 +337,7 @@
                 <a href="~/Home/Index" class="logo text-center">
                     <font size="6"><b>CFS</b></font><br />
                     <h6 id="time" style="margin-right:15px; margin-top:-5px;"> Session ends in 30:00</h6>
-                </a>               
+                </a>
             </div>
             <div class="col-lg-3 search nav-form text-center">
                 <div class="input-group">
@@ -391,174 +396,181 @@
             <div class="nano">
                 <div class="nano-content">
                     <nav id="menu" class="nav-main" role="navigation">
-                        @if (@User.UserType == "ADMIN")
-{
-                    <ul class="nav nav-main">
-                        <li>
-                            <a class="nav-link" href="~/Home/Index">
-                                <i class="fas fa-home" aria-hidden="true"></i>
-                                <span>HOME</span>
-                            </a>
-                        </li>
-                        @foreach (var item1 in AdminMenuList)
+                        @try
                         {
-                            <li class="nav-parent">
-                                @if (item1.Department == "BUSINESS DEVELOPMENT")
-                                {
-                                    <a class="nav-link" href="#">
-                                        <i class="fas fa-chart-area" aria-hidden="true"></i>
-                                        <span>PRODUCTION</span>
-                                    </a>
-                                }
-                                <ul class="nav nav-children">
 
-                                    <li class="nav nav-parent">
-                                        <a class="nav-link" href="#">
-                                            <i class="fas fa-list-ul" aria-hidden="true"></i>
-                                            <span>TRANSACTIONS</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            @{
-                                                var AllList1 = (from MO in conn.Menulists
-                                                                where MO.ModuleType == "TRANSACTIONS" && MO.Department == item1.Department && MO.DSLNo > 0
-                                                                select new
-                                                                {
-                                                                    SlNo = MO.MSLNo,
-                                                                    ModuleName = MO.ModuleName,
-                                                                    ModulePage = MO.ModulePage,
-                                                                    ModuleLink = MO.ModuleLink
-                                                                }).OrderBy(x => x.SlNo).ToList();
-                                            }
-                                            @foreach (var item in AllList1)
-                                            {
-                                                <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
-                                            }
-                                        </ul>
-                                    </li>
-                                    <li class="nav nav-parent">
-                                        <a class="nav-link" href="#">
-                                            <i class="fas fa-clipboard-list" aria-hidden="true"></i>
-                                            <span>REPORTS</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            @{
-                                                var AllList2 = (from MO in conn.Menulists
-                                                                where MO.ModuleType == "REPORTS" && MO.Department == item1.Department && MO.DSLNo > 0
-                                                                select new
-                                                                {
-                                                                    SlNo = MO.MSLNo,
-                                                                    ModuleName = MO.ModuleName,
-                                                                    ModulePage = MO.ModulePage,
-                                                                    ModuleLink = MO.ModuleLink
-                                                                }).OrderBy(x => x.SlNo).ToList();
-                                            }
-                                            @foreach (var item in AllList2)
-                                            {
-                                                <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
-                                            }
-                                        </ul>
-                                    </li>
+                            if (@User.UserType == "ADMIN" || @User.UserType == null)
+                            {
+                            <ul class="nav nav-main">
+                                <li>
+                                    <a class="nav-link" href="~/Home/Index">
+                                        <i class="fas fa-home" aria-hidden="true"></i>
+                                        <span>HOME</span>
+                                    </a>
+                                </li>
+                                @foreach (var item1 in AdminMenuList)
+                                {
                                     <li class="nav-parent">
-                                        <a class="nav-link" href="#">
-                                            <i class="fas fa-book-open" aria-hidden="true"></i>
-                                            <span>MASTERS</span>
-                                        </a>
+                                        @if (item1.Department == "BUSINESS DEVELOPMENT")
+                                        {
+                                            <a class="nav-link" href="#">
+                                                <i class="fas fa-chart-area" aria-hidden="true"></i>
+                                                <span>PRODUCTION</span>
+                                            </a>
+                                        }
                                         <ul class="nav nav-children">
-                                            @{
-                                                var AllList = (from MO in conn.Menulists
-                                                               where MO.ModuleType == "MASTERS" && MO.Department == item1.Department && MO.DSLNo > 0
-                                                               select new
-                                                               {
-                                                                   SlNo = MO.MSLNo,
-                                                                   ModuleName = MO.ModuleName,
-                                                                   ModulePage = MO.ModulePage,
-                                                                   ModuleLink = MO.ModuleLink
-                                                               }).OrderBy(x => x.SlNo).ToList();
-                                            }
-                                            @foreach (var item in AllList)
-                                            {
-                                                <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
-                                            }
-                                        </ul>
-                                    </li>
-                                </ul>
 
-                            </li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <ul class="nav nav-main">
-                        <li>
-                            <a class="nav-link" href="~/Home/Index">
-                                <i class="fas fa-home" aria-hidden="true"></i>
-                                <span>HOME</span>
-                            </a>
-                        </li>
-                        @foreach (var item1 in AdminMenuList)
-                        {
-                            <li class="nav-parent">
-                                @if (item1.Department == "BUSINESS DEVELOPMENT")
-                                {
-                                    <a class="nav-link" href="#">
-                                        <i class="fas fa-chart-area" aria-hidden="true"></i>
-                                        <span>@item1.Department</span>
+                                            <li class="nav nav-parent">
+                                                <a class="nav-link" href="#">
+                                                    <i class="fas fa-list-ul" aria-hidden="true"></i>
+                                                    <span>TRANSACTIONS</span>
+                                                </a>
+                                                <ul class="nav nav-children">
+                                                    @{
+                                                        var AllList1 = (from MO in conn.Menulists
+                                                                        where MO.ModuleType == "TRANSACTIONS" && MO.Department == item1.Department && MO.DSLNo > 0
+                                                                        select new
+                                                                        {
+                                                                            SlNo = MO.MSLNo,
+                                                                            ModuleName = MO.ModuleName,
+                                                                            ModulePage = MO.ModulePage,
+                                                                            ModuleLink = MO.ModuleLink
+                                                                        }).OrderBy(x => x.SlNo).ToList();
+                                                    }
+                                                    @foreach (var item in AllList1)
+                                                    {
+                                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                            <li class="nav nav-parent">
+                                                <a class="nav-link" href="#">
+                                                    <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                                                    <span>REPORTS</span>
+                                                </a>
+                                                <ul class="nav nav-children">
+                                                    @{
+                                                        var AllList2 = (from MO in conn.Menulists
+                                                                        where MO.ModuleType == "REPORTS" && MO.Department == item1.Department && MO.DSLNo > 0
+                                                                        select new
+                                                                        {
+                                                                            SlNo = MO.MSLNo,
+                                                                            ModuleName = MO.ModuleName,
+                                                                            ModulePage = MO.ModulePage,
+                                                                            ModuleLink = MO.ModuleLink
+                                                                        }).OrderBy(x => x.SlNo).ToList();
+                                                    }
+                                                    @foreach (var item in AllList2)
+                                                    {
+                                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                            <li class="nav-parent">
+                                                <a class="nav-link" href="#">
+                                                    <i class="fas fa-book-open" aria-hidden="true"></i>
+                                                    <span>MASTERS</span>
+                                                </a>
+                                                <ul class="nav nav-children">
+                                                    @{
+                                                        var AllList = (from MO in conn.Menulists
+                                                                       where MO.ModuleType == "MASTERS" && MO.Department == item1.Department && MO.DSLNo > 0
+                                                                       select new
+                                                                       {
+                                                                           SlNo = MO.MSLNo,
+                                                                           ModuleName = MO.ModuleName,
+                                                                           ModulePage = MO.ModulePage,
+                                                                           ModuleLink = MO.ModuleLink
+                                                                       }).OrderBy(x => x.SlNo).ToList();
+                                                    }
+                                                    @foreach (var item in AllList)
+                                                    {
+                                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        </ul>
+
+                                    </li>
+                                                        }
+                            </ul>
+                                                        }
+                                                        else
+                                                        {
+                            <ul class="nav nav-main">
+                                <li>
+                                    <a class="nav-link" href="~/Home/Index">
+                                        <i class="fas fa-home" aria-hidden="true"></i>
+                                        <span>HOME</span>
                                     </a>
-                                }
-                                <ul class="nav nav-children">
+                                </li>
+                                @foreach (var item1 in AdminMenuList)
+                                {
+                                    <li class="nav-parent">
+                                        @if (item1.Department == "BUSINESS DEVELOPMENT")
+                                        {
+                                            <a class="nav-link" href="#">
+                                                <i class="fas fa-chart-area" aria-hidden="true"></i>
+                                                <span>@item1.Department</span>
+                                            </a>
+                                        }
+                                        <ul class="nav nav-children">
 
-                                    <li class="nav nav-parent">
-                                        <a class="nav-link" href="#">
-                                            <i class="fas fa-list-ul" aria-hidden="true"></i>
-                                            <span>TRANSACTIONS</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            @{
-                                                var AllList1 = (from MO in conn.Menulists
-                                                                where MO.ModuleType == "TRANSACTIONS" && MO.Department == item1.Department && MO.DSLNo > 0
-                                                                select new
-                                                                {
-                                                                    SlNo = MO.MSLNo,
-                                                                    ModuleName = MO.ModuleName,
-                                                                    ModulePage = MO.ModulePage,
-                                                                    ModuleLink = MO.ModuleLink
-                                                                }).OrderBy(x => x.SlNo).ToList();
-                                            }
-                                            @foreach (var item in AllList1)
-                                            {
-                                                <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
-                                            }
+                                            <li class="nav nav-parent">
+                                                <a class="nav-link" href="#">
+                                                    <i class="fas fa-list-ul" aria-hidden="true"></i>
+                                                    <span>TRANSACTIONS</span>
+                                                </a>
+                                                <ul class="nav nav-children">
+                                                    @{
+                                                        var AllList1 = (from MO in conn.Menulists
+                                                                        where MO.ModuleType == "TRANSACTIONS" && MO.Department == item1.Department && MO.DSLNo > 0
+                                                                        select new
+                                                                        {
+                                                                            SlNo = MO.MSLNo,
+                                                                            ModuleName = MO.ModuleName,
+                                                                            ModulePage = MO.ModulePage,
+                                                                            ModuleLink = MO.ModuleLink
+                                                                        }).OrderBy(x => x.SlNo).ToList();
+                                                    }
+                                                    @foreach (var item in AllList1)
+                                                    {
+                                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                            <li class="nav nav-parent">
+                                                <a class="nav-link" href="#">
+                                                    <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                                                    <span>REPORTS</span>
+                                                </a>
+                                                <ul class="nav nav-children">
+                                                    @{
+                                                        var AllList2 = (from MO in conn.Menulists
+                                                                        where MO.ModuleType == "REPORTS" && MO.Department == item1.Department && MO.DSLNo > 0
+                                                                        select new
+                                                                        {
+                                                                            SlNo = MO.MSLNo,
+                                                                            ModuleName = MO.ModuleName,
+                                                                            ModulePage = MO.ModulePage,
+                                                                            ModuleLink = MO.ModuleLink
+                                                                        }).OrderBy(x => x.SlNo).ToList();
+                                                    }
+                                                    @foreach (var item in AllList2)
+                                                    {
+                                                        <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
+                                                    }
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
-                                    <li class="nav nav-parent">
-                                        <a class="nav-link" href="#">
-                                            <i class="fas fa-clipboard-list" aria-hidden="true"></i>
-                                            <span>REPORTS</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            @{
-                                                var AllList2 = (from MO in conn.Menulists
-                                                                where MO.ModuleType == "REPORTS" && MO.Department == item1.Department && MO.DSLNo > 0
-                                                                select new
-                                                                {
-                                                                    SlNo = MO.MSLNo,
-                                                                    ModuleName = MO.ModuleName,
-                                                                    ModulePage = MO.ModulePage,
-                                                                    ModuleLink = MO.ModuleLink
-                                                                }).OrderBy(x => x.SlNo).ToList();
-                                            }
-                                            @foreach (var item in AllList2)
-                                            {
-                                                <li>@Html.ActionLink(item.ModuleName, item.ModulePage, item.ModuleLink, null, new { @class = "nav-link" })</li>
-                                            }
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                    </ul>
-                }
+                                                        }
+                            </ul>
+                                                                }
+                                                            }
+                                                            catch (Exception e) { }
+
+                                                        }
                     </nav>
                 </div>
                 <script>
@@ -567,131 +579,131 @@
                         if (localStorage.getItem('sidebar-left-position') !== null) {
                             var initialPosition = localStorage.getItem('sidebar-left-position'),
                                 sidebarLeft = document.querySelector('#sidebar-left .nano-content');
-                            sidebarLeft.scrollTop = initialPosition;
+                                                                sidebarLeft.scrollTop = initialPosition;
                         }
-                    }
-                    var modNms;
-                    var modLks;
-                    window.addEventListener("load", function (evt) {                       
-                        var fift1 = 60 * 0.2,
-                            display1 = document.querySelector('#MsgCount');
-                        GetmsgCount(fift1, display1);
+                                                        }
+                                                        var modNms;
+                                                        var modLks;
+                                                        window.addEventListener("load", function (evt) {
+                                                            var fift1 = 60 * 0.2,
+                                                                display1 = document.querySelector('#MsgCount');
+                                                            GetmsgCount(fift1, display1);
                         $.ajax({
-                            type: "POST",
+                                                            type: "POST",
                             url: "/Home/GetMenu",
                             data: { DtlString: "user" },
                             success: function (result) {
 
-                                var tep = result.split("$");
-                                modNms = new Array(tep.length - 1);
-                                modLks = new Array(tep.length - 1);
-                                for (var i = 0; i < tep.length - 1; i++) {
-                                    var ech = tep[i].split("~");
-                                    modNms[i] = ech[0];
-                                    modLks[i] = "/" + ech[1] + "/" + ech[2];
-                                }
-                            },
+                                                                    var tep = result.split("$");
+                                                                    modNms = new Array(tep.length - 1);
+                                                                    modLks = new Array(tep.length - 1);
+                                                                    for (var i = 0; i < tep.length - 1; i++) {
+                                                                        var ech = tep[i].split("~");
+                                                                        modNms[i] = ech[0];
+                                                                        modLks[i] = "/" + ech[1] + "/" + ech[2];
+                                                                    }
+                                                                },
                             error: function (xhr, status, error) {
-                                alert(error);
-                            },
+                                                                    alert(error);
+                                                                },
                             async: false
                         });
-                        autocomplete(document.getElementById("serPag"), modNms);
-                    });                    
-                    function callMe() {
-                        var ss = $("#serPag").val();
-                        for (var m = 0; m < modNms.length; m++) {
-                            if (ss == modNms[m]) {
-                                window.location.href = modLks[m];
-                            }
-                        }
-                    }
-                    function GetmsgCount(duration, display) {
-                        var timer = duration, minutes, seconds;
-                        setInterval(function () {
-                            minutes = parseInt(timer / 60, 10);
-                            seconds = parseInt(timer % 60, 10);
-                            minutes = minutes < 10 ? "0" + minutes : minutes;
-                            seconds = seconds < 10 ? "0" + seconds : seconds;
-                            if (--timer == -1) {
+                                                            autocomplete(document.getElementById("serPag"), modNms);
+                                                        });
+                                                        function callMe() {
+                                                            var ss = $("#serPag").val();
+                                                            for (var m = 0; m < modNms.length; m++) {
+                                                                if (ss == modNms[m]) {
+                                                                    window.location.href = modLks[m];
+                                                                }
+                                                            }
+                                                        }
+                                                        function GetmsgCount(duration, display) {
+                                                            var timer = duration, minutes, seconds;
+                                                            setInterval(function () {
+                                                                minutes = parseInt(timer / 60, 10);
+                                                                seconds = parseInt(timer % 60, 10);
+                                                                minutes = minutes < 10 ? "0" + minutes : minutes;
+                                                                seconds = seconds < 10 ? "0" + seconds : seconds;
+                                                                if (--timer == -1) {
                                 $.ajax({
-                                    type: "POST",
+                                                                    type: "POST",
                                     url: "/Home/GetmsgCount",
                                     datatype: "Json",
                                     data: { UserNo: $('#UserNo').val() },
                                     success: function (result1) {
-                                        if (result1 > 0) {
-                                            display.textContent = result1;
-                                        }
-                                        timer = duration;
-                                    }
-                                });
+                                                                            if (result1 > 0) {
+                                                                                display.textContent = result1;
+                                                                            }
+                                                                            timer = duration;
+                                                                        }
+                                                                    });
                             }
                         }, 100);
                     }
                     function autocomplete(inp, arr) {
-                        var currentFocus;
-                        inp.addEventListener("input", function (e) {
-                            var a, b, i, val = this.value;
-                            closeAllLists();
-                            if (!val) { return false; }
-                            currentFocus = -1;
-                            a = document.createElement("DIV");
-                            a.setAttribute("id", this.id + "autocomplete-list");
-                            a.setAttribute("class", "autocomplete-items text-left");
-                            this.parentNode.appendChild(a);
-                            for (i = 0; i < arr.length; i++) {
-                                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                                    b = document.createElement("DIV");
-                                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                                    b.innerHTML += arr[i].substr(val.length);
-                                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                                    b.addEventListener("click", function (e) {
-                                        inp.value = this.getElementsByTagName("input")[0].value;
-                                        closeAllLists();
-                                    });
-                                    a.appendChild(b);
+                                                            var currentFocus;
+                                                            inp.addEventListener("input", function (e) {
+                                                                var a, b, i, val = this.value;
+                                                                closeAllLists();
+                                                                if (!val) { return false; }
+                                                                currentFocus = -1;
+                                                                a = document.createElement("DIV");
+                                                                a.setAttribute("id", this.id + "autocomplete-list");
+                                                                a.setAttribute("class", "autocomplete-items text-left");
+                                                                this.parentNode.appendChild(a);
+                                                                for (i = 0; i < arr.length; i++) {
+                                                                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                                                                        b = document.createElement("DIV");
+                                                                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                                                                        b.innerHTML += arr[i].substr(val.length);
+                                                                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                                                                        b.addEventListener("click", function (e) {
+                                                                            inp.value = this.getElementsByTagName("input")[0].value;
+                                                                            closeAllLists();
+                                                                        });
+                                                        a.appendChild(b);
                                 }
                             }
                         });
-                        inp.addEventListener("keydown", function (e) {
-                            var x = document.getElementById(this.id + "autocomplete-list");
-                            if (x) x = x.getElementsByTagName("div");
-                            if (e.keyCode == 40) {
-                                currentFocus++;
-                                addActive(x);
-                            } else if (e.keyCode == 38) {
-                                addActive(x);
-                            } else if (e.keyCode == 13) {
-                                e.preventDefault();
-                                if (currentFocus > -1) {
-                                    if (x) x[currentFocus].click();
-                                }
-                            }
-                        });
-                        function addActive(x) {
-                            if (!x) return false;
-                            removeActive(x);
-                            if (currentFocus >= x.length) currentFocus = 0;
-                            if (currentFocus < 0) currentFocus = (x.length - 1);
-                            x[currentFocus].classList.add("autocomplete-active");
-                        }
-                        function removeActive(x) {
-                            for (var i = 0; i < x.length; i++) {
-                                x[i].classList.remove("autocomplete-active");
-                            }
-                        }
-                        function closeAllLists(elmnt) {
-                            var x = document.getElementsByClassName("autocomplete-items");
-                            for (var i = 0; i < x.length; i++) {
-                                if (elmnt != x[i] && elmnt != inp) {
-                                    x[i].parentNode.removeChild(x[i]);
-                                }
-                            }
-                        }
-                        document.addEventListener("click", function (e) {
-                            closeAllLists(e.target);
-                        });
+                                                        inp.addEventListener("keydown", function (e) {
+                                                            var x = document.getElementById(this.id + "autocomplete-list");
+                                                            if (x) x = x.getElementsByTagName("div");
+                                                            if (e.keyCode == 40) {
+                                                                currentFocus++;
+                                                                addActive(x);
+                                                            } else if (e.keyCode == 38) {
+                                                                addActive(x);
+                                                            } else if (e.keyCode == 13) {
+                                                                e.preventDefault();
+                                                                if (currentFocus > -1) {
+                                                                    if (x) x[currentFocus].click();
+                                                                }
+                                                            }
+                                                        });
+                                                        function addActive(x) {
+                                                            if (!x) return false;
+                                                            removeActive(x);
+                                                            if (currentFocus >= x.length) currentFocus = 0;
+                                                            if (currentFocus < 0) currentFocus = (x.length - 1);
+                                                            x[currentFocus].classList.add("autocomplete-active");
+                                                        }
+                                                        function removeActive(x) {
+                                                            for (var i = 0; i < x.length; i++) {
+                                                                x[i].classList.remove("autocomplete-active");
+                                                            }
+                                                        }
+                                                        function closeAllLists(elmnt) {
+                                                            var x = document.getElementsByClassName("autocomplete-items");
+                                                            for (var i = 0; i < x.length; i++) {
+                                                                if (elmnt != x[i] && elmnt != inp) {
+                                                                    x[i].parentNode.removeChild(x[i]);
+                                                                }
+                                                            }
+                                                        }
+                                                        document.addEventListener("click", function (e) {
+                                                            closeAllLists(e.target);
+                                                        });
                     }
                 </script>
             </div>
@@ -699,28 +711,28 @@
     </section>
     <script>
         var modNms;
-        var modLks;
-        window.addEventListener("load", function (evt) {
-            var fift = 60 * 30,
-                display = document.querySelector('#time');
-            startTimer(fift, display);
-        });
-        function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+                                                        var modLks;
+                                                        window.addEventListener("load", function (evt) {
+                                                            var fift = 60 * 30,
+                                                                display = document.querySelector('#time');
+                                                            startTimer(fift, display);
+                                                        });
+                                                        function startTimer(duration, display) {
+                                                            var timer = duration, minutes, seconds;
+                                                            setInterval(function () {
+                                                                minutes = parseInt(timer / 60, 10);
+                                                                seconds = parseInt(timer % 60, 10);
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
+                                                                minutes = minutes < 10 ? "0" + minutes : minutes;
+                                                                seconds = seconds < 10 ? "0" + seconds : seconds;
 
-                display.textContent = "Session ends in " + minutes + ":" + seconds;
+                                                                display.textContent = "Session ends in " + minutes + ":" + seconds;
 
-                if (--timer < 0) {
-                    timer = duration;
-                    window.location.href = "/Home/LogOut";
-                }
-            }, 1000);
+                                                                if (--timer < 0) {
+                                                                    timer = duration;
+                                                                    window.location.href = "/Home/LogOut";
+                                                                }
+                                                            }, 1000);
         }
     </script>
     <!-- end: sidebar -->

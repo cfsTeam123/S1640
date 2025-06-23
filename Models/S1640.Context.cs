@@ -39,7 +39,7 @@ namespace S1640.Models
         public virtual DbSet<UserLogData> UserLogDatas { get; set; }
         public virtual DbSet<UserMaster> UserMasters { get; set; }
     
-        public virtual int SP_Inward(ObjectParameter mTransNo, Nullable<System.DateTime> docDate, Nullable<System.DateTime> docDate2, string barCode, string binCondition, string binWash, string binFillStatus, Nullable<int> createdBy, Nullable<System.DateTime> createdOn, string status, Nullable<int> modifiedBy, Nullable<System.DateTime> modifiedOn, Nullable<int> docNO, string status1)
+        public virtual int SP_Inward(ObjectParameter mTransNo, Nullable<System.DateTime> docDate, Nullable<System.DateTime> docDate2, string barCode, string binCondition, string binWash, string binFillStatus, Nullable<int> createdBy, Nullable<System.DateTime> createdOn, string status, Nullable<int> modifiedBy, Nullable<System.DateTime> modifiedOn, Nullable<int> docNO, string status1, string remarks2)
         {
             var docDateParameter = docDate.HasValue ?
                 new ObjectParameter("DocDate", docDate) :
@@ -93,7 +93,11 @@ namespace S1640.Models
                 new ObjectParameter("Status1", status1) :
                 new ObjectParameter("Status1", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inward", mTransNo, docDateParameter, docDate2Parameter, barCodeParameter, binConditionParameter, binWashParameter, binFillStatusParameter, createdByParameter, createdOnParameter, statusParameter, modifiedByParameter, modifiedOnParameter, docNOParameter, status1Parameter);
+            var remarks2Parameter = remarks2 != null ?
+                new ObjectParameter("Remarks2", remarks2) :
+                new ObjectParameter("Remarks2", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inward", mTransNo, docDateParameter, docDate2Parameter, barCodeParameter, binConditionParameter, binWashParameter, binFillStatusParameter, createdByParameter, createdOnParameter, statusParameter, modifiedByParameter, modifiedOnParameter, docNOParameter, status1Parameter, remarks2Parameter);
         }
     
         public virtual int SP_Livestock(Nullable<int> inwardNo, Nullable<System.DateTime> docDate, string binCode, string remarks, Nullable<int> userId, Nullable<int> createdby, Nullable<System.DateTime> createdOn, string status, string binStatus, string binCondition, string binFillStatus)

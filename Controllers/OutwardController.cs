@@ -28,8 +28,10 @@ namespace S1640.Controllers
             S1640Entities db = new S1640Entities();
             Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
             DateTime docdate = DateTime.Now;
-            var record = db.LiveStockDatas.Where(s => s.BinCode == barcode && s.Status == "loaded").FirstOrDefault();
-            if (record != null)
+            var record = db.LiveStockDatas.Where(s => s.BinCode == barcode && s.Status == "Loaded").FirstOrDefault();
+            var TempDataExist = db.TempTables.Where(s => s.BinCode == barcode && s.Status == "Unloaded").FirstOrDefault();
+
+            if (record != null && TempDataExist==null)
             {
                     var TempData = db.SP_TempTable(record.InwardNo, docdate, barcode, "NA", 0, mUserNo, docdate, "Unloaded", "Clean", record.BinCondition, record.BinFillStatus);
                     var data = db.TempTables.Where(s => s.BinCode == barcode && s.Status == "Unloaded").FirstOrDefault();
@@ -87,6 +89,12 @@ namespace S1640.Controllers
                     var tempdata = db.TempTables.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
                     db.TempTables.Remove(tempdata);
                     db.SaveChanges();
+                    var InwardData = db.InawardTables.Where(s => s.MTransNo == InwardNo).FirstOrDefault();
+                    if (InwardData != null)
+                    {
+                        InwardData.Remarks2 = "Unloaded";
+                        db.SaveChanges();
+                    }
                 }
                 return Json("Success", JsonRequestBehavior.AllowGet);
             }

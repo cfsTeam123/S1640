@@ -74,67 +74,74 @@
     <div class="row">
         <div class="col">
             <section class="card">
-                <div class="card-body">
+                @*<div class="card-body">*@
                     <div id="SDisplay" style="margin-top:65px"></div>
                     <div id="customToast1" class="custom-toast1"></div>
                     <div id="customToast" class="custom-toast"></div>
                     <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                         @Html.AntiForgeryToken()
 
-                        <div class="form-group row">
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
-                            <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
-                                @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
-                            </div>
-                        </div>
+                        <div class="container mt-4 shadow p-4 rounded bg-white">
 
-                        <div class="form-group row">
-                            <table width="100%" class="table table-bordered table-striped mb-0" id="MyTable">
-                                <thead>
-                                    <tr class="text-center" style="background-color: dimgrey; color:white;">
-                                        <th hidden></th>
-                                        <th width="5%">SL No</th>
-                                        <th width="20%">BarCode</th>
-                                        <th width="7%">Bin Condition</th>
-                                        <th width="7%">Bin Wash Status</th>
-                                        <th width="7%">Bin Fill Status</th>
-                                        <th width="15%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableCont">
-                                    @{
-                                        int rowNo = 0;
-                                    }
-                                    @foreach (var item in AllList)
-                                    {
-                                        <tr>
-                                            <td hidden> @item.InwardNo</td>
-                                            <td hidden> @item.MTransNo</td>
-                                            <td class="text-sm-center">@(++rowNo)</td> <!-- Incremented row number for each item -->
-                                            <td>@item.BinCode</td>
-                                            <td>@item.BinStatus</td>
-                                            <td>@item.BinCondition</td>
-                                            <td>@item.BinFillStatus</td>
-                                            <td class="text-sm-center"><button type="button" value="Delete" id="Delete" class="btn btn-danger btn-xs Delete"><i class="far fa-trash-alt"></i></button></td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Submit and Cancel Button -->
-                        <div class="form-group row">
-                            <div class="col-md-12 col-md-offset-2">
-                                <div class="text-center">
-                                    @*@Html.HiddenFor(model => model.MTransNo)*@
-                                    <button type="submit" id="MainSubmit" class="btn btn-success btn-lg">Submit</button>
-                                    <a href="/Home/Index" class="btn btn-danger btn-lg">Cancel</a>
+                            <div class="form-group row">
+                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
+                                <div class="col-lg-3">
+                                    @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
+                                    @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
                                 </div>
+                            </div>
+
+                            <!-- Table for Displaying Bins -->
+                            <div class="table-responsive mt-3">
+                                <table class="table table-bordered table-striped align-middle text-center" id="MyTable">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th hidden></th>
+                                            <th width="5%">SL No</th>
+                                            <th width="20%">BarCode</th>
+                                            <th width="10%">Bin Condition</th>
+                                            <th width="10%">Bin Wash Status</th>
+                                            <th width="10%">Bin Fill Status</th>
+                                            <th width="15%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableCont">
+                                        @{
+                                            int rowNo = 0;
+                                        }
+                                        @foreach (var item in AllList)
+                                        {
+                                            <tr>
+                                                <td hidden>@item.InwardNo</td>
+                                                <td hidden>@item.MTransNo</td>
+                                                <td>@(++rowNo)</td>
+                                                <td>@item.BinCode</td>
+                                                <td>@item.BinStatus</td>
+                                                <td>@item.BinCondition</td>
+                                                <td>@item.BinFillStatus</td>
+                                                <td>
+                                                    <button type="button" value="Delete" id="Delete" class="btn btn-danger btn-sm Delete">
+                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Submit and Cancel Buttons -->
+                            <div class="text-center mt-4">
+                                <button type="submit" id="MainSubmit" class="btn btn-success btn-lg px-4">
+                                    <i class="bi bi-check-circle me-2"></i>Submit
+                                </button>
+                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
+                                    <i class="bi bi-x-circle me-2"></i>Cancel
+                                </a>
                             </div>
                         </div>
                     </form>
-                </div>
+                @*</div>*@
             </section>
         </div>
     </div>
@@ -150,11 +157,13 @@
                 url: "/CleanedArea/FetchBin",
                 data: { barcode: barcode },
                 success: function (result) {
+                   
                     if (result == "Exist") {
                         $('#customToast').text("This barcode has already been scanned or loaded. Please check and try again.").fadeIn(300).delay(4000).fadeOut(400, function () {
-                           // location.reload(); // ✅ Reload after toast fades out
+                         location.reload(); // ✅ Reload after toast fades out
                         });
                     }
+                   
                     if (result !== "NotFound") {
                         var currentRowNo = $("#MyTable tbody tr").length;
                         var event_data = '';
@@ -175,8 +184,11 @@
                             event_data += '</tr>';
                         }
                         $('#tableCont').append(event_data);
-                    } else {
-                        $('#customToast').text("The Bin is not cleaned yet, please clean it first.").fadeIn(300).delay(4000).fadeOut(400);
+                    }
+                   else if (result == "NotFound") {
+                        $('#customToast').text("The Bin is not cleaned yet, please clean it first.").fadeIn(300).delay(4000).fadeOut(400, function () {
+                            location.reload();// ✅ Reload after toast fades out
+                        });
                     }
                 },
                 error: function (err) {

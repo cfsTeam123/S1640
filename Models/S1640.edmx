@@ -236,6 +236,7 @@
           <Parameter Name="ModifiedOn" Type="datetime" Mode="In" />
           <Parameter Name="DocNO" Type="int" Mode="In" />
           <Parameter Name="Status1" Type="varchar" Mode="In" />
+          <Parameter Name="Remarks2" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_Livestock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InwardNo" Type="int" Mode="In" />
@@ -315,6 +316,17 @@
     <edmx:ConceptualModels>
       <Schema Namespace="S1640" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="S1640Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
+          <EntitySet Name="Companies" EntityType="S1640.Company" />
+          <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
+          <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
+          <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
+          <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
+          <EntitySet Name="TempTables" EntityType="S1640.TempTable" />
+          <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
+          <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
+          <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
+          <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
           <FunctionImport Name="SP_Inward">
             <Parameter Name="MTransNo" Mode="InOut" Type="Int32" />
             <Parameter Name="DocDate" Mode="In" Type="DateTime" />
@@ -330,6 +342,7 @@
             <Parameter Name="ModifiedOn" Mode="In" Type="DateTime" />
             <Parameter Name="DocNO" Mode="In" Type="Int32" />
             <Parameter Name="Status1" Mode="In" Type="String" />
+            <Parameter Name="Remarks2" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Livestock">
             <Parameter Name="InwardNo" Mode="In" Type="Int32" />
@@ -391,17 +404,6 @@
             <Parameter Name="SubscID" Mode="In" Type="Int32" />
             <Parameter Name="Status" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="BinMasters" EntityType="S1640.BinMaster" />
-          <EntitySet Name="Companies" EntityType="S1640.Company" />
-          <EntitySet Name="EMSMsgs" EntityType="S1640.EMSMsg" />
-          <EntitySet Name="InawardTables" EntityType="S1640.InawardTable" />
-          <EntitySet Name="LiveStockDatas" EntityType="S1640.LiveStockData" />
-          <EntitySet Name="Menulists" EntityType="S1640.Menulist" />
-          <EntitySet Name="TempTables" EntityType="S1640.TempTable" />
-          <EntitySet Name="Transactions" EntityType="S1640.Transaction" />
-          <EntitySet Name="UserAuthorizations" EntityType="S1640.UserAuthorization" />
-          <EntitySet Name="UserLogDatas" EntityType="S1640.UserLogData" />
-          <EntitySet Name="UserMasters" EntityType="S1640.UserMaster" />
           </EntityContainer>
         <EntityType Name="BinMaster">
           <Key>
@@ -625,11 +627,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="S1640StoreContainer" CdmEntityContainer="S1640Entities">
-          <FunctionImportMapping FunctionImportName="SP_Inward" FunctionName="S1640.Store.SP_Inward" />
-          <FunctionImportMapping FunctionImportName="SP_Livestock" FunctionName="S1640.Store.SP_Livestock" />
-          <FunctionImportMapping FunctionImportName="SP_TempTable" FunctionName="S1640.Store.SP_TempTable" />
-          <FunctionImportMapping FunctionImportName="SP_Transaction" FunctionName="S1640.Store.SP_Transaction" />
-          <FunctionImportMapping FunctionImportName="SP_UserMaster" FunctionName="S1640.Store.SP_UserMaster" />
           <EntitySetMapping Name="BinMasters">
             <EntityTypeMapping TypeName="S1640.BinMaster">
               <MappingFragment StoreEntitySet="BinMaster">
@@ -857,6 +854,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Inward" FunctionName="S1640.Store.SP_Inward" />
+          <FunctionImportMapping FunctionImportName="SP_Livestock" FunctionName="S1640.Store.SP_Livestock" />
+          <FunctionImportMapping FunctionImportName="SP_TempTable" FunctionName="S1640.Store.SP_TempTable" />
+          <FunctionImportMapping FunctionImportName="SP_Transaction" FunctionName="S1640.Store.SP_Transaction" />
+          <FunctionImportMapping FunctionImportName="SP_UserMaster" FunctionName="S1640.Store.SP_UserMaster" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -14,7 +14,7 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <!-- Toastify CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
+@*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />*@
 <!-- Toastify JS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <style>
@@ -74,77 +74,90 @@
     <div class="row">
         <div class="col">
             <section class="card">
-                <div class="card-body">
+                @*<div class="card-body">*@
                     <div id="SDisplay" style="margin-top:65px"></div>
-                    <div id="customToast" class="custom-toast"></div>   
+                    <div id="customToast" class="custom-toast"></div>
                     <div id="customToast1" class="custom-toast1"></div>
-                    <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+                    <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                         @Html.AntiForgeryToken()
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-striped table-hover mb-0" id="MyTable">
-                                        <thead class="text-center">
-                                            <tr>
-                                                <th hidden></th>
-                                                <th width="5%">SL No</th>
-                                                <th width="20%">BarCode</th>
-                                                <th width="10%">Bin Condition</th>
-                                                <th width="10%">Bin Wash Status</th>
-                                                <th width="10%">Bin Fill Status</th>
-                                                <th width="10%">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tableCont">
-                                            @{
-                                                int rowNo = 0;
-                                            }
-                                            @foreach (var item in AllList)
-                                            {
-                                                var enqmst = conn.InawardTables.FirstOrDefault(x => x.MTransNo == item.MTransNo);
-                                                <tr>
-                                                    <td class="mtrans-no" hidden>@item.MTransNo</td>
-                                                    <td class="text-center">@(++rowNo)</td>
-                                                    <td>@item.BarCode</td>
-                                                    <td>@item.BinCondition</td>
-                                                    <td>@item.BinWash</td>
-                                                    @*<td>
-                                                            <select name="BinWashStatusList" class="form-control form-control-sm">
-                                                                <option value="Clean" @(item.BinWash == "Clean" ? "selected" : "")>Clean</option>
-                                                                <option value="Unclean" @(item.BinWash == "Unclean" ? "selected" : "")>Unclean</option>
-                                                            </select>
-                                                        </td>*@
-                                                    <td>@item.BinFillStatus</td>
-                                                    <td class="text-center">
-                                                        <input type="checkbox" name="DtlCheckList" value="@item.MTransNo" class="form-check-input DtlCheck" />
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Submit and Cancel Buttons -->
-                        <div class="form-group row mt-4">
-                            <div class="col text-center">
-                                <button type="submit" id="MainSubmit" class="btn btn-success btn-lg">Submit</button>
-                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ml-2">Cancel</a>
+                        <div class="container mt-4 shadow p-4 rounded bg-white">
+    
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover align-middle text-center" id="MyTable">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th hidden></th>
+                                            <th scope="col">SL No</th>
+                                            <th scope="col">BarCode</th>
+                                            <th scope="col">Bin Condition</th>
+                                            <th scope="col">Bin Wash</th>
+                                            <th scope="col">Bin Fill</th>
+                                            <th scope="col">
+                                                <input type="checkbox" id="selectAll" class="form-check-input me-1" /> Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableCont">
+                                        @{
+                                            int rowNo = 0;
+                                        }
+                                        @foreach (var item in AllList)
+                                        {
+                                            <tr>
+                                                <td hidden>@item.MTransNo</td>
+                                                <td>@(++rowNo)</td>
+                                                <td>@item.BarCode</td>
+                                                <td>@item.BinCondition</td>
+                                                <td>@item.BinWash</td>
+                                                <td>@item.BinFillStatus</td>
+                                                <td>
+                                                    <input type="checkbox" name="DtlCheckList" value="@item.MTransNo" class="form-check-input DtlCheck" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Submit Buttons -->
+                            <div class="text-center mt-4">
+                                <button type="submit" id="MainSubmit" class="btn btn-success btn-lg px-5">
+                                    <i class="bi bi-check-circle-fill me-2"></i>Submit
+                                </button>
+                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
+                                    <i class="bi bi-x-circle me-2"></i>Cancel
+                                </a>
                             </div>
                         </div>
                     </form>
 
-                </div>
+
+                @*</div>*@
             </section>
         </div>
     </div>
 </section>
 <script>
     $(document).ready(function () {
+        $('#selectAll').click(function () {
+            $('.DtlCheck').prop('checked', this.checked);
+        });
+
+        $('.DtlCheck').on('change', function () {
+            if (!this.checked) {
+                $('#selectAll').prop('checked', false);
+            } else if ($('.DtlCheck:checked').length === $('.DtlCheck').length) {
+                $('#selectAll').prop('checked', true);
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
         $("#MainSubmit").click(function (e) {
             e.preventDefault(); // Prevent default form submit
-
             var dataList = [];
 
             $("#MyTable tbody tr").each(function () {

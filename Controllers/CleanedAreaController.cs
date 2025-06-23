@@ -21,7 +21,6 @@ namespace S1373.Controllers
         //Fetching data from barcode scann only cleaned data will shown
         [HttpGet]
         public ActionResult FetchBin(string barcode)
-        
         {
             if(barcode == "") 
                 return View();
@@ -29,7 +28,7 @@ namespace S1373.Controllers
                 S1640Entities db = new S1640Entities();
                 Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
                 DateTime docdate = DateTime.Now;
-                var record = db.InawardTables.Where(s => s.BarCode == barcode && s.Status == "Clean").FirstOrDefault();
+                var record = db.InawardTables.Where(s => s.BarCode == barcode && s.Status == "Clean" && s.Remarks2 == "Inwarded").OrderByDescending(s => s.MTransNo).FirstOrDefault();
                 var TempDataExist = db.TempTables.Where(s => s.BinCode == barcode && s.Status == "Loaded").FirstOrDefault();
                 if (TempDataExist == null)
                 {
@@ -96,6 +95,13 @@ namespace S1373.Controllers
                     {
                         var TempData = db.SP_Livestock(record.InwardNo, docdate, record.BinCode, "NA", 0, mUserNo, docdate, "Loaded", "Clean", record.BinCondition, record.BinFillStatus);
                         db.SP_Transaction(0, record.InwardNo, docdate, record.BinCode, record.BinCondition, "Clean", record.BinFillStatus, mUserNo, Createdon, "Loaded", null, null, BarcodeMTransNo);
+
+                        var InwardData = db.InawardTables.Where(s => s.MTransNo == record.InwardNo).FirstOrDefault();
+                        if (InwardData != null)
+                        {
+                            InwardData.Remarks2 = "Loaded";
+                            db.SaveChanges();
+                        }
                     }
                     db.TempTables.Remove(record);
                     db.SaveChanges();

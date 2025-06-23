@@ -10,9 +10,10 @@
 
     // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
     //var AllList = conn.InawardTables.Where(s => s.DocDate >= time).ToList();
-    var AllList = (from IT in conn.InawardTables                                                                                                 
-                   where IT.DocDate >= time && !conn.LiveStockDatas.Any(LT => LT.BinCode == IT.BarCode && LT.Status == "Loaded") &&
-                         IT.DocDate >= time && !conn.Transactions.Any(LT => LT.BarCode == IT.BarCode && LT.Status == "Unloaded")
+    var AllList = (from IT in conn.InawardTables
+                   where IT.DocDate >= time && !conn.LiveStockDatas.Any(LT => LT.BinCode == IT.BarCode && LT.Status == "Loaded")
+                      /*   IT.DocDate >= time && !conn.Transactions.Any(LT => LT.BarCode == IT.BarCode && LT.Status == "Unloaded")*/ &&
+                         IT.Remarks2 != "Unloaded"
                    select new
                    {
                        MTransNo = IT.MTransNo,
@@ -20,7 +21,7 @@
                        BinWash = IT.BinWash,
                        BinCondition = IT.BinCondition,
                        BinFillStatus = IT.BinFillStatus
-                   }).ToList();
+                   }).OrderByDescending(s=>s.MTransNo).ToList();
 
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -31,6 +32,9 @@
 
 <!-- Toastify JS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
+@*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />*@
 <style>
     .custom-toast {
         background: linear-gradient(to right, #ff416c, #ff4b2b);
@@ -68,94 +72,96 @@
     <div class="row">
         <div class="col">
             <section class="card">
-                <div class="card-body">
+                @*<div class="card-body">*@
                     <div id="SDisplay" style="margin-top:65px"></div>
                     <div id="customToast" class="custom-toast"></div>
-                    <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+
+
+                    <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                         @Html.AntiForgeryToken()
 
-                        <div class="form-group row">
-                            <!-- Bin Wash Dropdown -->
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Wash Status </label>
-                            <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BinClean, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
-                                @Html.ValidationMessageFor(model => model.BinClean, "", new { style = "color: red" })
-                            </div>
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"><span class="required">*</span>Bin Condition</label>
-                            <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control", data_plugin_selecttwo = "" })
-                                @Html.ValidationMessageFor(model => model.BinCondition, "", new { style = "color: red" })
-                            </div>
-                            <!-- Bin Fill Status Dropdown -->
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Fill Status  </label>
-                            <div class="col-lg-3">
-                                @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", id = "BinFillStatus" })
-                                @Html.ValidationMessageFor(model => model.BinFillStatus, "", new { style = "color: red" })
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
-                            <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
-                                @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <table width="100%" class="table table-bordered table-striped mb-0" id="MyTable">
-                                <thead>
-                                    <tr class="text-center" style="background-color: dimgrey; color:white;">
-                                        <th hidden></th>
-                                        <th width="5%">SL No</th>
-                                        <th width="20%">BarCode</th>
-                                        <th width="7%">Bin Wash Status</th>
-                                        <th width="7%">Bin Condition</th>
-                                        <th width="7%">Bin Fill Status</th>
-                                        <th width="15%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableCont">
-                                    @{
-                                        int rowNo = 0;
-                                    }
-                                    @foreach (var item in AllList)
-                                    {
-
-                                        var enqmst = conn.InawardTables.Where(x => x.MTransNo == item.MTransNo).FirstOrDefault();
-                                        <tr>
-                                            <td hidden> @item.MTransNo</td>
-                                            <td class="text-sm-center">@(++rowNo)</td> <!-- Incremented row number for each item -->
-                                            <td>@item.BarCode</td>
-                                            <td>@item.BinWash</td>
-                                            <td>@item.BinCondition</td>
-                                            <td>@item.BinFillStatus</td>
-                                            <td class=" text-sm-center">
-                                                @if (enqmst != null)
-                                                {
-                                                    <button type="button" name="DtlEdit" value="@item.MTransNo" id="DtlEdit" class="btn btn-primary DtlEdit btn-xs"><i class="fas fa-pencil-alt"></i></button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="button" name="DtlEdit" value="@item.MTransNo" id="DtlEdit" class="btn btn-primary DtlEdit btn-xs"><i class="fas fa-pencil-alt"></i></button>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Submit and Cancel Button -->
-                        <div class="form-group row">
-                            <div class="col-md-12 col-md-offset-2">
-                                <div class="text-center">
-                                    @Html.HiddenFor(model => model.MTransNo)
-                                    <button type="button" id="submitBtn" class="btn btn-success btn-lg">Submit</button>
-                                    <a href="/Home/Index" class="btn btn-danger btn-lg">Cancel</a>
+                        <div class="container mt-4 shadow p-4 rounded bg-white">
+                            <!-- Bin Details Dropdowns -->
+                            <div class="form-group row">
+                                <!-- Bin Wash Dropdown -->
+                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Wash Status </label>
+                                <div class="col-lg-3">
+                                    @Html.DropDownListFor(model => model.BinClean, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                    @Html.ValidationMessageFor(model => model.BinClean, "", new { style = "color: red" })
                                 </div>
+                                <label class="col-lg-1 control-label   text-lg-right pt-2"><span class="required">*</span>Bin Condition</label>
+                                <div class="col-lg-3">
+                                    @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control", data_plugin_selecttwo = "" })
+                                    @Html.ValidationMessageFor(model => model.BinCondition, "", new { style = "color: red" })
+                                </div>
+                                <!-- Bin Fill Status Dropdown -->
+                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Fill Status  </label>
+                                <div class="col-lg-3">
+                                    @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", id = "BinFillStatus" })
+                                    @Html.ValidationMessageFor(model => model.BinFillStatus, "", new { style = "color: red" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
+                                <div class="col-lg-3">
+                                    @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
+                                    @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
+                                </div>
+                            </div>
+
+                            <!-- Table -->
+                            <div class="table-responsive mt-4">
+                                <table class="table table-bordered table-striped table-hover align-middle text-center" id="MyTable">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th hidden></th>
+                                            <th width="5%">SL No</th>
+                                            <th width="20%">BarCode</th>
+                                            <th width="10%">Bin Wash</th>
+                                            <th width="10%">Bin Condition</th>
+                                            <th width="10%">Bin Fill</th>
+                                            <th width="15%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableCont">
+                                        @{
+                                            int rowNo = 0;
+                                        }
+                                        @foreach (var item in AllList)
+                                        {
+                                            var enqmst = conn.InawardTables.FirstOrDefault(x => x.MTransNo == item.MTransNo);
+                                            <tr>
+                                                <td hidden>@item.MTransNo</td>
+                                                <td>@(++rowNo)</td>
+                                                <td>@item.BarCode</td>
+                                                <td>@item.BinWash</td>
+                                                <td>@item.BinCondition</td>
+                                                <td>@item.BinFillStatus</td>
+                                                <td>
+                                                    <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary btn-sm DtlEdit">
+                                                        <i class="fas fa-pencil-alt"></i> Edit
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Submit & Cancel -->
+                            <div class="text-center mt-4">
+                                @Html.HiddenFor(model => model.MTransNo)
+                                <button type="submit" id="submitBtn" class="btn btn-success btn-lg px-5">
+                                    <i class="bi bi-check-circle me-2"></i>Submit
+                                </button>
+                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
+                                    <i class="bi bi-x-circle me-2"></i>Cancel
+                                </a>
                             </div>
                         </div>
                     </form>
-                </div>
+
+                @*</div>*@
             </section>
         </div>
     </div>
@@ -163,7 +169,7 @@
 <script>
     $(document).ready(function () {
         $('#BarCode').blur(function () {
-          /*  $('#BarCode').on('input', function () {*/
+            /*  $('#BarCode').on('input', function () {*/
             var MTransNo = $('#MTransNo').val();
             var condition = $('#BinCondition').val();
             var binclean = $('#BinClean').val();
@@ -183,19 +189,16 @@
                     if (result == "Exist") {
                         $('#customToast').text("This barcode has already been scanned or loaded. Please check and try again.").fadeIn(300).delay(4000).fadeOut(400);
                     }
-                    else if (result == "Success")
-                    {
+                    else if (result == "Success") {
                         console.log("Data saved successfully.");
                         location.reload();
-                    } else if (result == "NotExist")
-                    {
+                    } else if (result == "NotExist") {
                         $('#customToast').text("Invalid barcode: Not available in BinMaster data.").fadeIn(300).delay(4000).fadeOut(400);
 
-                    } else if (result == "Loaded")
-                    {
+                    } else if (result == "Loaded") {
                         $('#customToast').text("This bin has already been inwarded.").fadeIn(300).delay(4000).fadeOut(400);
                     }
-                   
+
                     // Optionally show a success message or reload data
                 },
                 error: function (err) {

@@ -19,41 +19,44 @@
                             WebSite = CO.Website,
                         }).FirstOrDefault();
 
-    var AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.MTransNo equals CM.MTransNo
-                   where  OM.Status == "UNLOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                       //DocNo = OM.DocNo,
-                       //CreatedOn = OM.CreatedOn,
-                       //CreatedBy = OM.CreatedBy,
-                   }).OrderBy(x => x.MTransNo).ToList();
+    var latestUnloaded = conn.Transactions
+     .Where(x => x.Status == "UNLOADED")
+     .GroupBy(x => x.BarCode)
+     .Select(g => g.OrderByDescending(x => x.MTransNo).FirstOrDefault());
+
+    var AllList = (
+        from OM in latestUnloaded
+        join CM in conn.InawardTables on OM.BarCode equals CM.BarCode
+        select new
+        {
+            MTransNo = OM.MTransNo,
+            BarCode = OM.BarCode,
+            BinCondition = OM.BinCondition,
+            BinFillStatus = OM.BinFillStatus,
+            BinWash = OM.BinWash,
+            Remarks = OM.Remarks1,
+            Status = OM.Status
+        }
+    ).OrderBy(x => x.MTransNo).Distinct().ToList();
+
 
     if (Model.BarCode != null)
     {
-        AllList = (from OM in conn.Transactions
-                   join CM in conn.InawardTables
-                   on OM.MTransNo equals CM.MTransNo
-                   where OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate && OM.BarCode == Model.BarCode && OM.Status=="UNLOADED"
-                   select new
-                   {
-                       MTransNo = OM.MTransNo,
-                       BarCode = OM.BarCode,
-                       BinCondition = OM.BinCondition,
-                       BinFillStatus = OM.BinFillStatus,
-                       BinWash = OM.BinWash,
-                       Remarks = OM.Remarks1,
-                       Status = OM.Status,
-                       //  DocNo = OM.DocNo,
-                   }).OrderBy(x => x.MTransNo).Distinct().ToList();
+        AllList = (
+         from OM in latestUnloaded
+         join CM in conn.InawardTables on OM.BarCode equals CM.BarCode
+         where CM.BarCode == Model.BarCode
+         select new
+         {
+             MTransNo = OM.MTransNo,
+             BarCode = OM.BarCode,
+             BinCondition = OM.BinCondition,
+             BinFillStatus = OM.BinFillStatus,
+             BinWash = OM.BinWash,
+             Remarks = OM.Remarks1,
+             Status = OM.Status
+         }
+     ).OrderBy(x => x.MTransNo).ToList();
     }
     //else if (Model.BinCondition == "Good")
     //{

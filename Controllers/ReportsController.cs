@@ -127,7 +127,8 @@ namespace S1640.Controllers
             obj.BarCode = ReportListModule.BarCode;
             obj.FromDate = ReportListModule.FromDate;
             obj.ToDate = ReportListModule.ToDate;
-
+            obj.FromDate = ReportListModule.FromDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
 
             return View(obj);
         }

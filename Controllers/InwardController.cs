@@ -59,10 +59,9 @@ namespace S1640.Controllers
             DateTime? DocDate2 = null;
             var Createdon = DateTime.Now;
             var Status = binclean == "Clean" ? "Clean" : "Unclean";
-            var BarcodeExist=db.InawardTables.Where(s=>s.BarCode==barcode ).FirstOrDefault();
+            var BarcodeExist = db.InawardTables.Where(s => s.BarCode == barcode && s.Remarks2=="Inwarded").OrderByDescending(s => s.MTransNo).FirstOrDefault();
 
-           // int  mTransNo = MTransNo > 0 ? MTransNo : 0;
-            if (BarcodeExist == null || Status1== "Update")
+            if ((BarcodeExist == null || (BarcodeExist.Remarks1 != "Loaded" && BarcodeExist.Remarks2 != "Inwarded")) || Status1 == "Update")
             {
                 var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == barcode && s.Status != "N").Select(s=>s.MTransNo).FirstOrDefault();
                 var barcodeExists = db.BinMasters.FirstOrDefault(s => s.BarCode == barcode && s.Status != "N");
@@ -99,7 +98,7 @@ namespace S1640.Controllers
                         {
                             // System.Data.Entity.Core.Objects.ObjectParameter mID = new System.Data.Entity.Core.Objects.ObjectParameter("MTransNo", typeof(Int32));
                             var mTransNo = new ObjectParameter("MTransNo", 0); // treated as input-output
-                            db.SP_Inward(mTransNo, DocDate, DocDate2, barcode, condition, binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo, Status1);
+                            db.SP_Inward(mTransNo, DocDate, DocDate2, barcode, condition, binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo, Status1,"Inwarded");
                             var mtr = Convert.ToInt32(mTransNo.Value);
                             db.SP_Transaction(0, mtr, DocDate, barcode, condition, binclean, binfillstatus, mUserNo, Createdon, Status, mUserNo1, Modifiedon, BarcodeMTransNo);
                         }

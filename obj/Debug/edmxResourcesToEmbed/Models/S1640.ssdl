@@ -231,6 +231,7 @@
     <Parameter Name="ModifiedOn" Type="datetime" Mode="In" />
     <Parameter Name="DocNO" Type="int" Mode="In" />
     <Parameter Name="Status1" Type="varchar" Mode="In" />
+    <Parameter Name="Remarks2" Type="varchar" Mode="In" />
   </Function>
   <Function Name="SP_Livestock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="InwardNo" Type="int" Mode="In" />

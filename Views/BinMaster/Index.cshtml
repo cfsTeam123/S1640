@@ -3,7 +3,7 @@
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
     S1640Entities conn = new S1640Entities();
-    var AllList = conn.BinMasters.OrderBy(x => x.MTransNo).Take(30).ToList();
+    var AllList = conn.BinMasters.OrderBy(x => x.MTransNo).ToList();
 }
 <!-- From Uiverse.io by alexruix -->
 <!-- JsBarcode CDN -->

@@ -59,131 +59,7 @@
     @Html.Partial("_jsHeader")
 
     <style>
-        /* From Uiverse.io by alexruix */
-        .loader {
-            width: 80px;
-            height: 50px;
-            position: relative;
-        }
-
-        .loader-text {
-            position: absolute;
-            top: 0;
-            padding: 0;
-            margin: 0;
-            color: #C8B6FF;
-            animation: text_713 3.5s ease both infinite;
-            font-size: .8rem;
-            letter-spacing: 1px;
-        }
-
-        .load {
-            background-color: #9A79FF;
-            border-radius: 50px;
-            display: block;
-            height: 16px;
-            width: 16px;
-            bottom: 0;
-            position: absolute;
-            transform: translateX(64px);
-            animation: loading_713 3.5s ease both infinite;
-        }
-
-            .load::before {
-                position: absolute;
-                content: "";
-                width: 100%;
-                height: 100%;
-                background-color: #D1C2FF;
-                border-radius: inherit;
-                animation: loading2_713 3.5s ease both infinite;
-            }
-
-        @@keyframes text_713 {
-            0% {
-                letter-spacing: 1px;
-                transform: translateX(0px);
-            }
-
-            40% {
-                letter-spacing: 2px;
-                transform: translateX(26px);
-            }
-
-            80% {
-                letter-spacing: 1px;
-                transform: translateX(32px);
-            }
-
-            90% {
-                letter-spacing: 2px;
-                transform: translateX(0px);
-            }
-
-            100% {
-                letter-spacing: 1px;
-                transform: translateX(0px);
-            }
-        }
-
-        @@keyframes loading_713 {
-            0% {
-                width: 16px;
-                transform: translateX(0px);
-            }
-
-            40% {
-                width: 100%;
-                transform: translateX(0px);
-            }
-
-            80% {
-                width: 16px;
-                transform: translateX(64px);
-            }
-
-            90% {
-                width: 100%;
-                transform: translateX(0px);
-            }
-
-            100% {
-                width: 16px;
-                transform: translateX(0px);
-            }
-        }
-
-        @@keyframes loading2_713 {
-            0% {
-                transform: translateX(0px);
-                width: 16px;
-            }
-
-            40% {
-                transform: translateX(0%);
-                width: 80%;
-            }
-
-            80% {
-                width: 100%;
-                transform: translateX(0px);
-            }
-
-            90% {
-                width: 80%;
-                transform: translateX(15px);
-            }
-
-            100% {
-                transform: translateX(0px);
-                width: 16px;
-            }
-        }
-
-
-
-
-        /* Loading Screen */
+         Loading Screen 
         #loading {
             display: block;
             position: fixed;
@@ -192,7 +68,7 @@
             z-index: 100;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(34, 193, 195, 0.2); /* Soft teal background */
+            background-color: rgba(34, 193, 195, 0.2);  Soft teal background 
             background-image: url("../Content/img/Loader.gif");
             background-repeat: no-repeat;
             background-position: center;
@@ -208,9 +84,119 @@
                 opacity: 1;
             }
         }
+        /*#loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(192, 192, 192, 0.2);
+        }*/
 
-        /* Autocomplete Items */
-        .autocomplete-items {
+        /* Loader container */
+        /*.loader-animation {
+            width: 200px;
+            height: 60px;
+            position: relative;
+        }*/
+
+        /* Animated circles */
+        /*.circle {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            border-radius: 50%;
+            transform-origin: 50%;
+            animation: circle7124 0.5s alternate infinite ease;
+        }*/
+
+            /* Different colors for each dot */
+            /*.circle:nth-child(1) {
+                background-color: #FF6B6B;*/ /* red-pink */
+                /*left: 15%;
+                animation-delay: 0s;
+            }
+
+            .circle:nth-child(2) {
+                background-color: #FFD93D;*/ /* yellow */
+                /*left: 45%;
+                animation-delay: 0.2s;
+            }
+
+            .circle:nth-child(3) {
+                background-color: #6BCB77;*/ /* green */
+                /*left: auto;
+                right: 15%;
+                animation-delay: 0.3s;
+            }
+
+
+        @@keyframes circle7124 {
+            0% {
+                top: 60px;
+                height: 5px;
+                border-radius: 50px 50px 25px 25px;
+                transform: scaleX(1.7);
+            }
+
+            40% {
+                height: 20px;
+                border-radius: 50%;
+                transform: scaleX(1);
+            }
+
+            100% {
+                top: 0%;
+            }
+        }*/
+
+
+
+        /* Shadows */
+        /*.shadow {
+            width: 20px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.9);
+            position: absolute;
+            top: 62px;
+            transform-origin: 50%;
+            z-index: -1;
+            left: 15%;
+            animation: shadow046 0.5s alternate infinite ease;
+        }
+
+        @@keyframes shadow046 {
+            0% {
+                transform: scaleX(1.5);
+            }
+
+            40% {
+                transform: scaleX(1);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scaleX(0.2);
+                opacity: 0.4;
+            }
+        }*/
+
+        .shadow:nth-child(4) {
+            left: 45%;
+            animation-delay: 0.2s;
+        }
+
+        .shadow:nth-child(5) {
+            left: auto;
+            right: 15%;
+            animation-delay: 0.3s;
+            /* Autocomplete Items */
+            .autocomplete-items {
             position: absolute;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -570,7 +556,7 @@
                                                             }
                                                             catch (Exception e) { }
 
-                                                        }
+                                                        
                     </nav>
                 </div>
                 <script>

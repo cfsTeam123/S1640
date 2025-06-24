@@ -95,6 +95,22 @@ namespace S1640.Controllers
             {
                 return RedirectToAction("LiveStockList", "Reports", obj);
             }
+            else if (ReportListModule.ReportName == "CleaningAreaList")
+            {
+                return RedirectToAction("CleaningAreaList", "Reports", obj);
+            }
+            else if (ReportListModule.ReportName == "CleaningAreaPrint")
+            {
+                return RedirectToAction("CleaningAreaPrint", "Reports", obj);
+            } 
+            else if (ReportListModule.ReportName == "CleanedAreaList")
+            {
+                return RedirectToAction("CleanedAreaList", "Reports", obj);
+            }
+            else if (ReportListModule.ReportName == "CleanedAreaPrint")
+            {
+                return RedirectToAction("CleanedAreaPrint", "Reports", obj);
+            }
             else
             {
                 return RedirectToAction("Index");
@@ -111,7 +127,7 @@ namespace S1640.Controllers
             obj.BarCode = ReportListModule.BarCode;
             //obj.PartNo = ReportListModule.PartNo;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
             //obj.ItemStatus = ReportListModule.ItemStatus;
             //obj.WareHouse = ReportListModule.WareHouse;
 
@@ -179,7 +195,7 @@ namespace S1640.Controllers
             obj.BinFillStatus = ReportListModule.BinFillStatus;
             obj.Status = ReportListModule.Status;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
             return View(obj);
         }
         public ActionResult OutwardReportList(ReportListValidation ReportListModule)
@@ -195,7 +211,7 @@ namespace S1640.Controllers
             obj.BinFillStatus = ReportListModule.BinFillStatus;
             obj.Status = ReportListModule.Status;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
             return View(obj);
         }
         public ActionResult LiveStockPrint(ReportListValidation ReportListModule)
@@ -213,7 +229,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
             return View(obj);
         }
         public ActionResult LiveStockList(ReportListValidation ReportListModule)
@@ -231,7 +247,78 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            return View(obj);
+        }
+        public ActionResult CleaningAreaList(ReportListValidation ReportListModule)
+        {
+            //if (Session["EmployeeCode"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            ReportListValidation obj = new ReportListValidation();
+            obj.BinCondition = ReportListModule.BinCondition;
+            obj.DocDate = ReportListModule.DocDate;
+            obj.BarCode = ReportListModule.BarCode;
+            obj.BinFillStatus = ReportListModule.BinFillStatus;
+            obj.BinWash = ReportListModule.BinWash;
+            obj.Status = ReportListModule.Status;
+            obj.BinStatus = ReportListModule.BinStatus;
+            obj.FromDate = ReportListModule.FromDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            return View(obj);
+        }
+        public ActionResult CleaningAreaPrint(ReportListValidation ReportListModule)
+        {
+            //if (Session["EmployeeCode"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            ReportListValidation obj = new ReportListValidation();
+            obj.BinCondition = ReportListModule.BinCondition;
+            obj.DocDate = ReportListModule.DocDate;
+            obj.BarCode = ReportListModule.BarCode;
+            obj.BinFillStatus = ReportListModule.BinFillStatus;
+            obj.BinWash = ReportListModule.BinWash;
+            obj.Status = ReportListModule.Status;
+            obj.BinStatus = ReportListModule.BinStatus;
+            obj.FromDate = ReportListModule.FromDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            return View(obj);
+        } public ActionResult CleanedAreaList(ReportListValidation ReportListModule)
+        {
+            //if (Session["EmployeeCode"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            ReportListValidation obj = new ReportListValidation();
+            obj.BinCondition = ReportListModule.BinCondition;
+            obj.DocDate = ReportListModule.DocDate;
+            obj.BarCode = ReportListModule.BarCode;
+            obj.BinFillStatus = ReportListModule.BinFillStatus;
+            obj.BinWash = ReportListModule.BinWash;
+            obj.Status = ReportListModule.Status;
+            obj.BinStatus = ReportListModule.BinStatus;
+            obj.FromDate = ReportListModule.FromDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            return View(obj);
+        }
+        public ActionResult CleanedAreaPrint(ReportListValidation ReportListModule)
+        {
+            //if (Session["EmployeeCode"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            ReportListValidation obj = new ReportListValidation();
+            obj.BinCondition = ReportListModule.BinCondition;
+            obj.DocDate = ReportListModule.DocDate;
+            obj.BarCode = ReportListModule.BarCode;
+            obj.BinFillStatus = ReportListModule.BinFillStatus;
+            obj.BinWash = ReportListModule.BinWash;
+            obj.Status = ReportListModule.Status;
+            obj.BinStatus = ReportListModule.BinStatus;
+            obj.FromDate = ReportListModule.FromDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
             return View(obj);
         }
 

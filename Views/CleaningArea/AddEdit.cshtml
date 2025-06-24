@@ -36,6 +36,7 @@
         z-index: 9999;
         display: none;
     }
+
     .custom-toast1 {
         background: linear-gradient(to right, #ff416c, #ff4b2b);
         border-radius: 10px;
@@ -53,6 +54,25 @@
         transform: translateX(-50%);
         z-index: 9999;
         display: none;
+    }
+    #MyTable tbody tr:hover {
+        background-color: #d3d3d3;
+        cursor: pointer;
+    }
+
+
+    .form-check-input {
+        width: 1rem;
+        height: 1rem;
+        cursor: pointer;
+    }
+
+    #MyTable tbody tr {
+        cursor: pointer;
+    }
+
+    .selected-row {
+        background-color: #d1e7dd !important;
     }
 
 
@@ -75,63 +95,74 @@
         <div class="col">
             <section class="card">
                 @*<div class="card-body">*@
-                    <div id="SDisplay" style="margin-top:65px"></div>
-                    <div id="customToast" class="custom-toast"></div>
-                    <div id="customToast1" class="custom-toast1"></div>
-                    <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
-                        @Html.AntiForgeryToken()
+                <div id="SDisplay" style="margin-top:65px"></div>
+                <div id="customToast" class="custom-toast"></div>
+                <div id="customToast1" class="custom-toast1"></div>
+                <div id="loading">
+                    <div class="loader-animation">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadow"></div>
+                        <div class="shadow"></div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
+                <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+                    @Html.AntiForgeryToken()
 
-                        <div class="container mt-4 shadow p-4 rounded bg-white">
-    
+                    <div class="container mt-4 shadow p-4 rounded bg-white">
 
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover align-middle text-center" id="MyTable">
-                                    <thead class="table-dark">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered @*table-hover*@ align-middle text-center" id="MyTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th hidden></th>
+                                        <th scope="col">SL No</th>
+                                        <th scope="col">BarCode</th>
+                                        <th scope="col">Bin Condition</th>
+                                        <th scope="col">Bin Wash</th>
+                                        <th scope="col">Bin Fill</th>
+                                        <th scope="col">
+                                            <input type="checkbox" id="selectAll" class="form-check-input me-1" /> Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableCont">
+                                    @{
+                                        int rowNo = 0;
+                                    }
+                                    @foreach (var item in AllList)
+                                    {
                                         <tr>
-                                            <th hidden></th>
-                                            <th scope="col">SL No</th>
-                                            <th scope="col">BarCode</th>
-                                            <th scope="col">Bin Condition</th>
-                                            <th scope="col">Bin Wash</th>
-                                            <th scope="col">Bin Fill</th>
-                                            <th scope="col">
-                                                <input type="checkbox" id="selectAll" class="form-check-input me-1" /> Action
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableCont">
-                                        @{
-                                            int rowNo = 0;
-                                        }
-                                        @foreach (var item in AllList)
-                                        {
-                                            <tr>
-                                                <td hidden>@item.MTransNo</td>
-                                                <td>@(++rowNo)</td>
-                                                <td>@item.BarCode</td>
-                                                <td>@item.BinCondition</td>
-                                                <td>@item.BinWash</td>
-                                                <td>@item.BinFillStatus</td>
-                                                <td>
-                                                    <input type="checkbox" name="DtlCheckList" value="@item.MTransNo" class="form-check-input DtlCheck" />
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                            <td hidden>@item.MTransNo</td>
+                                            <td>@(++rowNo)</td>
+                                            <td>@item.BarCode</td>
+                                            <td>@item.BinCondition</td>
+                                            <td>@item.BinWash</td>
+                                            <td>@item.BinFillStatus</td>
+                                            <td>
+                                                <input type="checkbox" name="DtlCheckList" value="@item.MTransNo" class="form-check-input DtlCheck" />
+                                            </td>
 
-                            <!-- Submit Buttons -->
-                            <div class="text-center mt-4">
-                                <button type="submit" id="MainSubmit" class="btn btn-success btn-lg px-5">
-                                    <i class="bi bi-check-circle-fill me-2"></i>Submit
-                                </button>
-                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
-                                    <i class="bi bi-x-circle me-2"></i>Cancel
-                                </a>
-                            </div>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
+
+                        <!-- Submit Buttons -->
+                        <div class="text-center mt-4">
+                            <button type="submit" id="MainSubmit" class="btn btn-success btn-lg px-5">
+                                <i class="bi bi-check-circle-fill me-2"></i>Submit
+                            </button>
+                            <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </div>
+                </form>
 
 
                 @*</div>*@
@@ -180,7 +211,7 @@
                 $('#customToast1').text("Please check at least one item.").fadeIn(300).delay(4000).fadeOut(400);
                 return; // Exit without AJAX
             }
-            
+
             $.ajax({
                 type: "POST",
                 url: "/CleaningArea/UpdateData",
@@ -194,12 +225,39 @@
                     console.error("Error:", error);
                 }
             });
-        location.reload();
+            location.reload();
         });
     });
 
 
 </script>
+<script>
+    // Toggle checkbox when row is clicked
+    $(document).on('click', '#MyTable tbody tr', function (e) {
+        // Prevent double toggle if clicking directly on checkbox
+        if ($(e.target).is('input[type="checkbox"]')) return;
+
+        const checkbox = $(this).find('.DtlCheck');
+        checkbox.prop('checked', !checkbox.prop('checked')).trigger('change');
+    });
+
+    // Apply highlight class when checkbox is checked
+    $(document).on('change', '.DtlCheck', function () {
+        const row = $(this).closest('tr');
+        if ($(this).is(':checked')) {
+            row.addClass('selected-row');
+        } else {
+            row.removeClass('selected-row');
+        }
+    });
+
+    // Handle Select All checkbox
+    $('#selectAll').on('change', function () {
+        const isChecked = $(this).is(':checked');
+        $('.DtlCheck').prop('checked', isChecked).trigger('change');
+    });
+</script>
+
 
 
 @Html.Partial("_jsfooter")

@@ -75,31 +75,41 @@ namespace S1640.Controllers
             var Createdon = DateTime.Now;
             try
             {
-                foreach (var item in data)
+                if (data != null)
                 {
-                    int InwardNo = Convert.ToInt32(item.InwardNo);
-                    string Barcode = Convert.ToString(item.Barcode);
-                    var LiveStockdata=db.LiveStockDatas.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
-                    var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == LiveStockdata.BinCode && s.Status != "N").Select(s => s.MTransNo).FirstOrDefault();
-                    db.SP_Transaction(0, LiveStockdata.InwardNo, docdate, LiveStockdata.BinCode, LiveStockdata.BinCondition, "Clean", LiveStockdata.BinFillStatus, mUserNo, Createdon, "Unloaded", null, null, BarcodeMTransNo);
-                    // Example: Find and update your entity
-                    var record = db.LiveStockDatas.Where(s => s.InwardNo == InwardNo || s.BinCode== Barcode).FirstOrDefault();
-                    db.LiveStockDatas.Remove(record);
-                    db.SaveChanges();
-                    var tempdata = db.TempTables.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
-                    db.TempTables.Remove(tempdata);
-                    db.SaveChanges();
-                    var InwardData = db.InawardTables.Where(s => s.MTransNo == InwardNo).FirstOrDefault();
-                    if (InwardData != null)
+                    foreach (var item in data)
                     {
-                        InwardData.Remarks2 = "Unloaded";
+                        int InwardNo = Convert.ToInt32(item.InwardNo);
+                        string Barcode = Convert.ToString(item.Barcode);
+                        var LiveStockdata = db.LiveStockDatas.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
+                        var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == LiveStockdata.BinCode && s.Status != "N").Select(s => s.MTransNo).FirstOrDefault();
+                        db.SP_Transaction(0, LiveStockdata.InwardNo, docdate, LiveStockdata.BinCode, LiveStockdata.BinCondition, "Clean", LiveStockdata.BinFillStatus, mUserNo, Createdon, "Unloaded", null, null, BarcodeMTransNo);
+                        // Example: Find and update your entity
+                        var record = db.LiveStockDatas.Where(s => s.InwardNo == InwardNo || s.BinCode == Barcode).FirstOrDefault();
+                        db.LiveStockDatas.Remove(record);
                         db.SaveChanges();
+                        var tempdata = db.TempTables.Where(s => s.InwardNo == InwardNo).FirstOrDefault();
+                        db.TempTables.Remove(tempdata);
+                        db.SaveChanges();
+                        var InwardData = db.InawardTables.Where(s => s.MTransNo == InwardNo).FirstOrDefault();
+                        if (InwardData != null)
+                        {
+                            InwardData.Remarks2 = "Unloaded";
+                            db.SaveChanges();
+                        }
                     }
+                    return Json("Success", JsonRequestBehavior.AllowGet);
                 }
-                return Json("Success", JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return Json("Error", JsonRequestBehavior.AllowGet);
+                }
             }
-            catch { }
-            return Json("Error", JsonRequestBehavior.AllowGet);
+            catch 
+            {
+                return Json("Error", JsonRequestBehavior.AllowGet);
+            }
+           
         }
     }
 }

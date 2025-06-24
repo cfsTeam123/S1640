@@ -57,6 +57,10 @@
         z-index: 9999;
         display: none;
     }
+    #MyTable tbody tr:hover {
+        background-color: #d3d3d3;
+        cursor: pointer;
+    }
 </style>
 <section role="main" class="content-body">
     <header class="page-header">
@@ -76,71 +80,81 @@
         <div class="col">
             <section class="card">
                 @*<div class="card-body">*@
-                    <div id="SDisplay" style="margin-top:65px"></div>
-                    <div id="customToast1" class="custom-toast1"></div>
-                    <div id="customToast" class="custom-toast"></div>
-                    <form method="POST" onsubmit="MainSubmit.disabled = true; return true;" >
-                        @Html.AntiForgeryToken()
+                <div id="SDisplay" style="margin-top:65px"></div>
+                <div id="customToast1" class="custom-toast1"></div>
+                <div id="customToast" class="custom-toast"></div>
+                <div id="loading">
+                    <div class="loader-animation">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadow"></div>
+                        <div class="shadow"></div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
+                <form method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+                    @Html.AntiForgeryToken()
 
-                        <div class="container mt-4 shadow p-4 rounded bg-white">
-                            <div class="form-group row">
-                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
-                                <div class="col-lg-3">
-                                    @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
-                                    @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
-                                </div>
-                            </div>
-
-                            <!-- Table Display -->
-                            <div class="table-responsive mt-3">
-                                <table class="table table-bordered table-striped table-hover align-middle text-center" id="MyTable">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th hidden></th>
-                                            <th width="5%">SL No</th>
-                                            <th width="20%">BarCode</th>
-                                            <th width="15%">Bin Condition</th>
-                                            <th width="15%">Bin Wash Status</th>
-                                            <th width="15%">Bin Fill Status</th>
-                                            <th width="15%">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableCont">
-                                        @{
-                                            int rowNo = 0;
-                                        }
-                                        @foreach (var item in AllList)
-                                        {
-                                            <tr>
-                                                <td hidden>@item.InwardNo</td>
-                                                <td hidden>@item.MTransNo</td>
-                                                <td>@(++rowNo)</td>
-                                                <td>@item.BinCode</td>
-                                                <td>@item.BinStatus</td>
-                                                <td>@item.BinCondition</td>
-                                                <td>@item.BinFillStatus</td>
-                                                <td>
-                                                    <button type="button" value="Delete" class="btn btn-danger btn-sm Delete">
-                                                        <i class="bi bi-trash"></i> Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Submit & Cancel Buttons -->
-                            <div class="text-center mt-4">
-                                <button type="submit" id="MainSubmit" class="btn btn-success btn-lg px-4">
-                                    <i class="bi bi-check-circle me-2"></i>Submit
-                                </button>
-                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
-                                    <i class="bi bi-x-circle me-2"></i>Cancel
-                                </a>
+                    <div class="container mt-4 shadow p-4 rounded bg-white">
+                        <div class="form-group row">
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
+                            <div class="col-lg-3">
+                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
+                                @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
                             </div>
                         </div>
-                    </form>
+
+                        <!-- Table Display -->
+                        <div class="table-responsive mt-3">
+                            <table class="table table-bordered table-striped  align-middle text-center" id="MyTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th hidden></th>
+                                        <th width="5%">SL No</th>
+                                        <th width="20%">BarCode</th>
+                                        <th width="15%">Bin Condition</th>
+                                        <th width="15%">Bin Wash Status</th>
+                                        <th width="15%">Bin Fill Status</th>
+                                        <th width="15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableCont" class="table-hover">
+                                    @{
+                                        int rowNo = 0;
+                                    }
+                                    @foreach (var item in AllList)
+                                    {
+                                        <tr>
+                                            <td hidden>@item.InwardNo</td>
+                                            <td hidden>@item.MTransNo</td>
+                                            <td>@(++rowNo)</td>
+                                            <td>@item.BinCode</td>
+                                            <td>@item.BinStatus</td>
+                                            <td>@item.BinCondition</td>
+                                            <td>@item.BinFillStatus</td>
+                                            <td>
+                                                <button type="button" value="Delete" class="btn btn-danger btn-sm Delete">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Submit & Cancel Buttons -->
+                        <div class="text-center mt-4">
+                            <button type="submit" id="MainSubmit" class="btn btn-success btn-lg px-4">
+                                <i class="bi bi-check-circle me-2"></i>Submit
+                            </button>
+                            <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </div>
+                </form>
                 @*</div>*@
             </section>
         </div>
@@ -178,7 +192,8 @@
                             event_data += '<td>' + results[i].BinStatus + '</td>';
                             event_data += '<td>' + results[i].BinFillStatus + '</td>';
                             event_data += '<td class="text-sm-center">';
-                            event_data += '<button type="button" class="btn btn-danger btn-xs Delete"><i class="far fa-trash-alt"></i></button>';
+                            event_data += '<button type="button" value="Delete" id="Delete" class="btn btn-danger btn-sm Delete">';
+                            event_data += '<i class="fas fa-trash-alt"></i> Delete';
                             event_data += '</td>';
                             event_data += '</tr>';
                         }
@@ -241,9 +256,15 @@
                 data: JSON.stringify(dataList),
                 success: function (result) {
                     console.log("Success:", result);
-                    $('#customToast').text("The Bin is moved to Production area").fadeIn(300).delay(4000).fadeOut(400, function () {
-                        window.location.href = '/Home/Index';
-                    });
+                    if (result == "Success") {
+                        $('#customToast').text("The Bin is moved to Production area").fadeIn(300).delay(4000).fadeOut(400, function () {
+                            window.location.href = '/Home/Index';
+                        });
+                    }
+                     else if(result == "Error")
+                    {
+                        $('#customToast').text("Please add the bins first before submitting.").fadeIn(300).delay(4000).fadeOut(400);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", error);

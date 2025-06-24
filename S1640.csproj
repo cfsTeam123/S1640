@@ -4730,6 +4730,10 @@
     <Content Include="Views\CleaningArea\AddEdit.cshtml" />
     <Content Include="Views\CleanedArea\AddEdit.cshtml" />
     <Content Include="Views\Shared\_Layout1.cshtml" />
+    <Content Include="Views\Reports\CleaningAreaList.cshtml" />
+    <Content Include="Views\Reports\CleaningAreaPrint.cshtml" />
+    <Content Include="Views\Reports\CleanedAreaList.cshtml" />
+    <Content Include="Views\Reports\CleanedAreaPrint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

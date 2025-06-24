@@ -21,7 +21,7 @@
                        BinWash = IT.BinWash,
                        BinCondition = IT.BinCondition,
                        BinFillStatus = IT.BinFillStatus
-                   }).OrderByDescending(s=>s.MTransNo).ToList();
+                   }).OrderByDescending(s => s.MTransNo).ToList();
 
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -54,6 +54,12 @@
         z-index: 9999;
         display: none;
     }
+    #MyTable tbody tr:hover {
+        background-color: #d3d3d3;
+        cursor: pointer;
+    }
+
+
 </style>
 <section role="main" class="content-body">
     <header class="page-header">
@@ -73,93 +79,112 @@
         <div class="col">
             <section class="card">
                 @*<div class="card-body">*@
-                    <div id="SDisplay" style="margin-top:65px"></div>
-                    <div id="customToast" class="custom-toast"></div>
+                <div id="SDisplay" style="margin-top:65px"></div>
+                <div id="customToast" class="custom-toast"></div>
+                <div id="loading">
+                    <div class="loader-animation">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadow"></div>
+                        <div class="shadow"></div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
 
+                <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
+                    @Html.AntiForgeryToken()
 
-                    <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
-                        @Html.AntiForgeryToken()
-
-                        <div class="container mt-4 shadow p-4 rounded bg-white">
-                            <!-- Bin Details Dropdowns -->
-                            <div class="form-group row">
-                                <!-- Bin Wash Dropdown -->
-                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Wash Status </label>
-                                <div class="col-lg-3">
-                                    @Html.DropDownListFor(model => model.BinClean, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
-                                    @Html.ValidationMessageFor(model => model.BinClean, "", new { style = "color: red" })
-                                </div>
-                                <label class="col-lg-1 control-label   text-lg-right pt-2"><span class="required">*</span>Bin Condition</label>
-                                <div class="col-lg-3">
-                                    @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control", data_plugin_selecttwo = "" })
-                                    @Html.ValidationMessageFor(model => model.BinCondition, "", new { style = "color: red" })
-                                </div>
-                                <!-- Bin Fill Status Dropdown -->
-                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Fill Status  </label>
-                                <div class="col-lg-3">
-                                    @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", id = "BinFillStatus" })
-                                    @Html.ValidationMessageFor(model => model.BinFillStatus, "", new { style = "color: red" })
-                                </div>
+                    <div class="container mt-4 shadow p-4 rounded bg-white">
+                        <!-- Bin Details Dropdowns -->
+                        <div class="form-group row">
+                            <!-- Bin Wash Dropdown -->
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Wash Status </label>
+                            <div class="col-lg-3">
+                                @Html.DropDownListFor(model => model.BinClean, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
+                                @Html.ValidationMessageFor(model => model.BinClean, "", new { style = "color: red" })
                             </div>
-                            <div class="form-group row">
-                                <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
-                                <div class="col-lg-3">
-                                    @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
-                                    @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
-                                </div>
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"><span class="required">*</span>Bin Condition</label>
+                            <div class="col-lg-3">
+                                @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control", data_plugin_selecttwo = "" })
+                                @Html.ValidationMessageFor(model => model.BinCondition, "", new { style = "color: red" })
                             </div>
+                            <!-- Bin Fill Status Dropdown -->
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Fill Status  </label>
+                            <div class="col-lg-3">
+                                @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", id = "BinFillStatus" })
+                                @Html.ValidationMessageFor(model => model.BinFillStatus, "", new { style = "color: red" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
+                            <div class="col-lg-3">
+                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control text-uppercase", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
+                                @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
+                            </div>
+                        </div>
 
-                            <!-- Table -->
-                            <div class="table-responsive mt-4">
-                                <table class="table table-bordered table-striped table-hover align-middle text-center" id="MyTable">
-                                    <thead class="table-dark">
+                        <!-- Table -->
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered table-striped  align-middle text-center" id="MyTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th hidden></th>
+                                        <th width="5%">SL No</th>
+                                        <th width="20%">BarCode</th>
+                                        <th width="10%">Bin Wash</th>
+                                        <th width="10%">Bin Condition</th>
+                                        <th width="10%">Bin Fill</th>
+                                        <th width="15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableCont">
+                                    @{
+                                        int rowNo = 0;
+                                    }
+                                    @foreach (var item in AllList)
+                                    {
+                                        var enqmst = conn.InawardTables.FirstOrDefault(x => x.MTransNo == item.MTransNo);
                                         <tr>
-                                            <th hidden></th>
-                                            <th width="5%">SL No</th>
-                                            <th width="20%">BarCode</th>
-                                            <th width="10%">Bin Wash</th>
-                                            <th width="10%">Bin Condition</th>
-                                            <th width="10%">Bin Fill</th>
-                                            <th width="15%">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableCont">
-                                        @{
-                                            int rowNo = 0;
-                                        }
-                                        @foreach (var item in AllList)
-                                        {
-                                            var enqmst = conn.InawardTables.FirstOrDefault(x => x.MTransNo == item.MTransNo);
-                                            <tr>
-                                                <td hidden>@item.MTransNo</td>
-                                                <td>@(++rowNo)</td>
-                                                <td>@item.BarCode</td>
-                                                <td>@item.BinWash</td>
-                                                <td>@item.BinCondition</td>
-                                                <td>@item.BinFillStatus</td>
-                                                <td>
+                                            <td hidden>@item.MTransNo</td>
+                                            <td>@(++rowNo)</td>
+                                            <td>@item.BarCode</td>
+                                            <td>@item.BinWash</td>
+                                            <td>@item.BinCondition</td>
+                                            <td>@item.BinFillStatus</td>
+                                            <td>
+                                                @if (@item.BinWash == "Clean")
+                                                {
+                                                    <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary btn-sm DtlEdit" @(item.BinWash == "Clean" ? "disabled" : "")>
+                                                        <i class="fas fa-pencil-alt"></i> Edit
+                                                    </button>
+                                                }
+                                                else
+                                                {
                                                     <button type="button" name="DtlEdit" value="@item.MTransNo" class="btn btn-primary btn-sm DtlEdit">
                                                         <i class="fas fa-pencil-alt"></i> Edit
                                                     </button>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Submit & Cancel -->
-                            <div class="text-center mt-4">
-                                @Html.HiddenFor(model => model.MTransNo)
-                                <button type="submit" id="submitBtn" class="btn btn-success btn-lg px-5">
-                                    <i class="bi bi-check-circle me-2"></i>Submit
-                                </button>
-                                <a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
-                                    <i class="bi bi-x-circle me-2"></i>Cancel
-                                </a>
-                            </div>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
+
+                        <!-- Submit & Cancel -->
+                        <div class="text-center mt-4">
+                            @Html.HiddenFor(model => model.MTransNo)
+                            <a href="/Home/Index" class="btn btn-success btn-lg px-5">
+                                <i class="bi bi-check-circle me-2"></i>Submit
+                            </a>
+                        </div>
+
+                        @*<a href="/Home/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">
+                    <i class="bi bi-x-circle me-2"></i>Cancel
+                </a>*@
+                    </div>
+                </form>
 
                 @*</div>*@
             </section>

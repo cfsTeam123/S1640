@@ -58,6 +58,18 @@
                                                     <input type="radio" style="transform: scale(1);" name="1" value="3">&emsp; Inward Report Details
                                                 </td>
                                                 <td hidden>InawardReport</td>
+                                            </tr>  
+                                            <tr>
+                                                <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
+                                                    <input type="radio" style="transform: scale(1);" name="1" value="6">&emsp; Cleaning Area Report Details
+                                                </td>
+                                                <td hidden>CleaningArea</td>
+                                            </tr> 
+                                            <tr>
+                                                <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
+                                                    <input type="radio" style="transform: scale(1);" name="1" value="7">&emsp; Cleaned Area Report Details
+                                                </td>
+                                                <td hidden>CleanedArea</td>
                                             </tr>
 
 
@@ -159,10 +171,28 @@
                     $('#textboxes6').hide();
                     $('#textboxes7').show();
                     $('#textboxes8').show();
-
-                    // $('#textboxes2').hide();
                 }
                 else if ($(this).val() == '3') {
+              
+                    $('#textboxes1').show();
+                    $('#textboxes2').hide();
+                    $('#textboxes3').hide();
+                    $('#textboxes4').hide();
+                    $('#textboxes5').hide();
+                    $('#textboxes6').hide();
+                    $('#textboxes7').show();
+                    $('#textboxes8').show();
+                }  else if ($(this).val() == '6') {
+              
+                    $('#textboxes1').show();
+                    $('#textboxes2').hide();
+                    $('#textboxes3').hide();
+                    $('#textboxes4').hide();
+                    $('#textboxes5').hide();
+                    $('#textboxes6').hide();
+                    $('#textboxes7').show();
+                    $('#textboxes8').show();
+                }  else if ($(this).val() == '7') {
               
                     $('#textboxes1').show();
                     $('#textboxes2').hide();

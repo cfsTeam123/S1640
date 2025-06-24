@@ -13,7 +13,26 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="../Jquery/jquery.multiselect.js"></script>
 <script src="../Jquery/prettify.js"></script>
-
+<style>
+    .custom-toast {
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        border-radius: 10px;
+        padding: 20px 28px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        min-width: 400px;
+        text-align: center;
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: none;
+    }
+</style>
 @Html.HiddenFor(model => model.MTransNo)
 
 <section role="main" class="content-body">
@@ -35,7 +54,17 @@
                 <form action="" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                     @Html.AntiForgeryToken()
                     <div id="SDisplay" style="margin-top: 100px;"></div>
-
+                    <div id="customToast" class="custom-toast"></div>
+                    <div id="loading">
+                        <div class="loader-animation">
+                            <div class="circle"></div>
+                            <div class="circle"></div>
+                            <div class="circle"></div>
+                            <div class="shadow"></div>
+                            <div class="shadow"></div>
+                            <div class="shadow"></div>
+                        </div>
+                    </div>
                     <!-- Barcode Section -->
                     <div class="form-group row">
                         <label class="col-lg-2 col-form-label text-lg-right pt-1">Barcode ID</label>
@@ -51,7 +80,7 @@
                         }
                         else
                         {
-                            <div class="col-lg-2" >
+                            <div class="col-lg-2">
                                 <button type="button" name="generate" id="generate" class="btn btn-primary btn-lg w-100">Generate</button>
                             </div>
                         }
@@ -100,6 +129,13 @@
                             <a href="~/BinMaster/Index" class="btn btn-danger btn-lg">Cancel</a>
                         </div>
                     </div>
+
+                    <!-- Submit & Cancel -->
+                    <!--<div class="text-center mt-4">
+        @Html.HiddenFor(model => model.MTransNo)
+        <button type="submit" id="MainSubmit"   value="MainSubmit" class="btn btn-success btn-lg px-5"><i class="bi bi-check-circle me-2"></i>Submit  </button>
+        <a href="/BinMaster/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">   <i class="bi bi-x-circle me-2"></i>Cancel</a>
+    </div>-->
                 </form>
             </section>
         </div>
@@ -158,19 +194,37 @@
     });
 
     $('#MainSubmit').click(function () {
+        $(this).prop('disabled', true);
         // Get the value of the hidden MTransNo field
         var MTransNo = $('#MTransNo').val();  // Use the ID of the hidden field
         // Get the value of the Status field (make sure the ID of the Status field is correct)
         let Status = $('#Status').val();
         var BarCode = $('#Barcode1').val();
-        //alert(BarCode);
-        $.ajax({
-            type: "POST",
-            data: { MTransNo: MTransNo, Status: Status, BarCode:BarCode},
-            url: "/BinMaster/AddEdit",
-            success: function (result) {
-                console.log(result);
-            }
+        if (BarCode == null || BarCode=="") {
+            $('#customToast').text("Please generate the barcode before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
+                location.reload(); // ✅ Reload after toast fades out
+            });
+        }
+        if (Status == null || Status =="") {
+            $('#customToast').text("Please the Select before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
+                location.reload(); // ✅ Reload after toast fades out
+            });
+        }
+
+        else
+        {
+            $.ajax({
+                type: "POST",
+                data: { MTransNo: MTransNo, Status: Status, BarCode: BarCode },
+                url: "/BinMaster/AddEdit",
+                success: function (result) {
+
+                }
+            });
+          
+        }
+        setTimeout(() => {
+            $('#MainSubmit').prop('disabled', false);
         });
     });
 </script>

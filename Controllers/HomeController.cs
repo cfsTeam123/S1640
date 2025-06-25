@@ -342,7 +342,7 @@ namespace S1640.Controllers
             }
             else
             {
-                TempData["wrongLogin"] = "login ID / Password does not match";
+                TempData["wrongLogin"] = "User does not exist.";
                 return RedirectToAction("Login");
             }
         }

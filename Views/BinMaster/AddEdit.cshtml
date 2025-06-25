@@ -11,8 +11,8 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="../Jquery/jquery.multiselect.js"></script>
-<script src="../Jquery/prettify.js"></script>
+@*<script src="../Jquery/jquery.multiselect.js"></script>
+<script src="../Jquery/prettify.js"></script>*@
 <style>
     .custom-toast {
         background: linear-gradient(to right, #ff416c, #ff4b2b);
@@ -132,7 +132,7 @@
 
                     <!-- Submit & Cancel -->
                     <!--<div class="text-center mt-4">
-        @Html.HiddenFor(model => model.MTransNo)
+       
         <button type="submit" id="MainSubmit"   value="MainSubmit" class="btn btn-success btn-lg px-5"><i class="bi bi-check-circle me-2"></i>Submit  </button>
         <a href="/BinMaster/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">   <i class="bi bi-x-circle me-2"></i>Cancel</a>
     </div>-->
@@ -145,6 +145,11 @@
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
 
 <script>
+
+    //$(document).ready(function () {
+    //    alert('check');
+    //});
+
     // Variable to keep track of the barcode number
     let barcodeCount = 5001; // Start from SR5001
 
@@ -194,25 +199,30 @@
     });
 
     $('#MainSubmit').click(function () {
-        $(this).prop('disabled', true);
+       
+      
         // Get the value of the hidden MTransNo field
         var MTransNo = $('#MTransNo').val();  // Use the ID of the hidden field
+       
         // Get the value of the Status field (make sure the ID of the Status field is correct)
         let Status = $('#Status').val();
+       
         var BarCode = $('#Barcode1').val();
+      
         if (BarCode == null || BarCode=="") {
             $('#customToast').text("Please generate the barcode before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
                 location.reload(); // ✅ Reload after toast fades out
             });
         }
         if (Status == null || Status =="") {
-            $('#customToast').text("Please the Select before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
+            $('#customToast').text("Please the Select Status before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
                 location.reload(); // ✅ Reload after toast fades out
             });
         }
 
         else
         {
+           
             $.ajax({
                 type: "POST",
                 data: { MTransNo: MTransNo, Status: Status, BarCode: BarCode },
@@ -223,9 +233,7 @@
             });
           
         }
-        setTimeout(() => {
-            $('#MainSubmit').prop('disabled', false);
-        });
+       
     });
 </script>
 

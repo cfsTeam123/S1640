@@ -247,6 +247,7 @@
     <Content Include="Content\img\ASRS.png" />
     <Content Include="Content\img\Automation_Expo2019.jpg" />
     <Content Include="Content\img\BarCode.png" />
+    <Content Include="Content\img\Barcode2.jpg" />
     <Content Include="Content\img\blog-image-1.jpg" />
     <Content Include="Content\img\blog-image-2.jpg" />
     <Content Include="Content\img\blog-image-3.jpg" />
@@ -4734,6 +4735,8 @@
     <Content Include="Views\Reports\CleaningAreaPrint.cshtml" />
     <Content Include="Views\Reports\CleanedAreaList.cshtml" />
     <Content Include="Views\Reports\CleanedAreaPrint.cshtml" />
+    <Content Include="Views\Reports\TransactionPrint.cshtml" />
+    <Content Include="Views\Reports\PalletPrint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

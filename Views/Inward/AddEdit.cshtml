@@ -58,9 +58,8 @@
         background-color: #d3d3d3;
         cursor: pointer;
     }
-
-
 </style>
+
 <section role="main" class="content-body">
     <header class="page-header">
         <h2>Inward</h2>
@@ -77,40 +76,32 @@
     <!-- start: page -->
     <div class="row">
         <div class="col">
+            
             <section class="card">
+
                 @*<div class="card-body">*@
                 <div id="SDisplay" style="margin-top:65px"></div>
                 <div id="customToast" class="custom-toast"></div>
-                <div id="loading">
-                    <div class="loader-animation">
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="shadow"></div>
-                        <div class="shadow"></div>
-                        <div class="shadow"></div>
-                    </div>
-                </div>
-
                 <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                     @Html.AntiForgeryToken()
 
                     <div class="container mt-4 shadow p-4 rounded bg-white">
                         <!-- Bin Details Dropdowns -->
                         <div class="form-group row">
+
                             <!-- Bin Wash Dropdown -->
                             <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Wash Status </label>
                             <div class="col-lg-3">
                                 @Html.DropDownListFor(model => model.BinClean, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
                                 @Html.ValidationMessageFor(model => model.BinClean, "", new { style = "color: red" })
                             </div>
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"><span class="required">*</span>Bin Condition</label>
+                            <label class="col-lg-1 control-label   text-lg-right pt-2">Bin Condition</label>
                             <div class="col-lg-3">
                                 @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control", data_plugin_selecttwo = "" })
                                 @Html.ValidationMessageFor(model => model.BinCondition, "", new { style = "color: red" })
                             </div>
                             <!-- Bin Fill Status Dropdown -->
-                            <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bin Fill Status  </label>
+                            <label class="col-lg-1 control-label   text-lg-right pt-2">Bin Fill Status  </label>
                             <div class="col-lg-3">
                                 @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", id = "BinFillStatus" })
                                 @Html.ValidationMessageFor(model => model.BinFillStatus, "", new { style = "color: red" })
@@ -119,7 +110,7 @@
                         <div class="form-group row">
                             <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
                             <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control text-uppercase", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
+                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control text-uppercase", @autofocus = "True", placeholder = "Scan or Enter Barcode", maxlength = "6" })
                                 @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
                             </div>
                         </div>
@@ -193,48 +184,64 @@
 </section>
 <script>
     $(document).ready(function () {
+      
         $('#BarCode').blur(function () {
             /*  $('#BarCode').on('input', function () {*/
             var MTransNo = $('#MTransNo').val();
             var condition = $('#BinCondition').val();
             var binclean = $('#BinClean').val();
             var binFillStatus = $('#BinFillStatus').val();
-            var barcode = $('#BarCode').val();
-            $.ajax({
-                type: "POST",
-                url: "/Inward/AddData",
-                data: {
-                    MTransNo: MTransNo,
-                    condition: condition,
-                    binclean: binclean,
-                    binfillstatus: binFillStatus,
-                    barcode: barcode
-                },
-                success: function (result) {
-                    if (result == "Exist") {
-                        $('#customToast').text("This barcode has already been scanned or loaded. Please check and try again.").fadeIn(300).delay(4000).fadeOut(400);
-                    }
-                    else if (result == "Success") {
-                        console.log("Data saved successfully.");
-                        location.reload();
-                    } else if (result == "NotExist") {
-                        $('#customToast').text("Invalid barcode: Not available in BinMaster data.").fadeIn(300).delay(4000).fadeOut(400);
+            var barcode = $('#BarCode').val().toUpperCase();
+            if (binclean.trim() == "" || binclean.trim() == null)
+            {
+                $('#customToast').text("Please select the BinWash Status").fadeIn(300).delay(4000).fadeOut(400);
+                    //(400, function () {
+                    //location.reload(); // ✅ Reload after toast fades out
+               
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Inward/AddData",
+                    data: {
+                        MTransNo: MTransNo,
+                        condition: condition,
+                        binclean: binclean,
+                        binfillstatus: binFillStatus,
+                        barcode: barcode
+                    },
+                    success: function (result) {
+                        if (result == "Exist") {
+                            $('#customToast').text("This barcode has already been scanned or loaded. Please check and try again.").fadeIn(300).delay(4000).fadeOut(400, function () {
+                                location.reload(); // ✅ Reload after toast fades out
+                            });
+                        }
+                        else if (result == "Success") {
+                            console.log("Data saved successfully.");
+                            location.reload();
 
-                    } else if (result == "Loaded") {
-                        $('#customToast').text("This bin has already been inwarded.").fadeIn(300).delay(4000).fadeOut(400);
-                    }
+                        } else if (result == "NotExist") {
+                            $('#customToast').text("Invalid barcode: Not available in BinMaster data.").fadeIn(300).delay(4000).fadeOut(400, function () {
+                                location.reload(); // ✅ Reload after toast fades out
+                            });
 
-                    // Optionally show a success message or reload data
-                },
-                error: function (err) {
-                    console.error("Error saving data:", err);
-                }
-            });
+                        } else if (result == "Loaded") {
+                            $('#customToast').text("This bin has already been Loaded.").fadeIn(300).delay(4000).fadeOut(400, function () {
+                                location.reload(); // ✅ Reload after toast fades out
+                            });
+                        }
+
+                        // Optionally show a success message or reload data
+                    },
+                    error: function (err) {
+                        console.error("Error saving data:", err);
+                    }
+                });
+            }
         });
     });
     $("#MyTable").on('click', '.DtlEdit', function () {
-        /*     event.preventDefault();*/
-        /* alert("Hiii");*/
+     
         var currentRow = $(this).closest("tr");
         var MTransNo = currentRow.find("td:eq(0)").html();
 

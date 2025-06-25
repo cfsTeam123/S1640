@@ -28,8 +28,8 @@
 
                 @Html.HiddenFor(model => model.ReportName)
                 <section class="card">
-                    <div class="row">
-                        <div class="card-body col-lg-4">
+                    <div class="row" >
+                        <div class="card-body col-lg-4" >
                             <div>
                                 <hr style="margin:1px;" />
                                 <p class="text-sm-center font-weight-extra-bold h5" style="font-style: normal;color:blue">REPORT LIST</p>
@@ -85,6 +85,12 @@
                                                     <input type="radio" style="transform: scale(1);" name="1" value="5">&emsp; Live Stock Details
                                                 </td>
                                                 <td hidden>LiveStock</td>
+                                            </tr>  
+                                            <tr>
+                                                <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
+                                                    <input type="radio" style="transform: scale(1);" name="1" value="8">&emsp; Transaction Details
+                                                </td>
+                                                <td hidden>Transaction </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -92,7 +98,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body col-lg-8" style="margin-left:5px; margin-right:-5px">
+                        <div class="card-body col-lg-8" style="margin-left:5px; margin-right:-5px" >
                             <div>
                                 <hr style="margin:1px;" />
                                 <p class="text-sm-center font-weight-extra-bold h5" style="font-style: normal; color: blue">SELECTION CRITERIA</p>
@@ -104,19 +110,19 @@
                                     @Html.DropDownListFor(model => model.BarCode, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top:15px;" id="textboxes2">
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes2" hidden>
                                 <label class="col-lg-3 control-label text-lg-right h6"> BinCondition </label>
                                 <div class="col-lg-9">
                                     @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top:15px;" id="textboxes3">
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes3" hidden>
                                 <label class="col-lg-3 control-label text-lg-right h6"> BinWash </label>
                                 <div class="col-lg-9">
                                     @Html.DropDownListFor(model => model.BinWash, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top:15px;" id="textboxes4">
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes4" hidden>
                                 <label class="col-lg-3 control-label text-lg-right h6"> BinFillStatus </label>
                                 <div class="col-lg-9">
                                     @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
@@ -222,7 +228,17 @@
                 $('#textboxes5').show();
                 $('#textboxes6').show();
             }
-                
+                else if ($(this).val() == '8') {
+
+                    $('#textboxes1').show();
+                    $('#textboxes2').hide();
+                    $('#textboxes3').hide();
+                    $('#textboxes4').hide();
+                    $('#textboxes5').hide();
+                    $('#textboxes6').hide();
+                    $('#textboxes7').show();
+                    $('#textboxes8').show();
+                }
             });
         });
         $('#Print').click(function () {

@@ -111,6 +111,14 @@ namespace S1640.Controllers
             {
                 return RedirectToAction("CleanedAreaPrint", "Reports", obj);
             }
+            else if (ReportListModule.ReportName == "TransactionList")
+            {
+                return RedirectToAction("TransactionList", "Reports", obj);
+            }
+            else if (ReportListModule.ReportName == "TransactionPrint")
+            {
+                return RedirectToAction("TransactionPrint", "Reports", obj);
+            }
             else
             {
                 return RedirectToAction("Index");
@@ -285,7 +293,8 @@ namespace S1640.Controllers
             obj.FromDate = ReportListModule.FromDate;
             obj.ToDate = ReportListModule.ToDate?.AddDays(1);
             return View(obj);
-        } public ActionResult CleanedAreaList(ReportListValidation ReportListModule)
+        } 
+        public ActionResult CleanedAreaList(ReportListValidation ReportListModule)
         {
             //if (Session["EmployeeCode"] == null)
             //{
@@ -304,6 +313,42 @@ namespace S1640.Controllers
             return View(obj);
         }
         public ActionResult CleanedAreaPrint(ReportListValidation ReportListModule)
+        {
+            //if (Session["EmployeeCode"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            ReportListValidation obj = new ReportListValidation();
+            obj.BinCondition = ReportListModule.BinCondition;
+            obj.DocDate = ReportListModule.DocDate;
+            obj.BarCode = ReportListModule.BarCode;
+            obj.BinFillStatus = ReportListModule.BinFillStatus;
+            obj.BinWash = ReportListModule.BinWash;
+            obj.Status = ReportListModule.Status;
+            obj.BinStatus = ReportListModule.BinStatus;
+            obj.FromDate = ReportListModule.FromDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            return View(obj);
+        }
+        public ActionResult TransactionList(ReportListValidation ReportListModule)
+        {
+            //if (Session["EmployeeCode"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            ReportListValidation obj = new ReportListValidation();
+            obj.BinCondition = ReportListModule.BinCondition;
+            obj.DocDate = ReportListModule.DocDate;
+            obj.BarCode = ReportListModule.BarCode;
+            obj.BinFillStatus = ReportListModule.BinFillStatus;
+            obj.BinWash = ReportListModule.BinWash;
+            obj.Status = ReportListModule.Status;
+            obj.BinStatus = ReportListModule.BinStatus;
+            obj.FromDate = ReportListModule.FromDate;
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            return View(obj);
+        }
+        public ActionResult TransactionPrint(ReportListValidation ReportListModule)
         {
             //if (Session["EmployeeCode"] == null)
             //{

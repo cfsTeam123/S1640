@@ -19,13 +19,13 @@
             justify-content: center;
             align-items: center;
             height: 100vh;*/
-            /*background: linear-gradient(135deg, #6A82FB, #FC5C7D);*/
-            /*background: linear-gradient(135deg, #1A2A6C, #B21F1F);*/
-            /*background: linear-gradient(135deg, #0B3D91, #A8DADC);
+        /*background: linear-gradient(135deg, #6A82FB, #FC5C7D);*/
+        /*background: linear-gradient(135deg, #1A2A6C, #B21F1F);*/
+        /*background: linear-gradient(135deg, #0B3D91, #A8DADC);
             <img src="~/Content/img/BarCode.png" alt="Logo">*/
-            /*background: linear-gradient(135deg, #FF7E5F, #FEB47B);*/ /* Vibrant and energetic */
-            /*background: linear-gradient(135deg, #3E5151, #DECBA7);*/
-            /*margin: 0;
+        /*background: linear-gradient(135deg, #FF7E5F, #FEB47B);*/ /* Vibrant and energetic */
+        /*background: linear-gradient(135deg, #3E5151, #DECBA7);*/
+        /*margin: 0;
         }*/
         body {
             display: flex;
@@ -33,7 +33,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, rgba(11, 61, 145, 0.6), rgba(168, 218, 220, 0.6)), url('/Content/img/BarCode.png');
+            background: linear-gradient(135deg, rgba(11, 61, 145, 0.6), rgba(168, 218, 220, 0.6)), url('/Content/img/Barcode2.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -49,6 +49,7 @@
             padding: 40px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
+
         .left-section {
             flex: 1;
             display: flex;
@@ -56,9 +57,11 @@
             justify-content: center;
             text-align: center;
         }
+
             .left-section img {
                 width: 250px;
             }
+
         .right-section {
             flex: 1;
             display: flex;
@@ -102,6 +105,7 @@
                 max-width: 100%;
             }
         }
+
         .input-group-text {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -144,15 +148,21 @@
     <div class="container">
         <div class="left-section">
             <img src="~/Content/img/C_logo1.png" alt="Logo">
-           
+
         </div>
         <div class="right-section">
             <div class="login-box text-center">
                 <h3 class="mb-4 text-white">Login</h3>
                 <form method="post" action="/Home/LoginCheck">
+                    @if (TempData["wrongLogin"] != null)
+                    {
+                        <div class="alert alert-danger text-center">
+                            @TempData["wrongLogin"]
+                        </div>
+                    }
                     <!-- Username field with label -->
                     <div class="mb-3">
-                        <label for="UserId" class="form-label text-white">Username</label>
+                        <label for="UserId" class="form-label text-white">User ID</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user text-white"></i></span>
                             <input type="text" name="UserId" id="UserId" class="form-control" placeholder="Enter Username" required>
@@ -171,16 +181,16 @@
                         </div>
                     </div>
                     <!--<!-- Remember Me & Forgot Password Links -->
-                    <div class="d-flex justify-content-between mb-3">
+                    <!--<div class="d-flex justify-content-between mb-3">
                         <div>
                             <input type="checkbox" id="rememberMe">
                             <label for="rememberMe" class="text-white">Remember me</label>
                         </div>
                         <a href="/Home/Forgot" class="text-white">Forgot Password?</a>
-                    </div>
-
+                    </div>-->
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <button type="submit" class="btn btn-primary w-50">Login</button>
+
                 </form>
             </div>
         </div>
@@ -203,5 +213,11 @@
             }
         });
     </script>
+    <script>
+        setTimeout(function () {
+            $('.alert').fadeOut('slow');
+        }, 1000);
+    </script>
+
 </body>
 </html>

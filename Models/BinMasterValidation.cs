@@ -9,9 +9,9 @@ namespace S1640.Models
     public class BinMasterValidation
     {
         public int MTransNo { get; set; }
-        [Required(ErrorMessage = "Please Scan The Barcode")]
+        //[Required(ErrorMessage = "Please Scan The Barcode")]
         public string BarCode { get; set; }
-        [Required(ErrorMessage = "Please select valid values from Dropdown")]
+        //[Required(ErrorMessage = "Please select valid values from Dropdown")]
         public string Status { get; set; }
         public string BarCodeImage { get; set; } // base64 image string
         public Nullable<System.DateTime> CreatedOn { get; set; }

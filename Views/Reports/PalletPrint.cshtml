@@ -1,0 +1,282 @@
+﻿@using S1373.Models;
+@model S1373.Models.ReportListValidation
+@{
+    Layout = null;
+    Int32 UserNo = Convert.ToInt32(Session["CustomerName"]);
+    S1373Entities conn = new S1373Entities();
+    var CoumpanyList = (from CO in conn.Companies
+                        where CO.DeleteStatus == "N"
+                        select new
+                        {
+                            CompName = CO.CompName,
+                            Address1 = CO.Address1,
+                            Address2 = CO.Address2,
+                            Address3 = CO.Address3,
+                            GSTIN = CO.GSTIN,
+                            Email = CO.SalesEmail,
+                            Phone = CO.PhoneNo,
+                            CIN = CO.CIN,
+                            WebSite = CO.Website,
+                        }).FirstOrDefault();
+    var inawrd = (from M in conn.PallatizedScreenMsts
+                  join D in conn.PallatizedScreenDtls on M.MTransNo equals D.MTransNo
+                  where M.CreatedOn >= Model.FromDate && M.CreatedOn <= Model.ToDate && M.LockStatus == "Y" && D.DeleteStatus == "N" 
+                  select new { D, M }).ToList();
+
+    var dispatch = (from M in conn.DispatchMsts
+                    join D in conn.DispatchDtls on M.MTransNo equals D.MTransNo
+                    where M.CreatedOn >= Model.FromDate && M.CreatedOn <= Model.ToDate && M.LockStatus == "Y" 
+                    select new { D, M }).ToList();
+
+    var opening = conn.OpeningStocks.Where(x => x.CreatedOn >= Model.FromDate && x.CreatedOn <= Model.ToDate).ToList();
+    var load = conn.Loads.Where(x => x.CreatedOn >= Model.FromDate && x.CreatedOn <= Model.ToDate && x.MainStatus != "DISPATCHED").ToList();
+    var cust = (from A in conn.Loads
+                join B in conn.CustomerMasters on A.VendorNo equals B.MTransNo
+                select new
+                {
+                    B.CustomerName
+                }).FirstOrDefault();
+    if (Model.VendorNo != null)
+    {
+         inawrd = (from M in conn.PallatizedScreenMsts
+                      join D in conn.PallatizedScreenDtls on M.MTransNo equals D.MTransNo
+                      where M.CreatedOn >= Model.FromDate && M.CreatedOn <= Model.ToDate && M.LockStatus == "Y" && D.DeleteStatus == "N" && M.VenderNo == Model.VendorNo
+                      select new { D, M }).ToList();
+
+
+         dispatch = (from M in conn.DispatchMsts
+                        join D in conn.DispatchDtls on M.MTransNo equals D.MTransNo
+                        where M.CreatedOn >= Model.FromDate && M.CreatedOn <= Model.ToDate && M.LockStatus == "Y" && M.Customer == Model.VendorNo
+                        select new { D, M }).ToList();
+
+         opening = conn.OpeningStocks.Where(x => x.CreatedOn >= Model.FromDate && x.CreatedOn <= Model.ToDate && x.VendorNo == Model.VendorNo).ToList();
+         load = conn.Loads.Where(x => x.CreatedOn >= Model.FromDate && x.CreatedOn <= Model.ToDate && x.MainStatus != "DISPATCHED" && x.VendorNo == Model.VendorNo).ToList();
+         cust = (from A in conn.Loads
+                    join B in conn.CustomerMasters on A.VendorNo equals B.MTransNo
+                    where A.VendorNo == Model.VendorNo
+                    select new
+                    {
+                        B.CustomerName
+                    }).FirstOrDefault();
+    }
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Summary PP Report</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/Content/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/css/invoice-print.css" />
+    <style>
+        h6, h4, p {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .fixed {
+            position: fixed;
+            width: 100%;
+            bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-right fixed-top" id="divPrint">
+        <a id="Print" href="#" onclick="printpage()" class="btn btn-success btn-sm">Print</a>
+        <a id="Back" href="Index" class="btn btn-success btn-sm">Back</a>
+    </div>
+
+    <table class="report-container" style="width:100%; border: 1px solid gray;">
+        <thead class="report-header">
+            <tr>
+                <th class="report-header-cell">
+                    <div class="header-info">
+                        <div id="div_print" class="invoice">
+                            <header class="clearfix">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="35%" class="text-left"> <img src="~/Content/img/projects/SawariyaLogo.png" alt="logo" style="padding-left: 8px; height:100px; width:150px" /></td>
+                                        <td width="50%" class="text-left" style="border-right: 1px solid;"><h5 class="font-weight-extra-bold h4"><b>SUMMARY PP REPORT</b></h5></td>
+                                    </tr>
+                                </table>
+                            </header>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="report-content">
+            <tr>
+                <td class="report-content-cell">
+                    <div class="main">
+                        <div class="row">
+                            <div class="col-lg-12 ">
+                                <div>
+                                    <table style="width: 100%;" border="1">
+                                        <thead>
+                                            <tr class="text-dark" style="text-align: center;">
+                                                <th width="5%">Sl.No.</th>
+                                                <th width="18%">Customer Name</th>
+                                                <th width="10%">Date</th>
+                                                <th width="10%">Openning PP</th>
+                                                <th width="10%">Inward PP</th>
+                                                <th width="10%">Outward PP</th>
+                                                <th width="10%">Closing PP</th>
+                                                <th width="10%">Opening Qty </th>
+                                                <th width="10%">Inward Qty </th>
+                                                <th width="10%">Outward Qty</th>
+                                                <th width="10%">Closing Qty</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ int rowNo = 0;
+
+
+                                            }
+                                            @for (DateTime currentDate = Convert.ToDateTime(Model.FromDate); currentDate <= Convert.ToDateTime(Model.ToDate); currentDate = currentDate.AddDays(1))
+                                            {
+                                                int OpeningPP = 0;
+                                                decimal OpeningQty = 0;
+                                                int ClosingPP = 0;
+                                                decimal InwardQty = 0;
+                                                decimal OutwardQty = 0;
+                                                decimal ClosingQty = 0;
+                                                decimal loadQty = 0; // load qty
+                                                int outwardP = 0;
+                                                int inwardP = 0;
+                                                int InwardPP = 0;
+                                                int loadPP = 0; // load pallet
+
+                                                var YesterdayDate = DateTime.UtcNow.AddHours(5).AddMinutes(30).AddDays(-1).Date;
+                                                var currentDate1 = DateTime.UtcNow.AddHours(5).AddMinutes(30).Date;
+
+                                                // InwardQty: Sum AcceptedQty where CreatedOn matches the current date
+                                                InwardQty = (decimal)inawrd
+                                                                                .Where(x => x.M.CreatedOn.Value.Date == currentDate.Date)
+                                                                                .Distinct()// Compare only the date
+                                                                                .Sum(x => x.D.Quantity ?? 0);  // Handle null values in AcceptedQty
+
+                                                // Pallate count
+                                                InwardPP = inawrd
+                                                        .Where(x => x.M.CreatedOn.Value.Date == currentDate.Date)  // Compare only the date
+                                                                                                                   //.Select(x => x.D.ScanPallatize)  // Select ScanPallet
+                                                            .Distinct()  // Remove duplicates
+                                                            .Count();  // Count distinct values
+
+                                                // OutwardQty: Sum DispatchQty where CreatedOn matches the current date
+                                                OutwardQty = (decimal)dispatch
+                                                        .Where(x => x.M.CreatedOn.Date == currentDate.Date)  // Compare only the date
+                                                        .Sum(x => (x.D.DispatchQty ?? 0));  // Handle null values in DispatchQty
+
+
+                                                loadQty = (decimal)load
+                                                               .Where(x => x.CreatedOn.Value.Date == YesterdayDate)  // Compare only the date
+                                                               .Sum(x => x.BalQty ?? 0);
+
+
+
+                                                // OpeningPP: Count distinct ScanPallet where CreatedOn matches the current date
+                                                OpeningPP = opening
+                                                                .Where(x => x.CreatedOn.Value.Date == currentDate)  // Compare only the date
+                                                                .Select(x => x.ScanPallet)  // Select ScanPallet
+                                                                .Distinct()  // Remove duplicates
+                                                                .Count();  // Count distinct values
+
+                                                // OpeningQty: Sum BalQty where CreatedOn matches the current date
+                                                OpeningQty = (decimal)opening
+                                                                .Where(x => x.CreatedOn.Value.Date == currentDate)  // Compare only the date
+                                                                .Sum(x => x.BalQty ?? 0);  // Handle null values in BalQty
+
+
+                                                // ClosingQty: Calculate ClosingQty by adding InwardQty and subtracting OutwardQty
+                                                ClosingQty = (OpeningQty + InwardQty) - OutwardQty;
+
+                                                loadPP = opening
+                                                                .Where(x => x.CreatedOn.Value.Date == YesterdayDate)  // Compare only the date
+                                                                .Select(x => x.ScanPallet)  // Select ScanPallet
+                                                                .Distinct()  // Remove duplicates
+                                                                .Count();
+
+                                                //// outwardP: Count distinct Pallete where CreatedOn matches the current date
+                                                //outwardP = dispatch
+                                                //                .Where(x => x.M.CreatedOn.Date == currentDate.Date)  // Compare only the date
+                                                //                .Select(x => x.D.Pallete)  // Select Pallete
+                                                //                .Distinct()  // Remove duplicates
+                                                //                .Count();  // Count distinct values
+                                                //                           // outwardP: Count distinct Pallete where CreatedOn matches the current date
+
+                                                var outwardP1 = dispatch
+                                                                        .Where(x => x.M.CreatedOn.Date == currentDate.Date)
+                                                                        .Select(x => x.D.Pallete)
+                                                                        .Distinct()
+                                                                        .ToList();
+                                                var LoadPP = load
+                                                .Where(x => /*x.CreatedOn.Value.Date == currentDate.Date &&*/ x.MainStatus != "DISPATCHED")  // Compare only the date
+                                                .Select(x => x.ScanPallet)
+                                                .ToList();
+
+                                                int count = 0;
+                                                foreach (var data in outwardP1)
+                                                {
+                                                    var Check = LoadPP.Where(x => x == data).FirstOrDefault();
+
+                                                    if (Check == null)
+                                                    {
+                                                        count = count + 1;
+                                                    }
+
+                                                }
+
+                                                //losingPP = OpeningPP + loadPP - outwardP;
+                                                ClosingPP = (OpeningPP + InwardPP) - count; //CHAnged By Ro 28-03-2025
+                                                <tr>
+                                                    <td class="text-sm-center"><h6 style="margin-right:5px;">@(rowNo += 1)</h6></td>
+                                                    @if (cust != null)
+                                                    {
+                                                        <td class="text-sm-left"><h6 style="margin-left:5px;">@cust.CustomerName</h6></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="text-sm-left"><h6 style="margin-left:5px;"></h6></td>
+                                                    }
+                                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@string.Format("{0:dd-MM-yyyy}", currentDate)</h6></td>
+                                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@string.Format("{0:F2}", OpeningPP)</h6></td>
+                                                    <td class="text-sm-left"><h6 style="margin-left: 5px;">@string.Format("{0:F2}", InwardPP)</h6></td>
+                                                    <td class="text-sm-left"><h6 style="margin-left: 5px;">@string.Format("{0:F2}", count)</h6></td>
+                                                    <td class="text-sm-left"><h6 style="margin-left:5px;">@string.Format("{0:F2}", ClosingPP)</h6></td>
+                                                    <td class="text-sm-left"><h6 style="margin-left: 5px;">@string.Format("{0:F2}", OpeningQty)</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left: 5px;">@string.Format("{0:F2}", InwardQty)</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left: 5px;">@string.Format("{0:F2}", OutwardQty)</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left: 5px;">@string.Format("{0:F2}", ClosingQty)</h6></td>
+                                                </tr>
+                                                //OpeningPP = ClosingPP;
+                                                //OpeningQty = ClosingQty;
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function printpage() {
+            var printButton = document.getElementById("Back");
+            var printButton1 = document.getElementById("Print");
+            var printButton2 = document.getElementById("divPrint");
+            printButton.style.visibility = 'hidden';
+            printButton1.style.visibility = 'hidden';
+            printButton2.style.visibility = 'hidden';
+            window.print();
+            printButton.style.visibility = 'visible';
+            printButton1.style.visibility = 'visible';
+            printButton2.style.visibility = 'visible';
+        }
+    </script>
+</body>
+</html>

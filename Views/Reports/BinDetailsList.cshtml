@@ -36,30 +36,32 @@
                        BinWash = OM.BinWash,
                        Remarks = OM.Remarks1,
                        Status = OM.Status,
+                       Date=OM.CreatedOn
                    }).OrderByDescending(x => x.BarCode).ToList();
 
 
 
     if (Model.BarCode != null)
     {
-         AllList = (from OM in
-                      (from t in conn.Transactions
-                       where t.CreatedOn >= Model.FromDate && t.CreatedOn <= Model.ToDate && t.BarCode==Model.BarCode
-                       group t by t.BarCode into g
-                       select g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()
-                       )
-                       join CM in conn.BinMasters
-                       on OM.BarCode equals CM.BarCode
-                       select new
-                       {
-                           MTransNo = OM.MTransNo,
-                           BarCode = OM.BarCode,
-                           BinCondition = OM.BinCondition,
-                           BinFillStatus = OM.BinFillStatus,
-                           BinWash = OM.BinWash,
-                           Remarks = OM.Remarks1,
-                           Status = OM.Status,
-                       }).OrderByDescending(x => x.BarCode).ToList();
+        AllList = (from OM in
+                     (from t in conn.Transactions
+                      where t.CreatedOn >= Model.FromDate && t.CreatedOn <= Model.ToDate && t.BarCode==Model.BarCode
+                      group t by t.BarCode into g
+                      select g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()
+                      )
+                   join CM in conn.BinMasters
+                   on OM.BarCode equals CM.BarCode
+                   select new
+                   {
+                       MTransNo = OM.MTransNo,
+                       BarCode = OM.BarCode,
+                       BinCondition = OM.BinCondition,
+                       BinFillStatus = OM.BinFillStatus,
+                       BinWash = OM.BinWash,
+                       Remarks = OM.Remarks1,
+                       Status = OM.Status,
+                       Date = OM.CreatedOn
+                   }).OrderByDescending(x => x.BarCode).ToList();
     }
     else
     {
@@ -110,6 +112,7 @@
                                 <th width="9%">BinCondition</th>
                                 <th width="7%">BinFillStatus</th>
                                 <th width="5%">BinWash</th>
+                                <th width="5%">Date & Time</th>
                                 @*<th width="5%">Remarks</th>
                                 <th width="5%">Status</th>*@
 
@@ -127,6 +130,7 @@
                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinCondition</h6></td>
                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinFillStatus</h6></td>
                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.BinWash</h6></td>
+                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Date</h6></td>
                                     @*<td class="text-sm-center"><h6 style="margin-left:5px;">@item.Remarks</h6></td>
                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Status</h6></td>*@
 

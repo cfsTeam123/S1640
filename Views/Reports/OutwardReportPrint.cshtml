@@ -20,32 +20,14 @@
                         }).FirstOrDefault();
 
     var latestUnloaded = conn.Transactions
-     .Where(x => x.Status == "UNLOADED")
+     .Where(x => x.Status == "UNLOADED" && x.CreatedOn >= Model.FromDate && x.CreatedOn <= Model.ToDate) 
      .GroupBy(x => x.BarCode)
      .Select(g => g.OrderByDescending(x => x.MTransNo).FirstOrDefault());
 
     var AllList = (
-        from OM in latestUnloaded
-        join CM in conn.InawardTables on OM.BarCode equals CM.BarCode
-        select new
-        {
-            MTransNo = OM.MTransNo,
-            BarCode = OM.BarCode,
-            BinCondition = OM.BinCondition,
-            BinFillStatus = OM.BinFillStatus,
-            BinWash = OM.BinWash,
-            Remarks = OM.Remarks1,
-            Status = OM.Status
-        }
-    ).OrderBy(x => x.MTransNo).Distinct().ToList();
-
-
-    if (Model.BarCode != null)
-    {
-        AllList = (
          from OM in latestUnloaded
          join CM in conn.InawardTables on OM.BarCode equals CM.BarCode
-         where CM.BarCode == Model.BarCode
+         where  OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate
          select new
          {
              MTransNo = OM.MTransNo,
@@ -54,7 +36,27 @@
              BinFillStatus = OM.BinFillStatus,
              BinWash = OM.BinWash,
              Remarks = OM.Remarks1,
-             Status = OM.Status
+             Status = OM.Status,
+             Date = OM.DocDate
+         }
+     ).OrderBy(x => x.MTransNo).Distinct().ToList();
+
+    if (Model.BarCode != null)
+    {
+        AllList = (
+         from OM in latestUnloaded
+         join CM in conn.InawardTables on OM.BarCode equals CM.BarCode
+         where CM.BarCode == Model.BarCode && OM.CreatedOn >= Model.FromDate && OM.CreatedOn <= Model.ToDate
+         select new
+         {
+             MTransNo = OM.MTransNo,
+             BarCode = OM.BarCode,
+             BinCondition = OM.BinCondition,
+             BinFillStatus = OM.BinFillStatus,
+             BinWash = OM.BinWash,
+             Remarks = OM.Remarks1,
+             Status = OM.Status,
+             Date = OM.DocDate
          }
      ).OrderBy(x => x.MTransNo).ToList();
     }
@@ -184,8 +186,6 @@
     //    //                   //DocNo = OM.DocNo,
     //    //               }).OrderBy(x => x.MTransNo).Distinct().ToList();
     //}
-
-
 }
 <html>
 <head>
@@ -252,7 +252,7 @@
                                                 <th width="9%">BinCondition</th>
                                                 <th width="7%">BinFillStatus</th>
                                                 <th width="5%">BinWash</th>
-                                                <th width="5%">Remarks</th>
+                                                <th width="5%">Date & Time </th>
                                                 <th width="5%">Status</th>
                                                 
 
@@ -275,7 +275,7 @@
                                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinCondition</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinFillStatus</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.BinWash</h6></td>
-                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Remarks</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Date</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Status</h6></td>
                                                     
                                                     @*<td class="text-sm-left"><h6 style="margin-left:5px;">@item.ItemStatus</h6></td>

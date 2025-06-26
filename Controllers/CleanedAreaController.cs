@@ -29,8 +29,12 @@ namespace S1373.Controllers
                 S1640Entities db = new S1640Entities();
                 Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
                 DateTime docdate = DateTime.Now;
+            
+                var LivestockdataExist = db.LiveStockDatas.Where(s => s.BinCode == barcode && s.Status == "Loaded").FirstOrDefault();
+            if (LivestockdataExist != null)
+                return Json("Loaded", JsonRequestBehavior.AllowGet);
 
-                var record = db.InawardTables.Where(s => s.BarCode == barcode && s.Status == "Clean" && s.Remarks2 == "Inwarded").OrderByDescending(s => s.MTransNo).FirstOrDefault();
+            var record = db.InawardTables.Where(s => s.BarCode == barcode && s.Status == "Clean" && s.Remarks2 == "Inwarded").OrderByDescending(s => s.MTransNo).FirstOrDefault();
                 var TempDataExist = db.TempTables.Where(s => s.BinCode == barcode && s.Status == "Loaded").FirstOrDefault();
                 if (TempDataExist == null)
                 {

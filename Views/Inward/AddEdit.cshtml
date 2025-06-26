@@ -11,18 +11,19 @@
     // Fetch the records where MTransNo matches and DocDate is within the last 10 minutes
     //var AllList = conn.InawardTables.Where(s => s.DocDate >= time).ToList();
     var AllList = (from IT in conn.InawardTables
-                   where IT.DocDate >= time && !conn.LiveStockDatas.Any(LT => LT.BinCode == IT.BarCode && LT.Status == "Loaded")
-                      /*   IT.DocDate >= time && !conn.Transactions.Any(LT => LT.BarCode == IT.BarCode && LT.Status == "Unloaded")*/ &&
-                         IT.Remarks2 != "Unloaded"
+                   where IT.DocDate >= time
+                         && !conn.LiveStockDatas.Any(LT => LT.BinCode == IT.BarCode && LT.Status == "Loaded")
+                         && IT.Remarks2 != "Unloaded"
+                   group IT by IT.BarCode into grouped
+                   let latest = grouped.OrderByDescending(x => x.MTransNo).FirstOrDefault()
                    select new
                    {
-                       MTransNo = IT.MTransNo,
-                       BarCode = IT.BarCode,
-                       BinWash = IT.BinWash,
-                       BinCondition = IT.BinCondition,
-                       BinFillStatus = IT.BinFillStatus
+                       MTransNo = latest.MTransNo,
+                       BarCode = latest.BarCode,
+                       BinWash = latest.BinWash,
+                       BinCondition = latest.BinCondition,
+                       BinFillStatus = latest.BinFillStatus
                    }).OrderByDescending(s => s.MTransNo).ToList();
-
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -58,6 +59,27 @@
         background-color: #d3d3d3;
         cursor: pointer;
     }
+    #loader1 {
+        position: fixed;
+        z-index: 99999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        text-align: center;
+        background-color: rgba(0,0,0,0.6);
+        padding: 30px 50px;
+        border-radius: 10px;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    /* Optional: prevent body scroll when loader is shown */
+    body.loader-active {
+        overflow: hidden;
+        pointer-events: none; /* disables clicks on the whole page */
+    }
 </style>
 
 <section role="main" class="content-body">
@@ -82,6 +104,9 @@
                 @*<div class="card-body">*@
                 <div id="SDisplay" style="margin-top:65px"></div>
                 <div id="customToast" class="custom-toast"></div>
+                <div id="loader1">
+                    <span class="loader-text">⏳ Loading... Please wait</span>
+                </div>
                 <form id="InwardForm" method="POST" onsubmit="MainSubmit.disabled = true; return true;">
                     @Html.AntiForgeryToken()
 
@@ -186,6 +211,7 @@
     $(document).ready(function () {
       
         $('#BarCode').blur(function () {
+          
             /*  $('#BarCode').on('input', function () {*/
             var MTransNo = $('#MTransNo').val();
             var condition = $('#BinCondition').val();
@@ -229,6 +255,10 @@
                             $('#customToast').text("This bin has already been Loaded.").fadeIn(300).delay(4000).fadeOut(400, function () {
                                 location.reload(); // ✅ Reload after toast fades out
                             });
+                        } else if (result == "InActive") {
+                            $('#customToast').text("This bin is inactive in binmaster").fadeIn(300).delay(4000).fadeOut(400, function () {
+                                location.reload(); // ✅ Reload after toast fades out
+                            });
                         }
 
                         // Optionally show a success message or reload data
@@ -238,9 +268,21 @@
                     }
                 });
             }
+          
         });
     });
+    function showLoader() {
+        document.getElementById('loader1').style.display = 'block';
+        document.body.classList.add('loader-active');
+    }
+
+    function hideLoader() {
+        document.getElementById('loader1').style.display = 'none';
+        document.body.classList.remove('loader-active');
+    }
     $("#MyTable").on('click', '.DtlEdit', function () {
+        
+        showLoader();
      
         var currentRow = $(this).closest("tr");
         var MTransNo = currentRow.find("td:eq(0)").html();
@@ -265,6 +307,9 @@
                 $("#select2-BinFillStatus-container").html(result.BinFillStatus);
             }
         });
+        setTimeout(function () {
+            hideLoader(); // hide after a short delay (remove in real use)
+        }, 1000);
     });
 </script>
 @Html.Partial("_jsfooter")

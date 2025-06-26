@@ -37,8 +37,9 @@ namespace S1640.Controllers
                     new SelectListItem {Text="LOADED", Value="LOADED", Selected=false},
                     new SelectListItem {Text="UNLOADED", Value="UNLOADED", Selected=false},
                 };
-            obj.FromDate = DateTime.Now;
-            obj.ToDate = DateTime.Now;
+
+            obj.FromDate = DateTime.Today;
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
 
@@ -138,7 +139,7 @@ namespace S1640.Controllers
             obj.ToDate = ReportListModule.ToDate?.AddDays(1);
             //obj.ItemStatus = ReportListModule.ItemStatus;
             //obj.WareHouse = ReportListModule.WareHouse;
-
+             
             return View(obj);
         }
         public ActionResult BinDetailsList(ReportListValidation ReportListModule)
@@ -152,7 +153,7 @@ namespace S1640.Controllers
             obj.FromDate = ReportListModule.FromDate;
             obj.ToDate = ReportListModule.ToDate;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
 
             return View(obj);
         }
@@ -170,7 +171,7 @@ namespace S1640.Controllers
             obj.BinFillStatus = ReportListModule.BinFillStatus;
             obj.Status = ReportListModule.Status;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate;
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult InawardReportList(ReportListValidation ReportListModule)
@@ -185,8 +186,9 @@ namespace S1640.Controllers
             obj.BinWash = ReportListModule.BinWash;
             obj.Status = ReportListModule.Status;
             obj.BinFillStatus = ReportListModule.BinFillStatus;
-            obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate;
+            obj.FromDate = ReportListModule.FromDate; // Usually: 2025-06-25 00:00:00
+            obj.ToDate = ReportListModule.ToDate?.AddDays(1).AddTicks(-1); // 2025-06-25 23:59:59.9999999
+
             return View(obj);
         }
 
@@ -203,7 +205,7 @@ namespace S1640.Controllers
             obj.BinFillStatus = ReportListModule.BinFillStatus;
             obj.Status = ReportListModule.Status;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult OutwardReportList(ReportListValidation ReportListModule)
@@ -219,7 +221,7 @@ namespace S1640.Controllers
             obj.BinFillStatus = ReportListModule.BinFillStatus;
             obj.Status = ReportListModule.Status;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult LiveStockPrint(ReportListValidation ReportListModule)
@@ -237,7 +239,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult LiveStockList(ReportListValidation ReportListModule)
@@ -255,7 +257,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult CleaningAreaList(ReportListValidation ReportListModule)
@@ -273,7 +275,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult CleaningAreaPrint(ReportListValidation ReportListModule)
@@ -291,7 +293,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         } 
         public ActionResult CleanedAreaList(ReportListValidation ReportListModule)
@@ -309,7 +311,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult CleanedAreaPrint(ReportListValidation ReportListModule)
@@ -327,7 +329,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult TransactionList(ReportListValidation ReportListModule)
@@ -345,7 +347,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
         public ActionResult TransactionPrint(ReportListValidation ReportListModule)
@@ -363,7 +365,7 @@ namespace S1640.Controllers
             obj.Status = ReportListModule.Status;
             obj.BinStatus = ReportListModule.BinStatus;
             obj.FromDate = ReportListModule.FromDate;
-            obj.ToDate = ReportListModule.ToDate?.AddDays(1);
+            obj.ToDate = DateTime.Today.AddDays(1).AddSeconds(-1);
             return View(obj);
         }
 

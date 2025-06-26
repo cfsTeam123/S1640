@@ -100,7 +100,7 @@
                         <div class="form-group row">
                             <label class="col-lg-1 control-label   text-lg-right pt-2"> <span class="required">*</span>Bar Code</label>
                             <div class="col-lg-3">
-                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control", @autofocus = "True", placeholder = "Scan or Enter Barcode" })
+                                @Html.TextBoxFor(model => model.BarCode, new { @class = "form-control text-uppercase", @autofocus = "True", placeholder = "Scan or Enter Barcode" , maxlength = "6" })
                                 @Html.ValidationMessageFor(model => model.BarCode, "", new { style = "color: red" })
                             </div>
                         </div>
@@ -171,10 +171,15 @@
                 url: "/Outward/FetchBin",
                 data: { barcode: barcode },
                 success: function (result) {
-
+                    
                     if (result == "Exist") {
                         $('#customToast').text("This barcode has already been scanned or loaded. Please check and try again.").fadeIn(300).delay(4000).fadeOut(400, function () {
                             // location.reload(); // ✅ Reload after toast fades out
+                        });
+                    }
+                    if (result == "Inwarded") {
+                        $('#customToast').text("This barcode is not loaded.").fadeIn(300).delay(4000).fadeOut(1000, function () {
+                             location.reload(); // ✅ Reload after toast fades out
                         });
                     }
                     if (result !== "Exist") {

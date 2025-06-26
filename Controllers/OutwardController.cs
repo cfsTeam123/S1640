@@ -29,6 +29,10 @@ namespace S1640.Controllers
             Int32 mUserNo = Convert.ToInt32(Session["Userid"]);
             DateTime docdate = DateTime.Now;
             var record = db.LiveStockDatas.Where(s => s.BinCode == barcode && s.Status == "Loaded").FirstOrDefault();
+            var InwardDataExist = db.InawardTables.Where(s => s.BarCode == barcode && s.Status == "Clean" && s.Remarks2 == "Inwarded").OrderByDescending(s => s.MTransNo).FirstOrDefault();
+            if (record == null && InwardDataExist != null)
+                return Json("Inwarded", JsonRequestBehavior.AllowGet);
+
             var TempDataExist = db.TempTables.Where(s => s.BinCode == barcode && s.Status == "Unloaded").FirstOrDefault();
 
             if (record != null && TempDataExist==null)

@@ -32,6 +32,28 @@
         z-index: 9999;
         display: none;
     }
+    #loader1 {
+        position: fixed;
+        z-index: 99999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        text-align: center;
+        background-color: rgba(0,0,0,0.6);
+        padding: 30px 50px;
+        border-radius: 10px;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    /* Optional: prevent body scroll when loader is shown */
+    body.loader-active {
+        overflow: hidden;
+        pointer-events: none; /* disables clicks on the whole page */
+    }
+
 </style>
 @Html.HiddenFor(model => model.MTransNo)
 
@@ -41,10 +63,16 @@
         <div class="right-wrapper text-right" style="margin-right: 2%;">
             <ol class="breadcrumbs">
                 <li>
-                    <a href="~/Home/Index" title="Home">
-                        <i class="fas fa-home" style="color:white;"></i>
+                    <a href="Index">
+                        <i class="fas fa-list">   <span>&nbsp; Index</span></i>
                     </a>
                 </li>
+                <li>
+                    <a href="~/Home/Index" title="Home">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+
             </ol>
         </div>
     </header>
@@ -55,15 +83,8 @@
                     @Html.AntiForgeryToken()
                     <div id="SDisplay" style="margin-top: 100px;"></div>
                     <div id="customToast" class="custom-toast"></div>
-                    <div id="loading">
-                        <div class="loader-animation">
-                            <div class="circle"></div>
-                            <div class="circle"></div>
-                            <div class="circle"></div>
-                            <div class="shadow"></div>
-                            <div class="shadow"></div>
-                            <div class="shadow"></div>
-                        </div>
+                    <div id="loader1">
+                        <span class="loader-text">⏳ Loading... Please wait</span>
                     </div>
                     <!-- Barcode Section -->
                     <div class="form-group row">
@@ -132,7 +153,7 @@
 
                     <!-- Submit & Cancel -->
                     <!--<div class="text-center mt-4">
-       
+
         <button type="submit" id="MainSubmit"   value="MainSubmit" class="btn btn-success btn-lg px-5"><i class="bi bi-check-circle me-2"></i>Submit  </button>
         <a href="/BinMaster/Index" class="btn btn-outline-danger btn-lg ms-3 px-4">   <i class="bi bi-x-circle me-2"></i>Cancel</a>
     </div>-->
@@ -146,95 +167,104 @@
 
 <script>
 
-    //$(document).ready(function () {
-    //    alert('check');
-    //});
+  
+      
+  
 
-    // Variable to keep track of the barcode number
-    let barcodeCount = 5001; // Start from SR5001
+            // Variable to keep track of the barcode number
+            let barcodeCount = 5001; // Start from SR5001
 
-    // Function to generate barcode
-    // Function to generate barcode by calling the server-side API
-    document.getElementById("generate").addEventListener("click", function () {
-        // Make an AJAX call to the server to get the new barcode
-        $.ajax({
-            type: "POST",
-            url: "/BinMaster/GenerateBarcode", // Update with your controller and action
-            success: function (response) {
-                if (response.success) {
-                    $('#MTransNo').val(response.MTransNo);
-                    // Display the generated barcode in the input field
-                    document.getElementById("Barcode1").value = response.barcode;
+            // Function to generate barcode
+            // Function to generate barcode by calling the server-side API
+            document.getElementById("generate").addEventListener("click", function () {
+                // Make an AJAX call to the server to get the new barcode
+                $.ajax({
+                    type: "POST",
+                    url: "/BinMaster/GenerateBarcode", // Update with your controller and action
+                    success: function (response) {
+                        if (response.success) {
+                            $('#MTransNo').val(response.MTransNo);
+                            // Display the generated barcode in the input field
+                            document.getElementById("Barcode1").value = response.barcode;
 
-                    // Generate the barcode using JsBarcode
-                    JsBarcode("#barcode", response.barcode, {
-                        format: "CODE128",
-                        lineColor: "#0e0e0e",
-                        width: 2,
-                        height: 60,
-                        displayValue: true,
-                        fontSize: 18,
-                    });
-                } else {
-                    alert("Error generating barcode: " + response.error);
-                }
-            },
-            error: function () {
-                alert("An error occurred while generating the barcode.");
+                            // Generate the barcode using JsBarcode
+                            JsBarcode("#barcode", response.barcode, {
+                                format: "CODE128",
+                                lineColor: "#0e0e0e",
+                                width: 2,
+                                height: 60,
+                                displayValue: true,
+                                fontSize: 18,
+                            });
+                        } else {
+                            alert("Error generating barcode: " + response.error);
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while generating the barcode.");
+                    }
+                });
+            });
+
+            // Function to print the barcode
+            document.getElementById("PrintBarcode").addEventListener("click", function () {
+                var barcode = document.getElementById("Barcode1").value;
+
+                var printWindow = window.open('', '', 'height=600,width=800');
+                printWindow.document.write('<html><head><title>Barcode1 Print</title></head><body>');
+                printWindow.document.write('<h3>Barcode1: ' + barcode + '</h3>');
+                printWindow.document.write('<svg>' + document.getElementById('barcode').outerHTML + '</svg>');
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            });
+        function showLoader() {
+            document.getElementById('loader1').style.display = 'block';
+            document.body.classList.add('loader-active');
+        }
+    
+        function hideLoader() {
+            document.getElementById('loader1').style.display = 'none';
+            document.body.classList.remove('loader-active');
+        }
+
+        $('#MainSubmit').click(function () {
+            showLoader();
+
+            // Get the value of the hidden MTransNo field
+            var MTransNo = $('#MTransNo').val();  // Use the ID of the hidden field
+
+            // Get the value of the Status field (make sure the ID of the Status field is correct)
+            let Status = $('#Status').val();
+
+            var BarCode = $('#Barcode1').val();
+
+            if (BarCode == null || BarCode == "") {
+                $('#customToast').text("Please generate the barcode before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
+                    location.reload(); // ✅ Reload after toast fades out
+                });
+            }
+            if (Status == null || Status == "") {
+                $('#customToast').text("Please the Select Status before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
+                    location.reload(); // ✅ Reload after toast fades out
+                });
+            }
+
+            else {
+
+                $.ajax({
+                    type: "POST",
+                    data: { MTransNo: MTransNo, Status: Status, BarCode: BarCode },
+                    url: "/BinMaster/AddEdit",
+                    success: function (result) {
+
+                    }
+                });
+
             }
         });
-    });
 
-    // Function to print the barcode
-    document.getElementById("PrintBarcode").addEventListener("click", function () {
-        var barcode = document.getElementById("Barcode1").value;
 
-        var printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Barcode1 Print</title></head><body>');
-        printWindow.document.write('<h3>Barcode1: ' + barcode + '</h3>');
-        printWindow.document.write('<svg>' + document.getElementById('barcode').outerHTML + '</svg>');
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-    });
-
-    $('#MainSubmit').click(function () {
-       
-      
-        // Get the value of the hidden MTransNo field
-        var MTransNo = $('#MTransNo').val();  // Use the ID of the hidden field
-       
-        // Get the value of the Status field (make sure the ID of the Status field is correct)
-        let Status = $('#Status').val();
-       
-        var BarCode = $('#Barcode1').val();
-      
-        if (BarCode == null || BarCode=="") {
-            $('#customToast').text("Please generate the barcode before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
-                location.reload(); // ✅ Reload after toast fades out
-            });
-        }
-        if (Status == null || Status =="") {
-            $('#customToast').text("Please the Select Status before submitting the form.").fadeIn(300).delay(2000).fadeOut(400, function () {
-                location.reload(); // ✅ Reload after toast fades out
-            });
-        }
-
-        else
-        {
-           
-            $.ajax({
-                type: "POST",
-                data: { MTransNo: MTransNo, Status: Status, BarCode: BarCode },
-                url: "/BinMaster/AddEdit",
-                success: function (result) {
-
-                }
-            });
-          
-        }
-       
-    });
 </script>
 
 

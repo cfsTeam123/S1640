@@ -136,6 +136,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BinMasterController.cs" />
     <Compile Include="Controllers\CleanedAreaController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InwardController.cs" />
     <Compile Include="Controllers\CleaningAreaController.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Models\Company.cs">
       <DependentUpon>S1640.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CompanyValidation.cs" />
     <Compile Include="Models\EMSMsg.cs">
       <DependentUpon>S1640.tt</DependentUpon>
     </Compile>
@@ -4737,6 +4739,7 @@
     <Content Include="Views\Reports\CleanedAreaPrint.cshtml" />
     <Content Include="Views\Reports\TransactionPrint.cshtml" />
     <Content Include="Views\Reports\PalletPrint.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

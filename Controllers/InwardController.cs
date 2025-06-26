@@ -64,7 +64,9 @@ namespace S1640.Controllers
             if ((BarcodeExist == null || (BarcodeExist.Remarks1 != "Loaded" && BarcodeExist.Remarks2 != "Inwarded")) || Status1 == "Update")
             {
                 var BarcodeMTransNo = db.BinMasters.Where(s => s.BarCode == barcode && s.Status != "N").Select(s=>s.MTransNo).FirstOrDefault();
-                var barcodeExists = db.BinMasters.FirstOrDefault(s => s.BarCode == barcode && s.Status != "N");
+                var barcodeExists = db.BinMasters.FirstOrDefault(s => s.BarCode == barcode);
+                var barcodeExists1 = db.BinMasters.FirstOrDefault(s => s.BarCode == barcode && s.Status == "N");
+                if (barcodeExists1 != null) return Json("InActive", JsonRequestBehavior.AllowGet);
                 if (barcodeExists != null)
                 {
                     try
@@ -115,7 +117,6 @@ namespace S1640.Controllers
             }
             else
             {
-              
                 return Json("Exist", JsonRequestBehavior.AllowGet);
             }
             return Json("Success", JsonRequestBehavior.AllowGet);

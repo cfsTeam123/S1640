@@ -1,0 +1,285 @@
+﻿@model S1640.Models.CompanyValidation
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.AntiForgeryToken()
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Company</h2>
+    </header>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <section class="card">
+                <header class="card-header">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+                </header>
+                <div class="card-body">
+                    <br /><br />
+                          <form action="" method="POST">
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"><span class="required">*</span> Code : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.CompCode, new { @class = "form-control", maxlength = "20", @autofocus = "True" })
+                                      @Html.ValidationMessageFor(model => model.CompCode, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"><span class="required">*</span> Name : </label>
+                                  <div class="col-lg-6">
+                                      @Html.TextBoxFor(model => model.CompName, new { @class = "form-control", maxlength = "100" })
+                                      @Html.ValidationMessageFor(model => model.CompName, "", new { style = "color: red" })
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2">Nature of work :</label>
+                                  <div class="col-lg-10">
+                                      @Html.TextBoxFor(model => model.Natureofwork, new { @class = "form-control", maxlength = "100" })
+                                      @Html.ValidationMessageFor(model => model.Natureofwork, "", new { style = "color: red" })
+                                  </div>
+                              </div><hr />
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"><span class="required">*</span> Address : </label>
+                                  <div class="col-lg-4">
+                                      @Html.TextBoxFor(model => model.Address1, new { @class = "form-control", maxlength = "40" })
+                                      @Html.ValidationMessageFor(model => model.Address1, "", new { style = "color: red" })
+                                  </div>
+                                  <div class="col-lg-3">
+                                      @Html.TextBoxFor(model => model.Address2, new { @class = "form-control", maxlength = "40" })
+                                      @Html.ValidationMessageFor(model => model.Address2, "", new { style = "color: red" })
+                                  </div>
+                                  <div class="col-lg-3">
+                                      @Html.TextBoxFor(model => model.Address3, new { @class = "form-control", maxlength = "40" })
+                                      @Html.ValidationMessageFor(model => model.Address3, "", new { style = "color: red" })
+                                  </div>
+                              </div>
+                             
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"><span class="required">*</span> PinCode : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.PinCode, new { @class = "form-control", maxlength = "6" })
+                                      @Html.ValidationMessageFor(model => model.PinCode, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"> Phone No .: </label>
+                                  <div class="col-lg-2">
+                                      <div class="input-group">
+                                          <span class="input-group-prepend">
+                                              <span class="input-group-text">
+                                                  <i class="fas fa-phone"></i>
+                                              </span>
+                                          </span>
+                                          @Html.TextBoxFor(model => model.PhoneNo, new { @class = "form-control", maxlength = "15" })
+                                          @Html.ValidationMessageFor(model => model.PhoneNo, "", new { style = "color: red" })
+                                      </div>
+                                  </div>
+                              </div>
+                              <hr/>
+                                    <div class="form-group row">
+
+                                        <label class="col-lg-2 control-label text-lg-right pt-2">Sales Phone No: </label>
+                                        <div class="col-lg-4">
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-phone"></i>
+                                                    </span>
+                                                </span>
+                                                @Html.TextBoxFor(model => model.SalPhoneNo, new { @class = "form-control", maxlength = "15" })
+                                                @Html.ValidationMessageFor(model => model.SalPhoneNo, "", new { style = "color: red" })
+                                            </div>
+                                        </div>
+                                        <label class="col-lg-2 control-label text-lg-right pt-2">Purchase Phone No .: </label>
+                                        <div class="col-lg-4">
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-phone"></i>
+                                                    </span>
+                                                </span>
+                                                @Html.TextBoxFor(model => model.PurPhoneNo, new { @class = "form-control", maxlength = "15" })
+                                                @Html.ValidationMessageFor(model => model.PurPhoneNo, "", new { style = "color: red" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2">Sales E-Mail : </label>
+                                  <div class="col-lg-4">
+                                      <div class="input-group mb-1">
+                                          <span class="input-group-prepend">
+                                              <span class="input-group-text">
+                                                  <i class="fas fa-envelope"></i>
+                                              </span>
+                                          </span>
+                                          @Html.TextBoxFor(model => model.SalesEmail, new { @type = "email", @class = "form-control", maxlength = "50" })
+                                          @Html.ValidationMessageFor(model => model.SalesEmail, "", new { style = "color: red" })
+                                      </div>
+                                  </div>
+                                  <label class="col-lg-2 control-label text-lg-right pt-2">Purchase E-Mail : </label>
+                                  <div class="col-lg-4">
+                                      <div class="input-group mb-1">
+                                          <span class="input-group-prepend">
+                                              <span class="input-group-text">
+                                                  <i class="fas fa-envelope"></i>
+                                              </span>
+                                          </span>
+                                          @Html.TextBoxFor(model => model.PurchaseEmail, new { @type = "email", @class = "form-control", maxlength = "50" })
+                                          @Html.ValidationMessageFor(model => model.PurchaseEmail, "", new { style = "color: red" })
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2">General E-Mail : </label>
+                                  <div class="col-lg-4">
+                                      <div class="input-group mb-1">
+                                          <span class="input-group-prepend">
+                                              <span class="input-group-text">
+                                                  <i class="fas fa-envelope"></i>
+                                              </span>
+                                          </span>
+                                          @Html.TextBoxFor(model => model.GeneralEmail, new { @type = "email", @class = "form-control", maxlength = "50" })
+                                          @Html.ValidationMessageFor(model => model.GeneralEmail, "", new { style = "color: red" })
+                                      </div>
+                                  </div>
+                                  <label class="col-lg-2 control-label text-lg-right pt-2">WebSite : </label>
+                                  <div class="col-lg-4">
+                                      <div class="input-group mb-1">
+                                          <span class="input-group-prepend">
+                                              <span class="input-group-text">
+                                                  <i class="fas fa-internet-explorer"></i>
+                                              </span>
+                                          </span>
+                                          @Html.TextBoxFor(model => model.Website, new { @class = "form-control", maxlength = "50" })
+                                          @Html.ValidationMessageFor(model => model.Website, "", new { style = "color: red" })
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"><span class="required">*</span> GSTIN : </label>
+                                  <div class="col-lg-3">
+                                      @Html.TextBoxFor(model => model.GSTIN, new { @class = "form-control", maxlength = "15" })
+                                      @Html.ValidationMessageFor(model => model.GSTIN, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-1 control-label text-lg-right pt-2">PAN : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.PAN, new { @class = "form-control", maxlength = "10" })
+                                      @Html.ValidationMessageFor(model => model.PAN, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-1 control-label text-lg-right pt-2">CIN : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.CIN, new { @class = "form-control", maxlength = "30" })
+                                      @Html.ValidationMessageFor(model => model.CIN, "", new { style = "color: red" })
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2">From Date : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.FromYear, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @autofocus = "true" })
+                                      @Html.ValidationMessageFor(model => model.FromYear, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-2 control-label text-lg-right pt-2">To : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.ToYear, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @autofocus = "true" })
+                                      @Html.ValidationMessageFor(model => model.ToYear, "", new { style = "color: red" })
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"><span class="required">*</span> Bank Name : </label>
+                                  <div class="col-lg-3">
+                                      @Html.TextBoxFor(model => model.BankName, new { @class = "form-control", maxlength = "100" })
+                                      @Html.ValidationMessageFor(model => model.BankName, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-1 control-label text-lg-right pt-2">Account No : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.AccountNo, new { @class = "form-control", maxlength = "20" })
+                                      @Html.ValidationMessageFor(model => model.AccountNo, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-1 control-label text-lg-right pt-2">Branch Name : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control", maxlength = "50" })
+                                      @Html.ValidationMessageFor(model => model.BranchName, "", new { style = "color: red" })
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label class="col-lg-2 control-label text-lg-right pt-2"><span class="required">*</span> IFSC Code : </label>
+                                  <div class="col-lg-3">
+                                      @Html.TextBoxFor(model => model.IFSCCode, new { @class = "form-control", maxlength = "15" })
+                                      @Html.ValidationMessageFor(model => model.IFSCCode, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-1 control-label text-lg-right pt-2">MICR Code : </label>
+                                  <div class="col-lg-2">
+                                      @Html.TextBoxFor(model => model.MICRCode, new { @class = "form-control", maxlength = "20" })
+                                      @Html.ValidationMessageFor(model => model.MICRCode, "", new { style = "color: red" })
+                                  </div>
+                                  <label class="col-lg-1 control-label text-lg-right pt-2"><span class="required">*</span> Status : </label>
+                                  
+                              </div>
+                              <div class="form-group row">
+                                  <div class="col-md-12 col-md-offset-2">
+                                      <div class="text-center">
+                                          @Html.HiddenFor(model => model.MTransNo)
+                                          <button type="submit" name="Submit" class="btn btn-success btn-lg">Submit</button>
+                                          <a href="/Home/Index" class="btn btn-danger btn-lg">Cancel</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </form>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- end: page -->
+    <script>
+        function mask(textbox, e) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode == 46 || charCode > 31 && (charCode < 48 || charCode > 57)) {
+                alert("Only Numbers Allowed");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+    <script>
+        $("#GSTIN").blur(function () {
+            var GSTIN = $('#GSTIN').val();
+            var CustType = $('#CustomerType').val();
+            if (CustType != "URD") {
+                if (GSTIN.length != 15) {
+                    alert("Enter valid GSTIN");
+                }
+            }
+        });
+        $("#PAN").blur(function () {
+            var CustType = $('#CustomerType').val();
+            var CustPAN = $('#PAN').val();
+            if (CustType != "URD") {
+                if (CustPAN.length != 10) {
+                    alert("Enter valid PAN");
+                }
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $("#CustomerType").change(function () {
+            var ctype = $('#CustomerType').val();
+            if (ctype == "URD") {
+                $('#GSTIN').val("NA");
+                $('#PAN').val("NA");
+                //$("#CustGSTIN").prop("disabled", true);
+            }
+            else {
+                $('#GSTIN').val("");
+                $('#PAN').val("NA");
+                //$("#CustGSTIN").prop("disabled", false);
+            }
+        });
+    </script>
+</section>
+@Html.Partial("_jsfooter") 

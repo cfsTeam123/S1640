@@ -19,10 +19,10 @@
                             WebSite = CO.Website,
                         }).FirstOrDefault();
 
-    var AllList = conn.InawardTables.Where(s => s.Remarks2 == "Unloaded" && s.Status == "Clean").GroupBy(x => x.BarCode).Select(g => g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()).OrderByDescending(x => x.BarCode).ToList();
+    var AllList = conn.InawardTables.Where(s => s.Remarks2 != "Unloaded" && s.Status == "Clean" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).GroupBy(x => x.BarCode).Select(g => g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()).OrderByDescending(x => x.BarCode).ToList();
     if (Model.BarCode != null)
     {
-        AllList = conn.InawardTables.Where(s => s.BarCode == Model.BarCode && s.Remarks2 == "Unloaded" && s.Status == "Clean").GroupBy(x => x.BarCode).Select(g => g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()).OrderByDescending(x => x.BarCode).ToList();
+        AllList = conn.InawardTables.Where(s => s.BarCode == Model.BarCode && s.Remarks2 != "Unloaded" && s.Status == "Clean" && s.CreatedOn >= Model.FromDate && s.CreatedOn <= Model.ToDate).GroupBy(x => x.BarCode).Select(g => g.OrderByDescending(x => x.CreatedOn).FirstOrDefault()).OrderByDescending(x => x.BarCode).ToList();
     }
 
 }
@@ -93,6 +93,7 @@
                                                 <th width="9%">BinCondition</th>
                                                 <th width="7%">BinFillStatus</th>
                                                 <th width="5%">BinWash</th>
+                                                <th width="5%">Date & Time</th>
                                                 <th width="5%">Status</th>
 
                                                 @*<th width="5%">Pallet No</th>
@@ -108,14 +109,12 @@
 
                                                 <tr>
                                                     <td class="text-sm-right"><h6 style="margin-right:5px;">@(rowNo += 1)</h6></td>
-
-
                                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BarCode</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinCondition</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-right:5px;">@item.BinFillStatus</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.BinWash</h6></td>
+                                                    <td class="text-sm-center"><h6 style="margin-left:5px;">@item.DocDate</h6></td>
                                                     <td class="text-sm-center"><h6 style="margin-left:5px;">@item.Status</h6></td>
-
                                                     @*<td class="text-sm-left"><h6 style="margin-left:5px;">@item.ItemStatus</h6></td>
                                                         <td class="text-sm-left"><h6 style="margin-left:5px;">@item.Operation</h6></td>
                                                         <td class="text-sm-left"><h6 style="margin-left:5px;">@item.UserName</h6></td>*@

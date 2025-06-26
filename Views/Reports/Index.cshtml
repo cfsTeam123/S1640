@@ -5,7 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     S1640Entities conn = new S1640Entities();
     var ModuleName = conn.Menulists.Where(x => x.ModuleLink == "Reports").FirstOrDefault();}
+
+
 }
+
+
+<!-- FontAwesome (for icons) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
 <div id="loading"></div>
 <section role="main" class="content-body">
     <header class="page-header">
@@ -28,8 +35,8 @@
 
                 @Html.HiddenFor(model => model.ReportName)
                 <section class="card">
-                    <div class="row" >
-                        <div class="card-body col-lg-4" >
+                    <div class="row">
+                        <div class="card-body col-lg-4">
                             <div>
                                 <hr style="margin:1px;" />
                                 <p class="text-sm-center font-weight-extra-bold h5" style="font-style: normal;color:blue">REPORT LIST</p>
@@ -58,13 +65,13 @@
                                                     <input type="radio" style="transform: scale(1);" name="1" value="3">&emsp; Inward Report Details
                                                 </td>
                                                 <td hidden>InawardReport</td>
-                                            </tr>  
+                                            </tr>
                                             <tr>
                                                 <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
                                                     <input type="radio" style="transform: scale(1);" name="1" value="6">&emsp; Cleaning Area Report Details
                                                 </td>
                                                 <td hidden>CleaningArea</td>
-                                            </tr> 
+                                            </tr>
                                             <tr>
                                                 <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
                                                     <input type="radio" style="transform: scale(1);" name="1" value="7">&emsp; Cleaned Area Report Details
@@ -85,7 +92,7 @@
                                                     <input type="radio" style="transform: scale(1);" name="1" value="5">&emsp; Live Stock Details
                                                 </td>
                                                 <td hidden>LiveStock</td>
-                                            </tr>  
+                                            </tr>
                                             <tr>
                                                 <td class="h6" data-title="Report Name" style="padding: 15px 10px;">
                                                     <input type="radio" style="transform: scale(1);" name="1" value="8">&emsp; Transaction Details
@@ -98,7 +105,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body col-lg-8" style="margin-left:5px; margin-right:-5px" >
+                        <div class="card-body col-lg-8" style="margin-left:5px; margin-right:-5px">
                             <div>
                                 <hr style="margin:1px;" />
                                 <p class="text-sm-center font-weight-extra-bold h5" style="font-style: normal; color: blue">SELECTION CRITERIA</p>
@@ -110,19 +117,19 @@
                                     @Html.DropDownListFor(model => model.BarCode, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top:15px;" id="textboxes2" hidden>
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes2">
                                 <label class="col-lg-3 control-label text-lg-right h6"> BinCondition </label>
                                 <div class="col-lg-9">
                                     @Html.DropDownListFor(model => model.BinCondition, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top:15px;" id="textboxes3" hidden>
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes3">
                                 <label class="col-lg-3 control-label text-lg-right h6"> BinWash </label>
                                 <div class="col-lg-9">
                                     @Html.DropDownListFor(model => model.BinWash, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
                                 </div>
                             </div>
-                            <div class="form-group row" style="margin-top:15px;" id="textboxes4" hidden>
+                            <div class="form-group row" style="margin-top:15px;" id="textboxes4">
                                 <label class="col-lg-3 control-label text-lg-right h6"> BinFillStatus </label>
                                 <div class="col-lg-9">
                                     @Html.DropDownListFor(model => model.BinFillStatus, null, "", new { @class = "form-control populate", data_plugin_selecttwo = "" })
@@ -165,8 +172,7 @@
     }
     $(document).ready(function () {
         $("#loading").hide();
-        $(function ()
-        {
+        $(function () {
             $('input[name="1"]').on('click', function () {
                 if ($(this).val() == '1' || $(this).val() == '2') {
                     $('#textboxes1').show();
@@ -179,7 +185,7 @@
                     $('#textboxes8').show();
                 }
                 else if ($(this).val() == '3') {
-              
+
                     $('#textboxes1').show();
                     $('#textboxes2').hide();
                     $('#textboxes3').hide();
@@ -188,8 +194,8 @@
                     $('#textboxes6').hide();
                     $('#textboxes7').show();
                     $('#textboxes8').show();
-                }  else if ($(this).val() == '6') {
-              
+                } else if ($(this).val() == '6') {
+
                     $('#textboxes1').show();
                     $('#textboxes2').hide();
                     $('#textboxes3').hide();
@@ -198,8 +204,8 @@
                     $('#textboxes6').hide();
                     $('#textboxes7').show();
                     $('#textboxes8').show();
-                }  else if ($(this).val() == '7') {
-              
+                } else if ($(this).val() == '7') {
+
                     $('#textboxes1').show();
                     $('#textboxes2').hide();
                     $('#textboxes3').hide();
@@ -219,15 +225,15 @@
                     $('#textboxes7').show();
                     $('#textboxes8').show();
                 }
-                else if ($(this).val() == '5') { 
+                else if ($(this).val() == '5') {
                     $('#textboxes').show();
-                $('#textboxes1').show();
-                $('#textboxes2').show();
-                $('#textboxes3').show();
-                $('#textboxes4').show();
-                $('#textboxes5').show();
-                $('#textboxes6').show();
-            }
+                    $('#textboxes1').show();
+                    $('#textboxes2').show();
+                    $('#textboxes3').show();
+                    $('#textboxes4').show();
+                    $('#textboxes5').show();
+                    $('#textboxes6').show();
+                }
                 else if ($(this).val() == '8') {
 
                     $('#textboxes1').show();
@@ -246,11 +252,11 @@
 
             // Get values of BinDetailsPrint and InawardReportPrint
             var BinDetailsPrint = $('#BinDetailsPrint').val();
-            
+
             var InawardReportPrint = $('#InawardReportPrint').val();
-           
+
             var OutwardReportPrint = $('#OutwardReportPrint').val();
-            
+
             var LiveStockPrint = $('#LiveStockPrint').val();
             // This works as expected now.
 

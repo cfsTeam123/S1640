@@ -18,6 +18,7 @@ namespace S1640.Models
         [Required(ErrorMessage = "Please Enter The Password")]
         public string PW { get; set; }
         public string RePW { get; set; }
+        [Required(ErrorMessage = "Please Select the UserType")]
         public string UserType { get; set; }
         public string ContactNo { get; set; }
         public string EmailId { get; set; }
@@ -25,6 +26,7 @@ namespace S1640.Models
         public Nullable<byte> PWExpiry { get; set; }
         public Nullable<byte> BadLogins { get; set; }
         public Nullable<byte> LockCounter { get; set; }
+        [Required(ErrorMessage = "Please Select the LockStatus")]
         public string LockStatus { get; set; }
         public Nullable<short> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
